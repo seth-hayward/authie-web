@@ -2,21 +2,25 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
-        <SolutionFile>selfies</SolutionFile>
+        <SolutionFile>selfies.sln</SolutionFile>
+        <ProjectFile>selfies\selfies.csproj</ProjectFile>
     </PropertyGroup>
 
-    <Target Name="Build">
+    <Target Name="Build" DependsOnTargets="BuildPackage;CopyOutput" />
 
-      <!-- Copy cloned repo to the IIS directory -->
-
-      <ItemGroup>
-          <_CopyItems Include="$(MSBuildThisFileDirectory)\**\*.*" />
-      </ItemGroup>
+    <Target Name="BuildPackage">
       <Copy
           SourceFiles="@(_CopyItems)"
-          DestinationFolder="C:\inetpub\vhosts\selfies.io\httpdocs\%(RecursiveDir)"
-          />    
-    
+          DestinationFolder="$(ProjectName)\%(RecursiveDir)"
+          />        
+        <MSBuild Projects="$(SolutionFile)" ContinueOnError="false" Targets="Rebuild" Properties="Configuration=$(Configuration)" />
+        <MSBuild Projects="$(ProjectFile)" ContinueOnError="false" Targets="Package" Properties="Configuration=$(Configuration)" />
     </Target>
 
+    <Target Name="CopyOutput">
+        <ItemGroup>
+            <PackagedFiles Include="rod\$(ProjectName)\obj\$(Configuration)\Package\PackageTmp\**\*.*"/>
+        </ItemGroup>
+        <Copy SourceFiles="@(PackagedFiles)" DestinationFiles="@(PackagedFiles->'C:\inetpub\vhosts\selfies.io\httpdocs\%(RecursiveDir)%(Filename)%(Extension)')"/>
+    </Target>
 </Project>
