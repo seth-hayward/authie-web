@@ -19,7 +19,7 @@
 
     <Target Name="CopyOutput">
         <ItemGroup>
-            <PackagedFiles Include="rod\$(ProjectName)\obj\$(Configuration)\Package\PackageTmp\**\*.*"/>
+            <PackagedFiles Include="selfies\obj\$(Configuration)\Package\PackageTmp\**\*.*"/>
         </ItemGroup>
         <Copy SourceFiles="@(PackagedFiles)" DestinationFiles="@(PackagedFiles->'C:\inetpub\vhosts\selfies.io\httpdocs\%(RecursiveDir)%(Filename)%(Extension)')"/>
     </Target>
