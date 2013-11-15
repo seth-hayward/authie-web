@@ -9,6 +9,9 @@
     <Target Name="Build" DependsOnTargets="BuildPackage;CopyOutput" />
 
     <Target Name="BuildPackage">
+      <ItemGroup>
+          <_CopyItems Include="C:\Users\ServerAdmin\Desktop\Config\selfies.Release.config" />
+      </ItemGroup>        
       <Copy
           SourceFiles="@(_CopyItems)"
           DestinationFolder="$(ProjectName)\%(RecursiveDir)"
