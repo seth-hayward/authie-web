@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <SolutionFile>$(SolutionName).sln</SolutionFile>
+        <ProjectFile>$(ProjectName)\$(ProjectName).csproj</ProjectFile>
+    </PropertyGroup>
+
+    <Target Name="Build" DependsOnTargets="BuildPackage;CopyOutput">
+<!-- Copy the transformed config to the root -->
+  <Copy 
+    SourceFiles="C:\Users\ServerAdmin\Desktop\Config\selfies.Release.config" 
+    DestinationFiles="$(ProjectName)\Web.Release.config" />
+       
+    </Target>
+
+    <Target Name="BuildPackage">
+        <MSBuild Projects="$(SolutionFile)" ContinueOnError="false" Targets="Rebuild" Properties="Configuration=$(Configuration)" />
+        <MSBuild Projects="$(ProjectFile)" ContinueOnError="false" Targets="Package" Properties="Configuration=$(Configuration)" />
+    </Target>
+
+    <Target Name="CopyOutput">
+        <ItemGroup>
+            <PackagedFiles Include="$(ProjectName)\obj\$(Configuration)\Package\PackageTmp\**\*.*"/>
+        </ItemGroup>
+        <Copy SourceFiles="@(PackagedFiles)" DestinationFiles="@(PackagedFiles->'c:\inetpub\vhosts\selfies.io\httpdocs\%(RecursiveDir)%(Filename)%(Extension)')"/>
+    </Target>
+</Project>
