@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <SolutionFile>$(SolutionName).sln</SolutionFile>
+        <ProjectFile>$(ProjectName)\$(ProjectName).csproj</ProjectFile>
+    </PropertyGroup>
+
+    <Target Name="Build">
+<!-- Copy the transformed config to the root -->
+  <Copy 
+    SourceFiles="C:\Users\ServerAdmin\Desktop\Config\selfies.Release.config" 
+    DestinationFiles="$(ProjectName)\Web.Release.config" />
+       
+    </Target>
+    
+</Project>
