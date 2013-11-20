@@ -8,6 +8,8 @@
 
 packages/*
 
+App_Data/selfies/*
+
 # Build results
 
 [Dd]ebug/
