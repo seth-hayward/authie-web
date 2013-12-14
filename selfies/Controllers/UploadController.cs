@@ -60,13 +60,13 @@ namespace selfies.Controllers
                     }
                 }
 
+                selfy self = new selfy();
+
                 // This illustrates how to get the file names for uploaded files.
                 foreach (var file in provider.FileData)
                 {
                     FileInfo fileInfo = new FileInfo(file.LocalFileName);
                     sb.Append(string.Format("Uploaded file: {0} ({1} bytes)\n", fileInfo.Name, fileInfo.Length));
-
-                    selfy self = new selfy();
 
                     self.dateCreated = DateTime.UtcNow;
                     self.selfieGuid = System.Guid.NewGuid().ToString();
@@ -86,10 +86,13 @@ namespace selfies.Controllers
 
                 }
 
-                var response = Request.CreateResponse(HttpStatusCode.Moved);
-                string fullyQualifiedUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
-                response.Headers.Location = new Uri(fullyQualifiedUrl);
+
+                var response = new HttpResponseMessage()
+                {
+                    Content = new StringContent(self.selfieGuid.ToString())
+                }; 
                 return response;
+
             }
             catch (System.Exception e)
             {
