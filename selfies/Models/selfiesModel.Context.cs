@@ -26,5 +26,6 @@ namespace selfies.Models
         }
     
         public DbSet<selfy> selfies { get; set; }
+        public DbSet<handle> handles { get; set; }
     }
 }

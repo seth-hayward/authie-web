@@ -6,6 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="e917f441807845d78a7acf48f61c8361" Name="Diagram1">
         <EntityTypeShape EntityType="selfiesModel.selfy" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="selfiesModel.handle" Width="1.5" PointX="7.61825497803197" PointY="3.17340795843555" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

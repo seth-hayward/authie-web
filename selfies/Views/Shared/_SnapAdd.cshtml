@@ -13,9 +13,6 @@
     </div>
 </form>
 
-
-
-<h3>Found the following selfies:</h3>
-<ul>
-    <li>@ViewBag.selfiesCount</li>
-</ul>
+@if(User.IsInRole("mod")) {
+    <text>@ViewBag.selfiesCount and @ViewBag.handles in the system</text>
+}

@@ -4,10 +4,20 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="selfiesModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="selfiesModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="selfiesModelStoreContainer">
+          <EntitySet Name="handles" EntityType="selfiesModel.Store.handles" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="selfies" EntityType="selfiesModel.Store.selfies" store:Type="Tables" Schema="selfies" />
         </EntityContainer>
+        <EntityType Name="handles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+          <Property Name="userGuid" Type="varchar" MaxLength="45" />
+          <Property Name="active" Type="int" />
+        </EntityType>
         <EntityType Name="selfies">
           <Key>
             <PropertyRef Name="id" />
@@ -17,13 +27,13 @@
           <Property Name="dateCreated" Type="datetime" Nullable="false" />
           <Property Name="selfieGuid" Type="varchar" Nullable="false" MaxLength="45" />
         </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="selfiesModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="selfiesMySQL" p1:LazyLoadingEnabled="true">
           <EntitySet Name="selfies" EntityType="selfiesModel.selfy" />
+          <EntitySet Name="handles" EntityType="selfiesModel.handle" />
         </EntityContainer>
         <EntityType Name="selfy">
           <Key>
@@ -33,6 +43,15 @@
           <Property Name="userGuid" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
           <Property Name="dateCreated" Type="DateTime" Nullable="false" />
           <Property Name="selfieGuid" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="handle">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="userGuid" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="active" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -47,6 +66,16 @@
                 <ScalarProperty Name="userGuid" ColumnName="userGuid" />
                 <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
                 <ScalarProperty Name="selfieGuid" ColumnName="selfieGuid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="handles">
+            <EntityTypeMapping TypeName="selfiesModel.handle">
+              <MappingFragment StoreEntitySet="handles">
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="userGuid" ColumnName="userGuid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

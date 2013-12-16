@@ -31,6 +31,7 @@ namespace selfies.Controllers
         public ActionResult Index()
         {
             ViewBag.selfiesCount = db.selfies.Count();
+            ViewBag.handlesCount = db.handles.Count();
             return View();
         }
     }
