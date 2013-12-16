@@ -12,6 +12,7 @@ namespace MvcApplication1.Controllers
     public class AccountController : Controller
     {
 
+
         //
         // GET: /Account/LogOn
 
@@ -71,9 +72,6 @@ namespace MvcApplication1.Controllers
 
         //
         // POST: /Account/Register
-
-        // previously: 4315d088
-        // test: e06e9360
 
         [HttpPost]
         public ActionResult Register(RegisterModel model)
@@ -145,6 +143,21 @@ namespace MvcApplication1.Controllers
             return View(model);
         }
 
+
+
+
+
+
+        //
+        // GET: /Account/CheckHandle
+
+        public JsonResult CheckHandle(string handle)
+        {
+            return Json(handle, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         //
         // GET: /Account/ChangePasswordSuccess
 
@@ -152,6 +165,62 @@ namespace MvcApplication1.Controllers
         {
             return View();
         }
+
+
+        [Authorize]
+        public ActionResult ChangeHandle()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/ChangeHandle
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult ChangeHandle(ChangeHandleModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                // ChangePassword will throw an exception rather
+                // than return false in certain failure scenarios.
+                bool changeHandleSucceeded;
+                try
+                {
+                    MembershipUser currentUser = Membership.GetUser(User.Identity.Name, true /* userIsOnline */);
+                    //changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
+                    changeHandleSucceeded = false;
+                }
+                catch (Exception)
+                {
+                    changeHandleSucceeded = false;
+                }
+
+                if (changeHandleSucceeded)
+                {
+                    return RedirectToAction("ChangePasswordSuccess");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        //
+        // GET: /Account/ChangeHandleSuccess
+
+        public ActionResult ChangeHandleSuccess()
+        {
+            return View();
+        }
+
+
+
 
         #region Status Codes
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
