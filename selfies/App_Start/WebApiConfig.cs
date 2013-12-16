@@ -15,6 +15,13 @@ namespace selfies
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            // can't get this route to work -- why?
+            //config.Routes.MapHttpRoute(
+            //    name: "LoginRoute",
+            //    routeTemplate: "login",
+            //    defaults: new { controller = "AccountController", action = "LogOn" }
+            //);
+
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.
             // To avoid processing unexpected or malicious queries, use the validation settings on QueryableAttribute to validate incoming queries.
             // For more information, visit http://go.microsoft.com/fwlink/?LinkId=279712.
