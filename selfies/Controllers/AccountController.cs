@@ -72,6 +72,9 @@ namespace MvcApplication1.Controllers
         //
         // POST: /Account/Register
 
+        // previously: 4315d088
+        // test: e06e9360
+
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
