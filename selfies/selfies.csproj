@@ -182,6 +182,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\handle.cs">
+      <DependentUpon>selfiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\selfiesModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
