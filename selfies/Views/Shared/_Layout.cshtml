@@ -7,7 +7,10 @@
 </head>
 <body>
     <header>
-        stealthie @Html.Partial("_LogOnPartial")
+        <p>
+        @Html.ActionLink("stealthie", "Index", "Home") 
+        </p>
+        @Html.Partial("_LogOnPartial")
     </header>
     @RenderBody()
 
