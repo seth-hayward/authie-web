@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Handle";
+}
+
+<p>
+    reserve a handle. <span class="error">test</span>
+</p>
+
+<input type="text" id="handle" name="handle" /> <input type="button" id="register_handle" name="register_handle" value="register" />
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#register_handle").click(function () {
+
+                var handle_handle = $("#register").val();
+                var handle = { id: 1, name: handle_handle, active: 1 };
+
+                $.post('api/handle', { '': handle });
+
+                $("span.error").html("could not register.").fadeIn();
+            });
+        });
+    </script>
+}

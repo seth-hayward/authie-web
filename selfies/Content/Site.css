@@ -1,11 +1,12 @@
 ﻿html {
     background-color: #fff;
-    margin: 0;
-    padding: 0;
 }
 
 body {
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
-    margin: 0;
-    padding: 0;
+}
+
+span.error
+{
+    display: none;
+    color: red;
 }
