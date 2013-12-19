@@ -10,7 +10,7 @@
     <span class="error"></span>
 </p>
 
-<input type="text" id="handle" name="handle" /> <input type="button" id="register_handle" name="register_handle" value="register" />
+<input type="text" id="handle" name="handle" maxlength=255 /> <input type="button" id="register_handle" name="register_handle" value="register" />
 
 @section Scripts {
     <script type="text/javascript">
@@ -18,10 +18,12 @@
 
             $("#register_handle").click(function () {
 
+                $("#register_handle").fadeOut('fast');
                 var handle_handle = $("#handle").val();
 
                 if (handle_handle.length == 0) {
                     $("span.error").html("please type a handle.").fadeIn();
+                    $("#register_handle").fadeIn('fast');
                     return;
                 }
                 var handle = { id: 1, name: handle_handle, active: 1, userGuid: "lol" };
@@ -38,9 +40,11 @@
 
                     switch (data.active) {
                         case -1:
+                            $("#register_handle").fadeIn('fast');
                             $("span.error").html("there was an error registering a handle.").fadeIn();
                             break;
                         case 0:
+                            $("#register_handle").fadeIn('fast');
                             $("span.error").html("someone already registered " + data.name).fadeIn();
                             break;
                         case 1:                           
@@ -51,10 +55,10 @@
                             break;
                     }
 
-                    console.log(data);
                 });
 
                 posting.error(function () {
+                    $("#register_handle").fadeIn('fast');
                     $("span.error").html("there was an error registering a handle.").fadeIn();
                 });
 

@@ -32,7 +32,10 @@ namespace selfies.Controllers
         {
             ViewBag.selfiesCount = db.selfies.Count();
             ViewBag.handlesCount = db.handles.Count();
-            ViewBag.handles = db.handles.ToList();
+
+            List<handle> handles = (from handle m in db.handles where m.active == 1 select m).ToList();
+            ViewBag.handles = handles;
+
             return View();
         }
     }

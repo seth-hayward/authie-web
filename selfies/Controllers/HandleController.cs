@@ -33,7 +33,7 @@ namespace selfies.Controllers
         // GET api/values
         public IEnumerable<handle> Get()
         {
-            return (from m in db.handles select m).ToList();
+            return (from m in db.handles where m.active.Equals(1) select m).ToList();
         }
 
         // GET api/values/5
