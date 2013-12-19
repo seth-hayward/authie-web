@@ -19,6 +19,11 @@
             $("#register_handle").click(function () {
 
                 var handle_handle = $("#handle").val();
+
+                if (handle_handle.length == 0) {
+                    $("span.error").html("please type a handle.").fadeIn();
+                    return;
+                }
                 var handle = { id: 1, name: handle_handle, active: 1, userGuid: "lol" };
 
                 // Send the data using post
