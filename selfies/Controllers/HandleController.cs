@@ -54,7 +54,7 @@ namespace selfies.Controllers
 
             if (value != null)
             {
-                handle currently_exists = (from m in db.handles where m.name.Equals(value.name) select m).FirstOrDefault();
+                handle currently_exists = (from m in db.handles where m.name.Equals(value.name) && m.active == 1 select m).FirstOrDefault();
 
                 if (currently_exists == null)
                 {
