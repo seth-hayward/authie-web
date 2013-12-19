@@ -44,8 +44,13 @@ namespace selfies.Controllers
         }
 
         // POST api/values
-        public string Post(handle value)
+        public handle Post(handle value)
         {
+
+            handle error = new handle();
+            error.active = -1;
+            error.name = "There was an error.";
+
 
             if (value != null)
             {
@@ -71,13 +76,27 @@ namespace selfies.Controllers
                         // free handle yay
                         db.handles.Add(safe_handle);
                         db.SaveChanges();
+                        return safe_handle;
                     }
+                    else
+                    {
+                        return error;
+                    }
+
+                }
+                else
+                {
+
+                    handle taken = new handle();
+                    taken.active = 0;
+                    taken.name = value.name;
+                    return taken;
 
                 }
 
             }
 
-            return "lol";
+            return error;
         }
 
         // PUT api/values/5

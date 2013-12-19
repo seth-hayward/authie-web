@@ -3,7 +3,11 @@
 }
 
 <p>
-    reserve a handle. you'll only see this page if you are not logged in. <span class="error">test</span>
+    reserve a handle
+</p>
+
+<p>
+    <span class="error"></span>
 </p>
 
 <input type="text" id="handle" name="handle" /> <input type="button" id="register_handle" name="register_handle" value="register" />
@@ -16,10 +20,39 @@
 
                 var handle_handle = $("#handle").val();
                 var handle = { id: 1, name: handle_handle, active: 1, userGuid: "lol" };
-                console.log(handle);
-                $.post("@Url.Content("/api/handle")", handle);
 
-                $("span.error").html("could not register.").fadeIn();
+                // Send the data using post
+                var posting = $.post("@Url.Content("/api/handle")", handle);
+
+                // Put the results in a div
+                posting.done(function (data) {
+
+                    // if active=1, then they have successfully registered a handle and logged in
+                    // if active=-1, then the username was taken
+                    // if active=-1, then there was an error
+
+                    switch (data.active) {
+                        case -1:
+                            $("span.error").html("there was an error registering a handle.").fadeIn();
+                            break;
+                        case 0:
+                            $("span.error").html("someone already registered " + data.name).fadeIn();
+                            break;
+                        case 1:                           
+                            // now do i store the public/private stuff here?
+                            // how do i know? well the cookie was set
+                            $("span.error").html("registered " + data.name).fadeIn();
+                            window.location = "@Url.Content("~/")";
+                            break;
+                    }
+
+                    console.log(data);
+                });
+
+                posting.error(function () {
+                    $("span.error").html("there was an error registering a handle.").fadeIn();
+                });
+
             });
         });
     </script>
