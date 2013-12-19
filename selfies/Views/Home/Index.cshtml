@@ -1,8 +1,15 @@
-﻿@using MvcApplication1.Models
+﻿@using selfies.Models
 
 @if (User.Identity.IsAuthenticated)
 {
     Html.RenderPartial("_SnapAdd");
 }
 
-@foreach(MvcApplication1.
+<p>
+    reserved handles
+</p>
+<ul>
+@foreach(handle lulz in ViewBag.handles) {
+    <li>@lulz.name</li>   
+}
+</ul>
