@@ -1,11 +1,10 @@
 ﻿@if(Request.IsAuthenticated) {
     <text>
-    <strong>@User.Identity.Name</strong>
+    @Html.ActionLink("logout", "LogOff", "Account")
     </text>
 }
 else {
     <text>
         (you are anonymous, you can @Html.ActionLink("reserve a handle", "Handle", "Account"))
-
     </text>
 }
