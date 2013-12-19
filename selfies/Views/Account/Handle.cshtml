@@ -3,7 +3,7 @@
 }
 
 <p>
-    reserve a handle. <span class="error">test</span>
+    reserve a handle. you'll only see this page if you are not logged in. <span class="error">test</span>
 </p>
 
 <input type="text" id="handle" name="handle" /> <input type="button" id="register_handle" name="register_handle" value="register" />
@@ -14,10 +14,10 @@
 
             $("#register_handle").click(function () {
 
-                var handle_handle = $("#register").val();
-                var handle = { id: 1, name: handle_handle, active: 1 };
-
-                $.post('api/handle', { '': handle });
+                var handle_handle = $("#handle").val();
+                var handle = { id: 1, name: handle_handle, active: 1, userGuid: "lol" };
+                console.log(handle);
+                $.post("@Url.Content("/api/handle")", handle);
 
                 $("span.error").html("could not register.").fadeIn();
             });

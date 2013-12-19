@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using selfies.Models;
+using System.Web.Security;
 
 namespace selfies.Controllers
 {
@@ -43,7 +44,7 @@ namespace selfies.Controllers
         }
 
         // POST api/values
-        public void Post(handle value)
+        public string Post(handle value)
         {
 
             if (value != null)
@@ -54,16 +55,29 @@ namespace selfies.Controllers
                 {
 
                     handle safe_handle = new handle();
-                    Guid guid = (Guid)System.Web.Security.Membership.GetUser().ProviderUserKey;
-                    safe_handle.userGuid = guid.ToString();
-                    safe_handle.active = 1;
-                    // free handle yay
-                    db.handles.Add(safe_handle);
-                    db.SaveChanges();
+                    Guid public_key = Guid.NewGuid();
+                    Guid private_key = Guid.NewGuid();
+
+                    // Attempt to register the user
+                    MembershipCreateStatus createStatus;
+                    Membership.CreateUser(public_key.ToString(), private_key.ToString(), "anon", null, null, true, null, out createStatus);
+
+                    if (createStatus == MembershipCreateStatus.Success)
+                    {
+                        FormsAuthentication.SetAuthCookie(public_key.ToString(), true /* createPersistentCookie */);
+                        safe_handle.name = value.name;
+                        safe_handle.userGuid = public_key.ToString();
+                        safe_handle.active = 1;
+                        // free handle yay
+                        db.handles.Add(safe_handle);
+                        db.SaveChanges();
+                    }
+
                 }
 
             }
 
+            return "lol";
         }
 
         // PUT api/values/5
