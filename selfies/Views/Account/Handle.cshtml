@@ -12,9 +12,49 @@
 
 <input type="text" id="handle" name="handle" maxlength=255 /> <input type="button" id="register_handle" name="register_handle" value="register" />
 
+<p>
+    <span id="handle_availability"></span>
+</p>
+
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $("#handle").bind("change paste keyup", function () {
+
+                // clear the output display until it is received
+                $("#handle_availability").html("");
+
+
+                var handle_handle = $("#handle").val();
+                var handle = { id: 1, name: handle_handle, active: 1, userGuid: "lol" };
+
+                // Send the data using post
+                var posting = $.post("@Url.Content("/api/checkhandle")", handle);
+
+                // Put the results in a div
+                posting.done(function (data) {
+
+                    if (data.message == $("#handle").val()) {
+                        // only show the result if it's the same
+                        // as the handle shown in the input box at this
+                        // exact moment
+                        if (data.result == 0) {
+                            $("#handle_availability").html(data.message + " is not available.");
+                        } else {
+                            $("#handle_availability").html(data.message + " is available.");
+
+                        }
+
+                    }
+
+                });
+
+                posting.error(function () {
+                    $("#handle_availability").html("error checking handle availability.");
+                });
+
+            });
 
             $("#register_handle").click(function () {
 
@@ -37,6 +77,7 @@
                     // if active=1, then they have successfully registered a handle and logged in
                     // if active=-1, then the username was taken
                     // if active=-1, then there was an error
+
 
                     switch (data.active) {
                         case -1:
