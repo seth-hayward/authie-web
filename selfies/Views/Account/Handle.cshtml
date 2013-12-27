@@ -35,6 +35,8 @@
                 // Put the results in a div
                 posting.done(function (data) {
 
+                    console.log(data);
+
                     if (data.message == $("#handle").val()) {
                         // only show the result if it's the same
                         // as the handle shown in the input box at this
