@@ -79,7 +79,7 @@
                     // if active=1, then they have successfully registered a handle and logged in
                     // if active=-1, then the username was taken
                     // if active=-1, then there was an error
-
+                    console.log(data);
 
                     switch (data.active) {
                         case -1:
@@ -93,7 +93,7 @@
                         case 1:                           
                             // now do i store the public/private stuff here?
                             // how do i know? well the cookie was set
-                            $("span.error").html("registered " + data.name).fadeIn();
+                            $("span.error").html("registered " + data.name + ", with public key '" + data.publicKey + "' and private key '" + data.privateKey + "'.").fadeIn();
                             window.location = "@Url.Content("~/")";
                             break;
                     }

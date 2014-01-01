@@ -76,6 +76,10 @@ namespace selfies.Controllers
                         safe_handle.userGuid = public_key.ToString();
                         safe_handle.active = 1;
                         // free handle yay
+
+                        safe_handle.publicKey = public_key.ToString();
+                        safe_handle.privateKey = private_key.ToString();
+
                         db.handles.Add(safe_handle);
                         db.SaveChanges();
                         return safe_handle;

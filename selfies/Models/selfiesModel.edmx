@@ -13,10 +13,12 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="varchar" MaxLength="255" />
           <Property Name="userGuid" Type="varchar" MaxLength="45" />
           <Property Name="active" Type="int" />
+          <Property Name="publicKey" Type="varchar" MaxLength="45" />
+          <Property Name="privateKey" Type="varchar" MaxLength="45" />
         </EntityType>
         <EntityType Name="selfies">
           <Key>
@@ -52,6 +54,8 @@
           <Property Type="String" Name="name" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="userGuid" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="active" />
+          <Property Type="String" Name="publicKey" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="privateKey" MaxLength="45" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -72,6 +76,8 @@
           <EntitySetMapping Name="handles">
             <EntityTypeMapping TypeName="selfiesModel.handle">
               <MappingFragment StoreEntitySet="handles">
+                <ScalarProperty Name="privateKey" ColumnName="privateKey" />
+                <ScalarProperty Name="publicKey" ColumnName="publicKey" />
                 <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="userGuid" ColumnName="userGuid" />
                 <ScalarProperty Name="name" ColumnName="name" />
