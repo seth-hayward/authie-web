@@ -7,7 +7,9 @@
     <Schema Namespace="selfiesModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="selfiesModelStoreContainer">
           <EntitySet Name="handles" EntityType="selfiesModel.Store.handles" store:Type="Tables" Schema="selfies" />
+          <EntitySet Name="messages" EntityType="selfiesModel.Store.messages" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="selfies" EntityType="selfiesModel.Store.selfies" store:Type="Tables" Schema="selfies" />
+          <EntitySet Name="threads" EntityType="selfiesModel.Store.threads" store:Type="Tables" Schema="selfies" />
         </EntityContainer>
         <EntityType Name="handles">
           <Key>
@@ -20,6 +22,16 @@
           <Property Name="publicKey" Type="varchar" MaxLength="45" />
           <Property Name="privateKey" Type="varchar" MaxLength="45" />
         </EntityType>
+        <EntityType Name="messages">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="fromHandleId" Type="varchar" MaxLength="45" />
+          <Property Name="message" Type="text" />
+          <Property Name="selfieId" Type="varchar" MaxLength="45" />
+          <Property Name="sentDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="selfies">
           <Key>
             <PropertyRef Name="id" />
@@ -29,6 +41,15 @@
           <Property Name="dateCreated" Type="datetime" Nullable="false" />
           <Property Name="selfieGuid" Type="varchar" Nullable="false" MaxLength="45" />
         </EntityType>
+        <EntityType Name="threads">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="fromHandleId" Type="varchar" MaxLength="45" />
+          <Property Name="toHandleId" Type="varchar" MaxLength="45" />
+          <Property Name="groupKey" Type="varchar" MaxLength="45" />
+        </EntityType>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -36,6 +57,8 @@
         <EntityContainer Name="selfiesMySQL" p1:LazyLoadingEnabled="true">
           <EntitySet Name="selfies" EntityType="selfiesModel.selfy" />
           <EntitySet Name="handles" EntityType="selfiesModel.handle" />
+          <EntitySet Name="messages" EntityType="selfiesModel.message" />
+          <EntitySet Name="threads" EntityType="selfiesModel.thread" />
         </EntityContainer>
         <EntityType Name="selfy">
           <Key>
@@ -56,6 +79,25 @@
           <Property Type="Int32" Name="active" />
           <Property Type="String" Name="publicKey" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="privateKey" MaxLength="45" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="fromHandleId" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="message1" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="selfieId" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="sentDate" />
+        </EntityType>
+        <EntityType Name="thread">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="fromHandleId" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="toHandleId" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="groupKey" MaxLength="45" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -81,6 +123,27 @@
                 <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="userGuid" ColumnName="userGuid" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="messages">
+            <EntityTypeMapping TypeName="selfiesModel.message">
+              <MappingFragment StoreEntitySet="messages">
+                <ScalarProperty Name="sentDate" ColumnName="sentDate" />
+                <ScalarProperty Name="selfieId" ColumnName="selfieId" />
+                <ScalarProperty Name="message1" ColumnName="message" />
+                <ScalarProperty Name="fromHandleId" ColumnName="fromHandleId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="threads">
+            <EntityTypeMapping TypeName="selfiesModel.thread">
+              <MappingFragment StoreEntitySet="threads">
+                <ScalarProperty Name="groupKey" ColumnName="groupKey" />
+                <ScalarProperty Name="toHandleId" ColumnName="toHandleId" />
+                <ScalarProperty Name="fromHandleId" ColumnName="fromHandleId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

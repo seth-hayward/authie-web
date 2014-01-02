@@ -7,6 +7,8 @@
       <Diagram DiagramId="e917f441807845d78a7acf48f61c8361" Name="Diagram1">
         <EntityTypeShape EntityType="selfiesModel.selfy" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="selfiesModel.handle" Width="1.5" PointX="3" PointY="0.625" />
+        <EntityTypeShape EntityType="selfiesModel.message" Width="1.5" PointX="4.625" PointY="0.625" />
+        <EntityTypeShape EntityType="selfiesModel.thread" Width="1.5" PointX="6.375" PointY="0.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
