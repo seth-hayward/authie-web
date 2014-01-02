@@ -36,6 +36,11 @@ namespace selfies.Controllers
             List<handle> handles = (from handle m in db.handles where m.active == 1 select m).ToList();
             ViewBag.handles = handles;
 
+            string user_id = User.Identity.Name;
+
+            List<thread> threads = (from thread m in db.threads where m.toHandleId.Equals(user_id) || m.fromHandleId.Equals(user_id) select m).ToList();
+            ViewBag.threads = threads;
+
             return View();
         }
     }

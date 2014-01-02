@@ -2,8 +2,28 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    Html.RenderPartial("_SnapAdd");
+
+    <text>
+        <p>
+            threads
+        </p>
+        <ul>
+            @if (ViewBag.threads.Count == 0)
+            {
+                <text><li>no threads yet, <a href="@Url.Content("~/threads/start")">start one</a></li></text>
+            }
+            else                
+            {
+                foreach (thread thready in ViewBag.threads)
+                {
+                    <text><li>@thready.id</li></text>
+                }                                
+            }
+        </ul>
+    </text>
+            
 }
+
 
 <p>
     reserved handles

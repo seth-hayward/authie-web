@@ -187,6 +187,9 @@
     <Compile Include="Models\handle.cs">
       <DependentUpon>selfiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\message.cs">
+      <DependentUpon>selfiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RODResponseMessage.cs" />
     <Compile Include="Models\selfiesModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -204,6 +207,9 @@
       <DependentUpon>selfiesModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\selfy.cs">
+      <DependentUpon>selfiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\thread.cs">
       <DependentUpon>selfiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
