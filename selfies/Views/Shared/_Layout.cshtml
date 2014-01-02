@@ -3,16 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>stealthie</title>
+    <title>authie</title>
     <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("/favicon.ico")?lol" />
     <link rel="stylesheet" type="text/css" href="@Url.Content("/Content/site.css")" />
 </head>
 <body>
 
     <header>
-        <p>
-        @Html.ActionLink("stealthie", "Index", "Home")  @Html.Partial("_LogOnPartial")
-        </p>
+
+        <div id="logo">
+            <a href="@Url.Content("~/")"><img src="@Url.Content("~/Images/logo.png")" alt="authie" /></a>
+        </div>
+
+        @Html.Partial("_LogOnPartial")
     </header>
     @RenderBody()
 

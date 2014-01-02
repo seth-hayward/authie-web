@@ -229,6 +229,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>selfiesModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Images\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Models\selfiesModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>selfiesModel.edmx</DependentUpon>
@@ -269,7 +272,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
