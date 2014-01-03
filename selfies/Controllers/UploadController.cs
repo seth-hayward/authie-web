@@ -58,8 +58,8 @@ namespace selfies.Controllers
 
             var provider = new MultipartFormDataStreamProvider(orig_dir);
 
-            //try
-            //{
+            try
+            {
                 StringBuilder sb = new StringBuilder(); // Holds the response body
 
                 // Read the form data and return an async task.
@@ -129,11 +129,11 @@ namespace selfies.Controllers
                 }; 
                 return response;
 
-            //}
-            //catch (System.Exception e)
-            //{
-            //    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-            //}
+            }
+            catch (System.Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
         }
 
 
