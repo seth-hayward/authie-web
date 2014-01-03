@@ -17,12 +17,18 @@
                 <a href="@Url.Content("~/")"><img src="@Url.Content("~/Images/logo.png")" alt="authie" /></a>
             </div>
 
-            @Html.Partial("_LogOnPartial")
+            <div id="login">
+                @Html.Partial("_LogOnPartial")
+            </div>
 
         </div>
 
         <div id="body">
             @RenderBody()
+        </div>
+
+        <div id="footer">
+            <small>a project by @@fake_train, @@Jeevesmeister & @@seth_hayward </small>
         </div>
     </div>
 

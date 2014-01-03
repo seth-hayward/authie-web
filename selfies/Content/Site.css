@@ -15,15 +15,34 @@ div#logo
 
 div#container
 {
-    border: 1px dotted #808080;
     width: 500px;
     margin-right: auto;
     margin-left: auto;
     margin-top: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 5px;
     padding-left: 10px;
     padding-right: 10px;
-    padding-bottom: 50px;
+    padding-bottom: 5px;
+}
+
+div#body
+{
+}
+
+div#header
+{
+    padding-top: 10px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+div#footer
+{
+    padding-top: 10px;
+    margin-top: 50px;
+    width: 100%;
+    text-align: center;
+    border-top: 1px dotted #808080;
 }
 
 span.error
