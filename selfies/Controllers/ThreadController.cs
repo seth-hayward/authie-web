@@ -57,6 +57,7 @@ namespace selfies.Controllers
             }
 
             thread clean_thread = new thread();
+            clean_thread.startDate = DateTime.UtcNow;
             clean_thread.fromHandleId = User.Identity.Name;
 
             // should it all be organized around this group key then?

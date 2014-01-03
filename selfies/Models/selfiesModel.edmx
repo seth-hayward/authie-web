@@ -49,6 +49,7 @@
           <Property Name="fromHandleId" Type="varchar" MaxLength="45" />
           <Property Name="toHandleId" Type="varchar" MaxLength="45" />
           <Property Name="groupKey" Type="varchar" MaxLength="45" />
+          <Property Name="startDate" Type="datetime" />
         </EntityType>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -98,6 +99,7 @@
           <Property Type="String" Name="fromHandleId" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="toHandleId" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="groupKey" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="startDate" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -141,6 +143,7 @@
           <EntitySetMapping Name="threads">
             <EntityTypeMapping TypeName="selfiesModel.thread">
               <MappingFragment StoreEntitySet="threads">
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
                 <ScalarProperty Name="groupKey" ColumnName="groupKey" />
                 <ScalarProperty Name="toHandleId" ColumnName="toHandleId" />
                 <ScalarProperty Name="fromHandleId" ColumnName="fromHandleId" />

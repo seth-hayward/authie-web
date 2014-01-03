@@ -16,7 +16,7 @@
             {
                 foreach (thread thready in ViewBag.threads)
                 {
-                    <text><li>@thready.id</li></text>
+                    <text><li><a href="@Url.Content("threads/" + thready.id)">@thready.startDate</a></li></text>
                 }                                
             }
         </ul>

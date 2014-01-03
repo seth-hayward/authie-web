@@ -18,5 +18,6 @@ namespace selfies.Models
         public string fromHandleId { get; set; }
         public string toHandleId { get; set; }
         public string groupKey { get; set; }
+        public Nullable<System.DateTime> startDate { get; set; }
     }
 }
