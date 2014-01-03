@@ -13,9 +13,9 @@ namespace selfies.Controllers
     public class SnapController : ApiController
     {
 
-        public HttpResponseMessage Get(string id)
+        public HttpResponseMessage Get(string id, string type)
         {
-            string root = HttpContext.Current.Server.MapPath("~/snaps/");
+            string root = HttpContext.Current.Server.MapPath("~/snaps/" + type + "/");
             var path = root + id;
 
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);

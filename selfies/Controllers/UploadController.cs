@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using ImageResizer;
 using selfies.Models;
 
 namespace selfies.Controllers
@@ -37,17 +38,28 @@ namespace selfies.Controllers
         {
             string user_id = User.Identity.Name;
 
+            // imageresizer stuff
+            Dictionary<string, string> versions = new Dictionary<string, string>();
+            //Define the versions to generate
+            versions.Add("thumb", "width=100&height=100&crop=auto&format=jpg"); //Crop to square thumbnail
+            versions.Add("500", "maxwidth=500&maxheight=900&format=jpg"); //Fit inside 400x400 area, jpeg
+            versions.Add("orig", "format=jpg"); //original converted to jpg
+
+
             // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent())
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
 
-            string root = HttpContext.Current.Server.MapPath("~/snaps/");
-            var provider = new MultipartFormDataStreamProvider(root);
+            string orig_dir = HttpContext.Current.Server.MapPath("~/snaps/orig/");
+            string sz500_dir = HttpContext.Current.Server.MapPath("~/snaps/500/");
+            string thumb_dir = HttpContext.Current.Server.MapPath("~/snaps/thumb/");
 
-            try
-            {
+            var provider = new MultipartFormDataStreamProvider(orig_dir);
+
+            //try
+            //{
                 StringBuilder sb = new StringBuilder(); // Holds the response body
 
                 // Read the form data and return an async task.
@@ -79,13 +91,31 @@ namespace selfies.Controllers
 
                     db.SaveChanges();
 
-                    string dir_path = root;
+                    string copied_orig_to_path = orig_dir + self.selfieGuid;
 
-                    if (Directory.Exists(dir_path) == false)
+                    if (Directory.Exists(orig_dir) == false)
                     {
-                        Directory.CreateDirectory(dir_path);
+                        Directory.CreateDirectory(orig_dir);
                     }
-                    fileInfo.CopyTo(dir_path + self.selfieGuid);
+                    fileInfo.CopyTo(copied_orig_to_path);
+
+                    // generate 500px version
+                    string fileName = sz500_dir + self.selfieGuid;
+
+                    ImageResizer.ImageJob i = new ImageResizer.ImageJob(copied_orig_to_path, fileName, new ImageResizer.Instructions(
+                                    "width=500;height=900;format=jpg;mode=max"));
+                    i.CreateParentDirectory = true; //Auto-create the uploads directory.
+                    i.Build();
+
+                    // generate thumb version
+                    fileName = thumb_dir + self.selfieGuid;
+
+                    i = new ImageResizer.ImageJob(copied_orig_to_path, fileName, new ImageResizer.Instructions(
+                                    "width=75;height=75;format=jpg;mode=max"));
+                    i.CreateParentDirectory = true; //Auto-create the uploads directory.
+                    i.Build();
+
+
                     fileInfo.Delete();
                     
 
@@ -99,11 +129,11 @@ namespace selfies.Controllers
                 }; 
                 return response;
 
-            }
-            catch (System.Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-            }
+            //}
+            //catch (System.Exception e)
+            //{
+            //    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            //}
         }
 
 

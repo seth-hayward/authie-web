@@ -9,6 +9,13 @@ namespace selfies
     {
         public static void Register(HttpConfiguration config)
         {
+
+            config.Routes.MapHttpRoute(
+                name: "SnapApi",
+                routeTemplate: "api/snap/{type}/{id}",
+                defaults: new { controller = "Snap", id = RouteParameter.Optional }
+            );
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
