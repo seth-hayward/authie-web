@@ -14,25 +14,16 @@ namespace selfies
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "StartThreadRoute",
+                url: "threads/start",
+                defaults: new { controller = "Home", action = "StartThread", id = UrlParameter.Optional }
+                );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-
-            // none of these are working :( why note :(
-            //routes.MapRoute(
-            //    name: "LogoutRoute",
-            //    url: "logout",
-            //    defaults: new { controller = "Account", action = "Logoff", id = UrlParameter.Optional }
-            //);
-
-            //routes.MapRoute(
-            //    name: "SignupRoute",
-            //    url: "signup",
-            //    defaults: new { controller = "Account", action = "Register", id = UrlParameter.Optional }
-            //);
-
-
 
         }
     }

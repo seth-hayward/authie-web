@@ -43,5 +43,12 @@ namespace selfies.Controllers
 
             return View();
         }
+
+        public ActionResult StartThread()
+        {
+
+            return View();
+        }
+
     }
 }
