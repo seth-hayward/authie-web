@@ -27,8 +27,10 @@
 
             $(':button').click(function () {
                 var formData = new FormData($('form')[0]);
+                var group_key = "@ViewBag.guid".substring(0, 7);
+
                 $.ajax({
-                    url: '@Url.Content("~/api/upload/postfile")',  //Server script to process data
+                    url: '@Url.Content("~/api/upload/postfile")?key=' + group_key,  //Server script to process data
                     type: 'POST',
                     xhr: function () {  // Custom XMLHttpRequest
                         var myXhr = $.ajaxSettings.xhr();
@@ -43,14 +45,12 @@
 
                         // redirect to details page... so dirty again
 
-                        var group_key = data;
-                        window.location = "@Url.Content("~/threads/")" + group_key;
+                        window.location = "@Url.Content("~/" + ViewBag.handle.name + "/")" + group_key;
 
-                        console.log("success");
-                        console.log(data);
                     },
                     error: function(err) {
-                        alert(err);
+                        alert("error :(");
+                        console.log(err);
                     },
                     // Form data
                     data: formData,

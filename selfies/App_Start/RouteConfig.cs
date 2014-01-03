@@ -25,12 +25,30 @@ namespace selfies
                 defaults: new { controller = "Account", action = "Logoff", id = UrlParameter.Optional }
             );
 
+
+            routes.MapRoute(
+                name: "RegisterRoute",
+                url: "register",
+                defaults: new { controller = "Home", action = "Register" }
+            );
+
+            routes.MapRoute(
+                name: "UploadRoute",
+                url: "upload/{guid}",
+                defaults: new { controller = "Home", action = "UploadSnap" }
+            );
+
             routes.MapRoute(
                 name: "ProfileRoute",
                 url: "{handle}",
                 defaults: new { controller = "Home", action = "Details" }
             );
 
+            routes.MapRoute(
+                name: "ThreadDetailRoute",
+                url: "{handle}/{key}",
+                defaults: new { controller = "Home", action = "Thread" }
+            );
 
             routes.MapRoute(
                 name: "Default",

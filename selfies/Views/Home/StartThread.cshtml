@@ -2,11 +2,6 @@
     ViewBag.Title = "StartThread";
 }
 
-
-<p>
-    start a thread
-</p>
-
 <p>
     <span class="error"></span>
 </p>
@@ -62,7 +57,7 @@
                             break;
                         case 1:
                             // redirect to upload... so dirty...
-                            window.location = "@Url.Content("~/home/uploadsnap?")" + group_key;
+                            window.location = "@Url.Content("~/upload/")" + group_key;
                             break;
                     }
 

@@ -33,15 +33,17 @@ namespace selfies.Controllers
         }
 
 
-        public async Task<HttpResponseMessage> PostFile()
+        public async Task<HttpResponseMessage> PostFile(string key)
         {
+            string user_id = User.Identity.Name;
+
             // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent())
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
 
-            string root = HttpContext.Current.Server.MapPath("~/App_Data/");
+            string root = HttpContext.Current.Server.MapPath("~/snaps/");
             var provider = new MultipartFormDataStreamProvider(root);
 
             try
@@ -52,11 +54,11 @@ namespace selfies.Controllers
                 await Request.Content.ReadAsMultipartAsync(provider);
 
                 // This illustrates how to get the form data.
-                foreach (var key in provider.FormData.AllKeys)
+                foreach (var item_key in provider.FormData.AllKeys)
                 {
-                    foreach (var val in provider.FormData.GetValues(key))
+                    foreach (var val in provider.FormData.GetValues(item_key))
                     {
-                        sb.Append(string.Format("{0}: {1}\n", key, val));
+                        sb.Append(string.Format("{0}: {1}\n", item_key, val));
                     }
                 }
 
@@ -68,13 +70,16 @@ namespace selfies.Controllers
                     FileInfo fileInfo = new FileInfo(file.LocalFileName);
                     sb.Append(string.Format("Uploaded file: {0} ({1} bytes)\n", fileInfo.Name, fileInfo.Length));
 
+                    thread group_key = (from m in db.threads where m.groupKey.StartsWith(key) select m).FirstOrDefault();
+
                     self.dateCreated = DateTime.UtcNow;
-                    self.selfieGuid = System.Guid.NewGuid().ToString();
+                    self.selfieGuid = group_key.groupKey;
                     self.userGuid = "1";
                     db.selfies.Add(self);
+
                     db.SaveChanges();
 
-                    string dir_path = root + "snaps/";
+                    string dir_path = root;
 
                     if (Directory.Exists(dir_path) == false)
                     {
@@ -85,6 +90,7 @@ namespace selfies.Controllers
                     
 
                 }
+
 
 
                 var response = new HttpResponseMessage()

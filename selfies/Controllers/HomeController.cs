@@ -33,7 +33,7 @@ namespace selfies.Controllers
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
             ViewBag.handle = logged_in;
 
-            thread selected_thread = (from thread m in db.threads where m.groupKey.StartsWith(key) && m.toHandleId.Equals(user_id) || m.fromHandleId.Equals(user_id) select m).FirstOrDefault();
+            thread selected_thread = (from thread m in db.threads where m.groupKey.StartsWith(key) select m).FirstOrDefault();
             ViewData.Model = selected_thread;
 
             return View();
@@ -81,6 +81,11 @@ namespace selfies.Controllers
 
             return View();        
 
+        }
+
+        public ActionResult Register()
+        {
+            return View();
         }
 
     }

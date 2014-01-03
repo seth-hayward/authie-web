@@ -13,13 +13,6 @@ namespace MvcApplication1.Controllers
     {
 
         //
-        // GET: /Account/Handle
-        public ActionResult Handle()
-        {
-            return View();
-        }
-
-        //
         // GET: /Account/LogOff
 
         public ActionResult LogOff()

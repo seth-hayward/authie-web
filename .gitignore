@@ -9,6 +9,7 @@
 packages/*
 
 selfies/App_Data/
+selfies/snaps/*
 
 # Build results
 
