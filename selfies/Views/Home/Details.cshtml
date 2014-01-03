@@ -1,12 +1,20 @@
-﻿@model selfies.Models.handle
+﻿@model List<selfies.Models.thread>
 
 @{
     ViewBag.Title = "chillfeed";
 }
 
-<h2>chill-feed for @Model.name</h2>
+<h2>chill-feed for @ViewBag.selectedHandle.name</h2>
 
-<ul>
-    <li>no public history of chill yet, that's cool</li>
-</ul>
+    @if (Model.Count == 0)
+    {
+        <p>no public history of chill yet, that's cool</p>
+    }
+    else
+    {
+        foreach (selfies.Models.thread t in Model)
+        {
+            <img src="@Url.Content("~/api/snap/500/" + t.groupKey)" />
+        }
+    }
 

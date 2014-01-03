@@ -46,7 +46,11 @@ namespace selfies.Controllers
             ViewBag.handle = logged_in;
 
             handle selected_handle = (from handle r in db.handles where r.name.Equals(handle) && r.active == 1 select r).FirstOrDefault();
-            ViewData.Model = selected_handle;
+            ViewBag.selectedHandle = selected_handle;
+
+            List<thread> public_threads = (from thread m in db.threads where m.fromHandleId.Equals(selected_handle.publicKey) && m.toHandleId.Equals("1") select m).ToList();
+            ViewData.Model = public_threads;
+
             return View();
         }
 
