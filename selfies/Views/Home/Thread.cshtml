@@ -1,0 +1,7 @@
+﻿@model selfies.Models.thread
+
+@{
+    ViewBag.Title = "Thread";
+}
+
+<img src="@Url.Content("~/App_Data/snaps/" + Model.groupKey)" alt="snap" />

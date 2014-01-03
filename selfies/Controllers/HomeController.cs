@@ -27,8 +27,17 @@ namespace selfies.Controllers
             }
         }
 
-        private handle _currentHanddle;
-        public handle currentHandle;
+        public ActionResult Thread(string key)
+        {
+            string user_id = User.Identity.Name;
+            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+            ViewBag.handle = logged_in;
+
+            thread selected_thread = (from thread m in db.threads where m.groupKey.StartsWith(key) && m.toHandleId.Equals(user_id) || m.fromHandleId.Equals(user_id) select m).FirstOrDefault();
+            ViewData.Model = selected_thread;
+
+            return View();
+        }
 
         public ActionResult Details(string handle)
         {

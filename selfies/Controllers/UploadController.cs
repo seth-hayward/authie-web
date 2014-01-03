@@ -74,9 +74,9 @@ namespace selfies.Controllers
                     db.selfies.Add(self);
                     db.SaveChanges();
 
-                    string dir_path = HttpContext.Current.Server.MapPath("~/App_Data/selfies/");
+                    string dir_path = root + "snaps/";
 
-                    if (Directory.Exists(dir_path + "selfies") == false)
+                    if (Directory.Exists(dir_path) == false)
                     {
                         Directory.CreateDirectory(dir_path);
                     }

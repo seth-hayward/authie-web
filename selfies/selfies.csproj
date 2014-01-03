@@ -296,6 +296,9 @@
   <ItemGroup>
     <Content Include="Views\Home\UploadSnap.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Thread.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
