@@ -5,6 +5,27 @@
 body {
 }
 
+div#logo
+{
+    width: 100%;
+    text-align: center;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+div#container
+{
+    border: 1px dotted #808080;
+    width: 500px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 50px;
+}
+
 span.error
 {
     display: none;

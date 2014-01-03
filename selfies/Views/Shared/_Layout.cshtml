@@ -9,16 +9,22 @@
 </head>
 <body>
 
-    <header>
+    <div id="container">
 
-        <div id="logo">
-            <a href="@Url.Content("~/")"><img src="@Url.Content("~/Images/logo.png")" alt="authie" /></a>
+        <div id="header">
+
+            <div id="logo">
+                <a href="@Url.Content("~/")"><img src="@Url.Content("~/Images/logo.png")" alt="authie" /></a>
+            </div>
+
+            @Html.Partial("_LogOnPartial")
+
         </div>
 
-        @Html.Partial("_LogOnPartial")
-
-    </header>
-    @RenderBody()
+        <div id="body">
+            @RenderBody()
+        </div>
+    </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     
