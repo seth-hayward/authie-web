@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "UploadSnap";
+}
+
+<p>upload</p>
+
+<form name="form1" method="post" enctype="multipart/form-data" action="@Url.Content("~/api/upload")">
+    <div>
+        <label for="image1">select image</label>
+        <input name="image1" type="file" />
+        <input type="hidden" name="groupKey" id="groupKey" value="@ViewBag.guid" />
+ 
+    </div>
+    <div>
+        <input type="submit" value="Submit" />
+    </div>
+</form>
+
+@if(User.IsInRole("mod")) {
+    <text>@ViewBag.selfiesCount snaps and @ViewBag.handlesCount handles in the system</text>
+}

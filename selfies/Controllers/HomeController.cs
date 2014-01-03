@@ -27,8 +27,14 @@ namespace selfies.Controllers
             }
         }
 
+        private handle _currentHanddle;
+        public handle currentHandle;
+
         public ActionResult Details(string handle)
         {
+            string user_id = User.Identity.Name;
+            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+            ViewBag.handle = logged_in;
 
             handle selected_handle = (from handle r in db.handles where r.name.Equals(handle) && r.active == 1 select r).FirstOrDefault();
             ViewData.Model = selected_handle;
@@ -49,12 +55,23 @@ namespace selfies.Controllers
 
         public ActionResult StartThread()
         {
-
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
             ViewBag.handle = logged_in;
 
-            return View();
+            return View();        
+        }
+
+        public ActionResult UploadSnap(string guid)
+        {
+            string user_id = User.Identity.Name;
+            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+            ViewBag.handle = logged_in;
+
+            ViewBag.guid = guid;
+
+            return View();        
+
         }
 
     }
