@@ -1,10 +1,14 @@
-﻿@if(Request.IsAuthenticated) {
-    <text>
-    @Html.ActionLink("logout", "LogOff", "Account")
-    </text>
+﻿<span id="login">
+
+@if(Request.IsAuthenticated) {
+<text>
+    @ViewBag.handle <a href="@Url.Content("~/logout")" alt="logout" id="logout">logout</a>
+</text>
 }
 else {
     <text>
         (you are anonymous, you can @Html.ActionLink("reserve a handle", "Handle", "Account"))
     </text>
 }
+
+</span>

@@ -10,3 +10,7 @@ span.error
     display: none;
     color: red;
 }
+
+span#login
+{
+}

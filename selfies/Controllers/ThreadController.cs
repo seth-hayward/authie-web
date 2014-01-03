@@ -66,6 +66,7 @@ namespace selfies.Controllers
             clean_thread.groupKey = new_thread.groupKey;
             clean_thread.toHandleId = new_thread.toHandleId;
             db.threads.Add(clean_thread);
+            db.SaveChanges();
 
             msg.message = clean_thread.id.ToString();
             msg.result = 1;

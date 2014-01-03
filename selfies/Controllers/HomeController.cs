@@ -30,13 +30,13 @@ namespace selfies.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.selfiesCount = db.selfies.Count();
-            ViewBag.handlesCount = db.handles.Count();
-
-            List<handle> handles = (from handle m in db.handles where m.active == 1 select m).ToList();
-            ViewBag.handles = handles;
-
             string user_id = User.Identity.Name;
+
+            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+            if (logged_in != null)
+            {
+                ViewBag.handle = "hey, " + logged_in.name;
+            }
 
             List<thread> threads = (from thread m in db.threads where m.toHandleId.Equals(user_id) || m.fromHandleId.Equals(user_id) select m).ToList();
             ViewBag.threads = threads;
