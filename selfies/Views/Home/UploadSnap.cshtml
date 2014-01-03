@@ -24,6 +24,8 @@
 
                 // just upload the file
                 var formData = new FormData($('form')[0]);
+
+                //console.log(formData);
                 var group_key = "@ViewBag.guid".substring(0, 7);
 
                 $.ajax({
