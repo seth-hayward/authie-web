@@ -4,7 +4,6 @@
 
 <form enctype="multipart/form-data">
     <input name="file" type="file" />
-    <input type="button" value="Upload" />
     <input type="hidden" name="groupKey" id="groupKey" value="@ViewBag.guid" />
 </form>
 <progress></progress>
@@ -22,10 +21,8 @@
                 var type = file.type;
                 //Your validation
                 console.log(file);
-            });
 
-
-            $(':button').click(function () {
+                // just upload the file
                 var formData = new FormData($('form')[0]);
                 var group_key = "@ViewBag.guid".substring(0, 7);
 
@@ -48,7 +45,7 @@
                         window.location = "@Url.Content("~/" + ViewBag.handle.name + "/")" + group_key;
 
                     },
-                    error: function(err) {
+                    error: function (err) {
                         alert("error :(");
                         console.log(err);
                     },
@@ -60,6 +57,7 @@
                     processData: false
                 });
             });
+
 
             function progressHandlingFunction(e) {
                 if (e.lengthComputable) {
