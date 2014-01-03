@@ -17,13 +17,20 @@ namespace selfies
                 name: "StartThreadRoute",
                 url: "threads/start",
                 defaults: new { controller = "Home", action = "StartThread", id = UrlParameter.Optional }
-                );
+            );
 
             routes.MapRoute(
                 name: "LogoutRoute",
                 url: "logout",
                 defaults: new { controller = "Account", action = "Logoff", id = UrlParameter.Optional }
-                );
+            );
+
+            routes.MapRoute(
+                name: "ProfileRoute",
+                url: "{handle}",
+                defaults: new { controller = "Home", action = "Details" }
+            );
+
 
             routes.MapRoute(
                 name: "Default",

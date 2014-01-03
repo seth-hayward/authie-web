@@ -27,16 +27,19 @@ namespace selfies.Controllers
             }
         }
 
+        public ActionResult Details(string handle)
+        {
+
+            handle selected_handle = (from handle r in db.handles where r.name.Equals(handle) && r.active == 1 select r).FirstOrDefault();
+            ViewData.Model = selected_handle;
+            return View();
+        }
 
         public ActionResult Index()
         {
             string user_id = User.Identity.Name;
-
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
-            if (logged_in != null)
-            {
-                ViewBag.handle = "hey, " + logged_in.name;
-            }
+            ViewBag.handle = logged_in;
 
             List<thread> threads = (from thread m in db.threads where m.toHandleId.Equals(user_id) || m.fromHandleId.Equals(user_id) select m).ToList();
             ViewBag.threads = threads;
@@ -46,6 +49,10 @@ namespace selfies.Controllers
 
         public ActionResult StartThread()
         {
+
+            string user_id = User.Identity.Name;
+            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+            ViewBag.handle = logged_in;
 
             return View();
         }

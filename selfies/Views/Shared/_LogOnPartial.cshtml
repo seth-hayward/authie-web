@@ -1,13 +1,20 @@
 ﻿<span id="login">
 
 @if(Request.IsAuthenticated) {
-<text>
-    @ViewBag.handle <a href="@Url.Content("~/logout")" alt="logout" id="logout">logout</a>
-</text>
+
+    if (ViewBag.handle != null)
+    {
+
+        <text>
+            <a href="@Url.Content("~/" + ViewBag.handle.name )">@ViewBag.handle.name</a> <a href="@Url.Content("~/logout")" alt="logout" id="logout">logout</a>
+        </text>        
+        
+    }
+
 }
 else {
     <text>
-        (you are anonymous, you can @Html.ActionLink("reserve a handle", "Handle", "Account"))
+        (you are anonymous, @Html.ActionLink("reserve a handle", "Handle", "Account") to write messages)
     </text>
 }
 
