@@ -25,5 +25,16 @@ namespace selfies
 
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
         }
+
+        protected void Application_BeginRequest()
+        {
+            string currentUrl = HttpContext.Current.Request.Url.ToString().ToLower();
+            if (currentUrl.StartsWith("http://www.selfies.io"))
+            {
+                Response.Status = "301 Moved Permanently";
+                Response.AddHeader("Location", currentUrl.Replace("http://www.selfies.io", "http://selfies.io"));
+                Response.End();
+            }
+        }
     }
 }
