@@ -50,11 +50,17 @@ namespace selfies.Controllers
 
             if (logged_in.publicKey == selected_handle.publicKey)
             {
+
+                ViewBag.addEdit = true;
                 // own profile
                 if (logged_in.tagLine == null)
                 {
                     logged_in.tagLine = "click to add a tagline";
                 }
+            }
+            else
+            {
+                ViewBag.addEdit = false;
             }
 
             List<thread> public_threads = (from thread m in db.threads where m.fromHandleId.Equals(selected_handle.publicKey) && m.toHandleId.Equals("1") select m).ToList();

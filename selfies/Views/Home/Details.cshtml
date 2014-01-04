@@ -7,7 +7,7 @@
 <div>
     <b>@ViewBag.selectedHandle.name</b>
 </div>
-<div id="edit_tagline" class="edit">@ViewBag.selectedHandle.tagLine</div>
+<div id="edit_tagline" @if (ViewBag.addEdit == true) { Html.Raw("class='edit'"); }>@ViewBag.selectedHandle.tagLine</div>
 
 
     @if (Model.Count == 0)
