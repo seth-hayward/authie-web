@@ -5,7 +5,7 @@
     {
 
         <text>
-            <a href="@Url.Content("~/" + ViewBag.handle.name )">@ViewBag.handle.name</a> <a href="@Url.Content("~/logout")" alt="logout" id="logout">logout</a>
+            <li><a href="@Url.Content("~/" + ViewBag.handle.name )">@ViewBag.handle.name</a> <a href="@Url.Content("~/logout")" alt="logout" id="logout">logout</a></li>
         </text>        
         
     }
@@ -13,7 +13,7 @@
 }
 else {
     <text>
-        (you are anonymous, @Html.ActionLink("reserve a handle", "Register", "Home") to write messages)
+        <li>@Html.ActionLink("register", "Register", "Home")</li>
     </text>
 }
 

@@ -92,5 +92,10 @@ namespace selfies.Controllers
             return View();
         }
 
+        public ActionResult What()
+        {
+            return View();
+        }
+
     }
 }

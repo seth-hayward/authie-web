@@ -18,7 +18,11 @@
             </div>
 
             <div id="login">
-                @Html.Partial("_LogOnPartial")
+                <ul>
+                    <li><a href="@Url.Content("~/what")">what?</a></li>
+                    @Html.Partial("_LogOnPartial")
+
+                </ul>
             </div>
 
         </div>

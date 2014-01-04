@@ -51,6 +51,13 @@ span.error
     color: red;
 }
 
-span#login
+div#login ul
 {
+    list-style-type: none;
+}
+
+div#login ul li
+{
+    float: left;
+    padding-right: 10px;
 }
