@@ -103,7 +103,7 @@ namespace selfies.Controllers
                     string fileName = sz500_dir + self.selfieGuid;
 
                     ImageResizer.ImageJob i = new ImageResizer.ImageJob(copied_orig_to_path, fileName, new ImageResizer.Instructions(
-                                    "width=500;height=900;format=jpg;mode=max"));
+                                    "width=500;height=900;format=jpg;mode=max;autorotate=true"));
                     i.CreateParentDirectory = true; //Auto-create the uploads directory.
                     i.Build();
 
@@ -111,7 +111,7 @@ namespace selfies.Controllers
                     fileName = thumb_dir + self.selfieGuid;
 
                     i = new ImageResizer.ImageJob(copied_orig_to_path, fileName, new ImageResizer.Instructions(
-                                    "width=75;height=75;format=jpg;mode=max"));
+                                    "width=75;height=75;format=jpg;mode=max;autorotate=true"));
                     i.CreateParentDirectory = true; //Auto-create the uploads directory.
                     i.Build();
 
