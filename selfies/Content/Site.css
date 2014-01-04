@@ -1,5 +1,6 @@
 ﻿html {
     background-color: #fff;
+    overflow-y: scroll;
 }
 
 body {
