@@ -38,14 +38,6 @@ namespace selfies.Controllers
         {
             string user_id = User.Identity.Name;
 
-            // imageresizer stuff
-            Dictionary<string, string> versions = new Dictionary<string, string>();
-            //Define the versions to generate
-            versions.Add("thumb", "width=100&height=100&crop=auto&format=jpg"); //Crop to square thumbnail
-            versions.Add("500", "maxwidth=500&maxheight=900&format=jpg"); //Fit inside 400x400 area, jpeg
-            versions.Add("orig", "format=jpg"); //original converted to jpg
-
-
             // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent())
             {
@@ -115,13 +107,9 @@ namespace selfies.Controllers
                     i.CreateParentDirectory = true; //Auto-create the uploads directory.
                     i.Build();
 
-
                     fileInfo.Delete();
                     
-
                 }
-
-
 
                 var response = new HttpResponseMessage()
                 {
