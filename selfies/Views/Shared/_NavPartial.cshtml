@@ -1,11 +1,11 @@
-﻿
+﻿<ul>
 @if(Request.IsAuthenticated) {
 
     if (ViewBag.handle != null)
     {
 
         <text>
-            <li><a href="@Url.Content("~/" + ViewBag.handle.name )">@ViewBag.handle.name</a> <a href="@Url.Content("~/logout")" alt="logout" id="logout">logout</a></li>
+            <li><a href="@Url.Content("~/" + ViewBag.handle.name )">@ViewBag.handle.name</a></li>
         </text>        
         
     }
@@ -14,6 +14,8 @@
 else {
     <text>
         <li>@Html.ActionLink("register", "Register", "Home")</li>
+        <li><a href="@Url.Content("~/what")">what?</a></li>
     </text>
 }
+</ul>
 

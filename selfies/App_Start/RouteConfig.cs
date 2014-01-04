@@ -25,6 +25,11 @@ namespace selfies
                 defaults: new { controller = "Account", action = "Logoff", id = UrlParameter.Optional }
             );
 
+            routes.MapRoute(
+                name: "WhatRoute",
+                url: "what",
+                defaults: new { controller = "Home", action = "What" }
+            );
 
             routes.MapRoute(
                 name: "RegisterRoute",

@@ -8,10 +8,14 @@ body {
 div#logo
 {
     width: 100%;
-    text-align: center;
     padding-top: 25px;
     padding-bottom: 25px;
 }
+
+    div#logo a
+    {
+        float: left;
+    }
 
 div#container
 {
@@ -33,7 +37,6 @@ div#header
 {
     padding-top: 10px;
     margin-top: 50px;
-    text-align: center;
 }
 
 div#footer
@@ -54,6 +57,8 @@ span.error
 div#login ul
 {
     list-style-type: none;
+    float: right;
+    margin-top: -5px;
 }
 
 div#login ul li
