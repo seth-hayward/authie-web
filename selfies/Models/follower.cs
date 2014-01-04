@@ -12,14 +12,11 @@ namespace selfies.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class handle
+    public partial class follower
     {
         public int id { get; set; }
-        public string name { get; set; }
-        public string userGuid { get; set; }
-        public Nullable<int> active { get; set; }
-        public string publicKey { get; set; }
-        public string privateKey { get; set; }
-        public string tagLine { get; set; }
+        public string followerId { get; set; }
+        public string followeeId { get; set; }
+        public int active { get; set; }
     }
 }

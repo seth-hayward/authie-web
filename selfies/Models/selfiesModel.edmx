@@ -6,11 +6,21 @@
     <edmx:StorageModels>
     <Schema Namespace="selfiesModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="selfiesModelStoreContainer">
+          <EntitySet Name="followers" EntityType="selfiesModel.Store.followers" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="handles" EntityType="selfiesModel.Store.handles" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="messages" EntityType="selfiesModel.Store.messages" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="selfies" EntityType="selfiesModel.Store.selfies" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="threads" EntityType="selfiesModel.Store.threads" store:Type="Tables" Schema="selfies" />
         </EntityContainer>
+        <EntityType Name="followers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="followerId" Type="varchar" Nullable="false" MaxLength="45" />
+          <Property Name="followeeId" Type="varchar" Nullable="false" MaxLength="45" />
+          <Property Name="active" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="handles">
           <Key>
             <PropertyRef Name="id" />
@@ -21,6 +31,7 @@
           <Property Name="active" Type="int" />
           <Property Name="publicKey" Type="varchar" MaxLength="45" />
           <Property Name="privateKey" Type="varchar" MaxLength="45" />
+          <Property Name="tagLine" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="messages">
           <Key>
@@ -60,6 +71,7 @@
           <EntitySet Name="handles" EntityType="selfiesModel.handle" />
           <EntitySet Name="messages" EntityType="selfiesModel.message" />
           <EntitySet Name="threads" EntityType="selfiesModel.thread" />
+          <EntitySet Name="followers" EntityType="selfiesModel.follower" />
         </EntityContainer>
         <EntityType Name="selfy">
           <Key>
@@ -80,6 +92,7 @@
           <Property Type="Int32" Name="active" />
           <Property Type="String" Name="publicKey" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="privateKey" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="tagLine" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="message">
           <Key>
@@ -101,6 +114,15 @@
           <Property Type="String" Name="groupKey" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="startDate" />
         </EntityType>
+        <EntityType Name="follower">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="followerId" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="followeeId" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="active" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -120,6 +142,7 @@
           <EntitySetMapping Name="handles">
             <EntityTypeMapping TypeName="selfiesModel.handle">
               <MappingFragment StoreEntitySet="handles">
+                <ScalarProperty Name="tagLine" ColumnName="tagLine" />
                 <ScalarProperty Name="privateKey" ColumnName="privateKey" />
                 <ScalarProperty Name="publicKey" ColumnName="publicKey" />
                 <ScalarProperty Name="active" ColumnName="active" />
@@ -147,6 +170,16 @@
                 <ScalarProperty Name="groupKey" ColumnName="groupKey" />
                 <ScalarProperty Name="toHandleId" ColumnName="toHandleId" />
                 <ScalarProperty Name="fromHandleId" ColumnName="fromHandleId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="followers">
+            <EntityTypeMapping TypeName="selfiesModel.follower">
+              <MappingFragment StoreEntitySet="followers">
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="followeeId" ColumnName="followeeId" />
+                <ScalarProperty Name="followerId" ColumnName="followerId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
