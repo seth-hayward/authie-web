@@ -33,6 +33,13 @@ namespace selfies.Controllers
         {
             string user_id = User.Identity.Name;
             List<thread> threads = (from thread m in db.threads where m.toHandleId.Equals(user_id) || m.fromHandleId.Equals(user_id) select m).ToList();
+
+            foreach(thread lx in threads) {
+                if (lx.toHandleId == "1")
+                {
+                    lx.toHandleId = "everyone";
+                }
+            }
             return threads;
         }
 
