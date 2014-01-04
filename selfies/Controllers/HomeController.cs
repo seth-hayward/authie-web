@@ -48,6 +48,15 @@ namespace selfies.Controllers
             handle selected_handle = (from handle r in db.handles where r.name.Equals(handle) && r.active == 1 select r).FirstOrDefault();
             ViewBag.selectedHandle = selected_handle;
 
+            if (logged_in.publicKey == selected_handle.publicKey)
+            {
+                // own profile
+                if (logged_in.tagLine == null)
+                {
+                    logged_in.tagLine = "click to add a tagline";
+                }
+            }
+
             List<thread> public_threads = (from thread m in db.threads where m.fromHandleId.Equals(selected_handle.publicKey) && m.toHandleId.Equals("1") select m).ToList();
             ViewData.Model = public_threads;
 

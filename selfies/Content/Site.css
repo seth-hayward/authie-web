@@ -67,3 +67,8 @@ div#login ul li
     float: left;
     padding-right: 10px;
 }
+
+div#edit_tagline
+{
+    width: 100%;
+}
