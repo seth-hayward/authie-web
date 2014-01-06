@@ -19,6 +19,12 @@ namespace selfies.Controllers
             var path = root + id;
 
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+
+            if (File.Exists(path) == false)
+            {
+                return new HttpResponseMessage
+                ();
+            }
             var stream = new FileStream(path, FileMode.Open);
             result.Content = new StreamContent(stream);
             result.Content.Headers.ContentType =

@@ -6,9 +6,16 @@
     to: <select data-bind="options: toContacts,
     optionsText: 'name',
     optionsValue: 'guid',
-    value: $root.toGuid"></select> <button data-bind="click: sendSnap" id="send">send</button>
+    value: $root.toGuid"></select> <br />
 
+<form enctype="multipart/form-data">
+    <input name="file" type="file" data-bind="event: { change: sendSnap }" />
+    <input type="hidden" name="groupKey" id="groupKey" />
+</form>
+<progress></progress>
+        
 </p>
+
 
 <p>
     <span id="thread_result"></span>
@@ -24,6 +31,7 @@
 
         self.toContacts = ko.observableArray([]);
         self.toGuid = ko.observable("");
+        self.toGroupKey = ko.observable("");
 
         self.loadContacts = function () {
             self.doneLoading = false;
@@ -54,6 +62,7 @@
         // initial load on init...
         self.loadContacts();
 
+
         self.sendSnap = function () {
 
             $("#send").fadeOut('fast');
@@ -64,6 +73,8 @@
                 var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
             });
+
+            self.toGroupKey = group_key;
 
             if (to_handle.length == 0) {
                 $("span.error").html("please type a handle.").fadeIn();
@@ -89,9 +100,51 @@
                         $("span.error").html("there was an error starting the thread.").fadeIn();
                         break;
                     case 1:
-                        // redirect to upload... so dirty...
-                        window.location = "@Url.Content("~/upload/")" + group_key;
-                            break;
+                        // now upload the image
+                        var drop = $(':file')[0];
+                        var file = drop.files[0];
+                        var name = file.name;
+                        var size = file.size;
+                        var type = file.type;
+                        //Your validation
+                        console.log(file);
+
+                        // just upload the file
+                        var formData = new FormData($('form')[0]);
+
+                        //console.log(formData);
+
+                        $.ajax({
+                            url: '@Url.Content("~/api/upload/postfile")?key=' + group_key,  //Server script to process data
+                            type: 'POST',
+                            xhr: function () {  // Custom XMLHttpRequest
+                                var myXhr = $.ajaxSettings.xhr();
+                                if (myXhr.upload) { // Check if upload property exists
+                                    myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // For handling the progress of the upload
+                                }
+                                return myXhr;
+                            },
+                            //Ajax events
+                            //beforeSend: beforeSendHandler,
+                            success: function (data) {
+
+                                // redirect to details page... so dirty again
+
+                                window.location = "@Url.Content("~/" + ViewBag.handle.name + "/")" + group_key;
+
+                            },
+                            error: function (err) {
+                                alert("error :(");
+                                console.log(err);
+                            },
+                            // Form data
+                            data: formData,
+                            //Options to tell jQuery not to process data or worry about content-type.
+                            cache: false,
+                            contentType: false,
+                            processData: false
+                        });
+
                     }
 
                 });
@@ -103,6 +156,12 @@
 
         }
 
+    }
+
+    function progressHandlingFunction(e) {
+        if (e.lengthComputable) {
+            $('progress').attr({ value: e.loaded, max: e.total });
+        }
     }
 
     function display_errors(err) {
