@@ -11,7 +11,7 @@
 
 <!-- ko if: contacts().length > 0 -->
     <ul data-bind="foreach: contacts">
-        <li><span data-bind="text: followeeHandle.name"></span>
+        <li><a data-bind="attr: { href: '@Url.Content("~/")' + followeeHandle.name }"><span data-bind="    text: followeeHandle.name"></span></a>
             <a href="#" data-bind="click: $root.removeContact">Remove</a></li>
     </ul>
 <!-- /ko -->
