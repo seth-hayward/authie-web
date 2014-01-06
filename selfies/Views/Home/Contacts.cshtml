@@ -3,58 +3,77 @@
 }
 
 
-<!-- ko if: contacts().length -->
-    <ul data-bind="foreach: contacts">
-        <li><span data-bind="text: followeeHandle.name"></span>
-            <a href="#" data-bind="click: $root.removeSeat">Remove</a></li>
-    </ul>
-<!-- /ko -->
-<!-- ko ifnot: contacts().length -->
-    <!-- ko if: doneLoading -->    
-        <ul>
-            <li>no contacts found yet, please add one :(</li>
-        </ul>
-    <!-- /ko -->
-    <!-- ko ifnot: doneLoading -->
-        <ul>
-            <li>loading...</li>
-        </ul>
-    <!-- /ko -->
+<!-- ko if: contacts().length == 0 -->
+<ul>
+    <li>no contacts yet</li>
+</ul>
 <!-- /ko -->
 
+<!-- ko if: contacts().length > 0 -->
+    <ul data-bind="foreach: contacts">
+        <li><span data-bind="text: followeeHandle.name"></span>
+            <a href="#" data-bind="click: $root.removeContact">Remove</a></li>
+    </ul>
+<!-- /ko -->
+
+
 <p>
-add new contact: <input type="text" id="handle" /><input type="button" id="add_contact" value="add"/>
+add new contact: <input type="text" id="handle" /><button data-bind="click: submitContactToSite">add</button>
         <span id="add_results"> </span>
 
 </p>
 
-@*
-
-<table>
-    <thead><tr>
-        <th>Passenger name</th><th>Meal</th><th>Surcharge</th><th></th>
-    </tr></thead>
-    <tbody data-bind="foreach: seats">
-        <tr>
-            <td><input data-bind="value: name" /></td>
-            <td><select data-bind="options: $root.availableMeals, value: meal, optionsText: 'mealName'"></select></td>
-            <td data-bind="text: formattedPrice"></td>
-            <td><a href="#" data-bind="click: $root.removeSeat">Remove</a></td>
-        </tr>    
-    </tbody>
-</table>
-
-<button data-bind="click: addSeat">Reserve another seat</button>
-
-<h3 data-bind="visible: totalSurcharge() > 0">
-    Total surcharge: $<span data-bind="text: totalSurcharge().toFixed(2)"></span>
-</h3>*@
+<p>authie does not notify your contact when you add them.
+</p>
 
 @section Scripts {
 <script type="text/javascript">
-    $(document).ready(function () {
 
-        $("#add_contact").click(function () {
+    function ContactsViewModel() {
+        var self = this;
+
+        self.contacts = ko.observableArray([]);
+
+        self.loadContacts = function () {
+            self.doneLoading = false;
+            self.contacts.removeAll();
+
+            $.get("@Url.Content("~/api/follower")", function (data, status) {
+
+                if (data.length > 0) {
+                    $.each(data, function (i, item) {
+                        self.contacts.push(item);
+                    });
+                } else {
+                    self.contacts = ko.observableArray([]);
+                    //alert('oh');
+                }
+
+            });
+
+
+        }
+
+        // initial load on init...
+        self.loadContacts();
+
+        self.removeContact = function (contact) {
+            // :( :( :(
+            // post to server
+
+            $.ajax({
+                url: "@Url.Content("~/api/follower")",
+                data: { '': contact.followeeHandle.name },
+                type: 'DELETE',
+                success: function (result) {
+                    // Do something with the result
+                    self.loadContacts();
+                }
+            });
+
+        }
+
+        self.submitContactToSite = function (contact) {
 
             $("#add_results").html("");
 
@@ -64,98 +83,26 @@ add new contact: <input type="text" id="handle" /><input type="button" id="add_c
                 display_errors("please enter a handle");
             }
 
-            var new_handle = { s: handle };
+            $.post("@Url.Content("~/api/follower")", { '': handle }).fail(function () {
+                alert('an error occurred.');
+            }).done(function (data) {
 
-@*            $.ajax({
-                type: "POST",
-                url: "@Url.Content("~/api/follower")",
-                data: new_handle,
-                success: function(data, status) {
-                    alert(data.message);                    
-                },
-                dataType: "json"
-            });*@
+                if (data.result == 0) {
+                    display_errors(data.message);
+                } else {
+                    self.loadContacts();
+                }
 
-            $.post("@Url.Content("~/api/follower")", { '': handle });
-
-        });
-
-        function display_errors(err) {
-            $("#add_results").html(err).fadeIn();
-        }
-    });
+            });
 
 
-    // Class to represent a row in the seat reservations grid
-    //function SeatReservation(name, initialMeal) {
-    //    var self = this;
-    //    self.name = name;
-    //    self.meal = ko.observable(initialMeal);
-
-    //    self.formattedPrice = ko.computed(function () {
-    //        var price = self.meal().price;
-    //        return price ? "$" + price.toFixed(2) : "None";
-    //    });
-    //}
-
-    function ContactsViewModel() {
-        var self = this;
-
-        self.contacts = ko.observableArray();
-
-        self.doneLoading = false;
-
-        $.get("@Url.Content("~/api/follower")", function (data, status) {
-
-            if (data.length > 0) {
-                $.each(data, function (i, item) {
-                    self.contacts.push(item);
-                });
-            }
-
-            self.doneLoading = true;
-        });
-
-        self.removeContact = function (contact) {
-            // :( :( :(
-            // post to server
-
-            self.contacts.remove(contact);
         }
 
     }
 
-    // Overall viewmodel for this screen, along with initial state
-    //function ReservationsViewModel() {
-    //    var self = this;
-
-    //    // Non-editable catalog data - would come from the server
-    //    self.availableMeals = [
-    //        { mealName: "Standard (sandwich)", price: 0 },
-    //        { mealName: "Premium (lobster)", price: 34.95 },
-    //        { mealName: "Ultimate (whole zebra)", price: 290 }
-    //    ];
-
-    //    // Editable data
-    //    self.seats = ko.observableArray([
-    //        new SeatReservation("Steve", self.availableMeals[0]),
-    //        new SeatReservation("Bert", self.availableMeals[0])
-    //    ]);
-
-    //    // Computed data
-    //    self.totalSurcharge = ko.computed(function () {
-    //        var total = 0;
-    //        for (var i = 0; i < self.seats().length; i++)
-    //            total += self.seats()[i].meal().price;
-    //        return total;
-    //    });
-
-    //    // Operations
-    //    self.addSeat = function () {
-    //        self.seats.push(new SeatReservation("", self.availableMeals[0]));
-    //    }
-    //    self.removeSeat = function (seat) { self.seats.remove(seat) }
-    //}
+    function display_errors(err) {
+        $("#add_results").html(err).fadeIn();
+    }
 
     ko.applyBindings(new ContactsViewModel());
 </script>

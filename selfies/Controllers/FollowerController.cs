@@ -34,7 +34,7 @@ namespace selfies.Controllers
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
-            List<follower> followers = (from follower m in db.followers where m.followerHandle.id.Equals(logged_in.id) select m).ToList();
+            List<follower> followers = (from follower m in db.followers where m.followerHandle.id.Equals(logged_in.id) && m.active.Equals(1) select m).ToList();
 
             return followers;
         }
@@ -56,6 +56,15 @@ namespace selfies.Controllers
             else
             {
 
+                follower currently_added = (from m in db.followers where m.followerHandle.id.Equals(from_handle.id) && m.followeeHandle.name.Equals(s) select m).FirstOrDefault();
+
+                if (currently_added != null)
+                {
+                    result.message = "Person is already a contact.";
+                    result.result = 0;
+                    return result;
+                }
+
                 follower f = new follower();
                 f.followeeId = to_handle.id;
                 f.followerId = from_handle.id;
@@ -65,6 +74,39 @@ namespace selfies.Controllers
                 db.SaveChanges();
 
                 result.message = "Contact added.";
+                result.result = 1;
+            }
+
+            return result;
+        }
+
+        [HttpDelete]
+        public RODResponseMessage Delete([FromBody]string s)
+        {
+            RODResponseMessage result = new RODResponseMessage();
+
+            handle to_handle = (from m in db.handles where m.name == s && m.active == 1 select m).FirstOrDefault();
+            handle from_handle = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+
+            follower follow_connect = (from m in db.followers where m.followerHandle.id == from_handle.id && m.followeeHandle.name.Equals(s) && m.active == 1 select m).FirstOrDefault();
+            if (follow_connect == null)
+            {
+                result.result = 0;
+                result.message = "Contact not found.";
+            }
+            else
+            {
+
+                follow_connect.active = 0;
+
+                db.followers.Attach(follow_connect);
+
+                var updated_follower = db.Entry(follow_connect);
+                updated_follower.Property(e => e.active).IsModified = true;
+
+                db.SaveChanges();
+
+                result.message = "Contact removed.";
                 result.result = 1;
             }
 
