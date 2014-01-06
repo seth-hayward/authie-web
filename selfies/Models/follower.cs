@@ -15,8 +15,11 @@ namespace selfies.Models
     public partial class follower
     {
         public int id { get; set; }
-        public string followerId { get; set; }
-        public string followeeId { get; set; }
+        public int followerId { get; set; }
+        public int followeeId { get; set; }
         public int active { get; set; }
+    
+        public virtual handle followeeHandle { get; set; }
+        public virtual handle followerHandle { get; set; }
     }
 }

@@ -9,8 +9,10 @@
         <EntityTypeShape EntityType="selfiesModel.handle" Width="1.5" PointX="3" PointY="0.625" />
         <EntityTypeShape EntityType="selfiesModel.message" Width="1.5" PointX="4.625" PointY="0.625" />
         <EntityTypeShape EntityType="selfiesModel.thread" Width="1.5" PointX="6.375" PointY="0.5" />
-        <EntityTypeShape EntityType="selfiesModel.follower" Width="1.5" PointX="8.25" PointY="0.75" />
-      </Diagram>
+        <EntityTypeShape EntityType="selfiesModel.follower" Width="1.5" PointX="8.375" PointY="4.375" />
+        <AssociationConnector Association="selfiesModel.FKfolloweeId" />
+        <AssociationConnector Association="selfiesModel.FKfollowerId" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

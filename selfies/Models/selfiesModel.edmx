@@ -11,14 +11,22 @@
           <EntitySet Name="messages" EntityType="selfiesModel.Store.messages" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="selfies" EntityType="selfiesModel.Store.selfies" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="threads" EntityType="selfiesModel.Store.threads" store:Type="Tables" Schema="selfies" />
+          <AssociationSet Name="FKfolloweeId" Association="selfiesModel.Store.FKfolloweeId">
+            <End Role="handles" EntitySet="handles" />
+            <End Role="followers" EntitySet="followers" />
+          </AssociationSet>
+          <AssociationSet Name="FKfollowerId" Association="selfiesModel.Store.FKfollowerId">
+            <End Role="handles" EntitySet="handles" />
+            <End Role="followers" EntitySet="followers" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="followers">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="followerId" Type="varchar" Nullable="false" MaxLength="45" />
-          <Property Name="followeeId" Type="varchar" Nullable="false" MaxLength="45" />
+          <Property Name="followerId" Type="int" Nullable="false" />
+          <Property Name="followeeId" Type="int" Nullable="false" />
           <Property Name="active" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="handles">
@@ -62,6 +70,30 @@
           <Property Name="groupKey" Type="varchar" MaxLength="45" />
           <Property Name="startDate" Type="datetime" />
         </EntityType>
+        <Association Name="FKfolloweeId">
+          <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
+          <End Role="followers" Type="selfiesModel.Store.followers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="followers">
+              <PropertyRef Name="followeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKfollowerId">
+          <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
+          <End Role="followers" Type="selfiesModel.Store.followers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="followers">
+              <PropertyRef Name="followerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -72,7 +104,15 @@
           <EntitySet Name="messages" EntityType="selfiesModel.message" />
           <EntitySet Name="threads" EntityType="selfiesModel.thread" />
           <EntitySet Name="followers" EntityType="selfiesModel.follower" />
-        </EntityContainer>
+          <AssociationSet Name="FKfolloweeId" Association="selfiesModel.FKfolloweeId">
+            <End Role="handle" EntitySet="handles" />
+            <End Role="follower" EntitySet="followers" />
+          </AssociationSet>
+          <AssociationSet Name="FKfollowerId" Association="selfiesModel.FKfollowerId">
+            <End Role="handle" EntitySet="handles" />
+            <End Role="follower" EntitySet="followers" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="selfy">
           <Key>
             <PropertyRef Name="id" />
@@ -93,7 +133,7 @@
           <Property Type="String" Name="publicKey" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="privateKey" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="tagLine" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="message">
           <Key>
             <PropertyRef Name="id" />
@@ -119,11 +159,37 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="followerId" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="followeeId" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="followerId" Nullable="false" />
+          <Property Type="Int32" Name="followeeId" Nullable="false" />
           <Property Type="Int32" Name="active" Nullable="false" />
+          <NavigationProperty Name="followeeHandle" Relationship="selfiesModel.FKfolloweeId" FromRole="follower" ToRole="handle" />
+          <NavigationProperty Name="followerHandle" Relationship="selfiesModel.FKfollowerId" FromRole="follower" ToRole="handle" />
         </EntityType>
-      </Schema>
+        <Association Name="FKfolloweeId">
+          <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
+          <End Type="selfiesModel.follower" Role="follower" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handle">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="follower">
+              <PropertyRef Name="followeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKfollowerId">
+          <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
+          <End Type="selfiesModel.follower" Role="follower" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handle">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="follower">
+              <PropertyRef Name="followerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
