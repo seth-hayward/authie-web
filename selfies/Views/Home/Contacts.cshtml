@@ -10,9 +10,16 @@
     </ul>
 <!-- /ko -->
 <!-- ko ifnot: contacts().length -->
-    <ul>
-        <li>no contacts found yet, please add one :(</li>
-    </ul>
+    <!-- ko if: doneLoading -->    
+        <ul>
+            <li>no contacts found yet, please add one :(</li>
+        </ul>
+    <!-- /ko -->
+    <!-- ko ifnot: doneLoading -->
+        <ul>
+            <li>loading...</li>
+        </ul>
+    <!-- /ko -->
 <!-- /ko -->
 
 <p>
@@ -96,6 +103,8 @@ add new contact: <input type="text" id="handle" /><input type="button" id="add_c
 
         self.contacts = ko.observableArray();
 
+        self.doneLoading = false;
+
         $.get("@Url.Content("~/api/follower")", function (data, status) {
 
             if (data.length > 0) {
@@ -103,6 +112,8 @@ add new contact: <input type="text" id="handle" /><input type="button" id="add_c
                     self.contacts.push(item);
                 });
             }
+
+            self.doneLoading = true;
         });
 
         self.removeContact = function (contact) {
