@@ -81,7 +81,7 @@
                 $("#send").fadeIn('fast');
                 return;
             }
-            var thread = { id: to_handle, fromHandleId: "@User.Identity.Name", toHandleId: to_handle, groupKey: group_key };
+            var thread = { toGuid: to_handle, groupKey: group_key };
 
             // Send the data using post
             var posting = $.post("@Url.Content("/api/thread")", thread);

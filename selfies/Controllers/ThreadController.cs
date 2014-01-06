@@ -49,13 +49,15 @@ namespace selfies.Controllers
             return selected;
         }
 
-        public RODResponseMessage Post(thread new_thread)
+        [HttpPost]
+        public RODResponseMessage Post(Snap _snap)
         {
 
             RODResponseMessage msg = new RODResponseMessage();
 
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+            handle to_handle = (from handle r in db.handles where r.publicKey == _snap.toGuid select r).FirstOrDefault();
 
             thread clean_thread = new thread();
             clean_thread.startDate = DateTime.UtcNow;
@@ -65,8 +67,8 @@ namespace selfies.Controllers
             // add new threads and messages at the same with the same
             // group key generated on the client (like a guid)...
 
-            clean_thread.groupKey = new_thread.groupKey;
-            clean_thread.toHandleId = new_thread.toHandleId;
+            clean_thread.groupKey = _snap.groupKey;
+            clean_thread.toHandleId = to_handle.id;
             db.threads.Add(clean_thread);
             db.SaveChanges();
 

@@ -218,6 +218,7 @@
     <Compile Include="Models\selfy.cs">
       <DependentUpon>selfiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Snap.cs" />
     <Compile Include="Models\thread.cs">
       <DependentUpon>selfiesModel.tt</DependentUpon>
     </Compile>

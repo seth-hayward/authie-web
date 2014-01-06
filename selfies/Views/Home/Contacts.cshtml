@@ -18,7 +18,7 @@
 
 
 <p>
-add new contact: <input type="text" id="handle" /><button data-bind="click: submitContactToSite">add</button>
+add new contact: <input type="text" id="handle" /><button data-bind="click: submitContactToSite" id="add_contact">add</button>
         <span id="add_results"> </span>
 
 </p>
@@ -74,7 +74,7 @@ add new contact: <input type="text" id="handle" /><button data-bind="click: subm
         }
 
         self.submitContactToSite = function (contact) {
-
+            $("#add_contact").fadeOut('fast');
             $("#add_results").html("");
 
             var handle = $("#handle").val();
@@ -91,6 +91,9 @@ add new contact: <input type="text" id="handle" /><button data-bind="click: subm
                     display_errors(data.message);
                 } else {
                     self.loadContacts();
+                    $("#add_contact").fadeIn('fast');
+                    $("handle").val("");
+
                 }
 
             });
