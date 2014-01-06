@@ -14,9 +14,9 @@ namespace selfies
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "StartThreadRoute",
-                url: "threads/start",
-                defaults: new { controller = "Home", action = "StartThread", id = UrlParameter.Optional }
+                name: "SendRoute",
+                url: "send",
+                defaults: new { controller = "Home", action = "Send", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
