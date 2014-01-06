@@ -1,5 +1,116 @@
-﻿@{
-    ViewBag.Title = "Send";
-}
+﻿<p>
+    <span class="error"></span>
+</p>
 
-<h2>Send</h2>
+<p>
+    to: <select data-bind="options: toContacts,
+    optionsText: 'name',
+    value: 'guid',
+    optionsCaption: 'Choose...'"></select>
+</p>
+
+<input type="button" id="start" name="start" value="start" />
+
+<p>
+    <span id="thread_result"></span>
+</p>
+
+@section Scripts {
+<script type="text/javascript">
+
+    function SnapViewModel() {
+        var self = this;
+
+        self.contacts = ko.observableArray([]);
+
+        self.toContacts = ko.observableArray([]);
+
+        self.loadContacts = function () {
+            self.doneLoading = false;
+            self.contacts.removeAll();
+            self.toContacts.removeAll();
+
+            $.get("@Url.Content("~/api/follower")", function (data, status) {
+
+                if (data.length > 0) {
+                    $.each(data, function (i, item) {
+                        console.log(item);
+                        self.contacts.push(item);
+
+                        self.toContacts.push({ name: item.followeeHandle.name, guid: item.followeeHandle.guid });
+                    });
+                } else {
+                    self.contacts = ko.observableArray([]);
+                    //alert('oh');
+                }
+
+            });
+
+
+        }
+
+        // initial load on init...
+        self.loadContacts();
+    }
+
+    function display_errors(err) {
+        $("#add_results").html(err).fadeIn();
+    }
+
+    ko.applyBindings(new SnapViewModel());
+</script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#start").click(function () {
+
+                $("#start").fadeOut('fast');
+                var to_handle = $("#handle").val();
+
+                // guid code from http://stackoverflow.com/a/2117523/146516
+                var group_key = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+
+                if (to_handle.length == 0) {
+                    $("span.error").html("please type a handle.").fadeIn();
+                    $("#start").fadeIn('fast');
+                    return;
+                }
+                var thread = { id: 1, fromHandleId: "@User.Identity.Name", toHandleId: to_handle, groupKey: group_key  };
+
+                // Send the data using post
+                var posting = $.post("@Url.Content("/api/thread")", thread);
+
+                // Put the results in a div
+                posting.done(function (data) {
+
+                    // if active=1, then they have successfully registered a handle and logged in
+                    // if active=-1, then the username was taken
+                    // if active=-1, then there was an error
+                    console.log(data);
+
+                    switch (data.result) {
+                        case 0:
+                            $("#start").fadeIn('fast');
+                            $("span.error").html("there was an error starting the thread.").fadeIn();
+                            break;
+                        case 1:
+                            // redirect to upload... so dirty...
+                            window.location = "@Url.Content("~/upload/")" + group_key;
+                            break;
+                    }
+
+                });
+
+                posting.error(function () {
+                    $("#start").fadeIn('fast');
+                    $("span.error").html("there was an error starting the thread.").fadeIn();
+                });
+
+            });
+        });
+    </script>
+}

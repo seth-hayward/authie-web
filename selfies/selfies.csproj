@@ -299,9 +299,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\StartThread.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Home\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -318,6 +315,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Contacts.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Send.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
