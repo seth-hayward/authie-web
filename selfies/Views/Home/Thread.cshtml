@@ -1,7 +1,7 @@
 ﻿@model selfies.Models.thread
 
 <p>
-    to: @Model.fromHandle.name, from @Model.toHandle.name
+    to: @Model.toHandle.name, from @Model.fromHandle.name
 </p>
             
 <img src="@Url.Content("~/api/snap/500/" + Model.groupKey)" alt="snap" />
