@@ -18,7 +18,12 @@
     {
         foreach (selfies.Models.thread t in Model)
         {
-            <img src="@Url.Content("~/api/snap/500/" + t.groupKey)" />
+            
+            <p>
+                to: @t.fromHandle.name, from @t.toHandle.name
+            </p>
+            
+            <a href="@Url.Content("~/api/snap/orig/" + t.groupKey)"><img src="@Url.Content("~/api/snap/500/" + t.groupKey)" /></a>
         }
     }
 
