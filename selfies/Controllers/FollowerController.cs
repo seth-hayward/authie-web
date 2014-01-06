@@ -56,7 +56,7 @@ namespace selfies.Controllers
             else
             {
 
-                follower currently_added = (from m in db.followers where m.followerHandle.id.Equals(from_handle.id) && m.followeeHandle.name.Equals(s) select m).FirstOrDefault();
+                follower currently_added = (from m in db.followers where m.followerHandle.id.Equals(from_handle.id) && m.followeeHandle.name.Equals(s) && m.active.Equals(1) select m).FirstOrDefault();
 
                 if (currently_added != null)
                 {
