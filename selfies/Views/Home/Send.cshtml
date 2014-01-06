@@ -6,8 +6,7 @@
     to: <select data-bind="options: toContacts,
     optionsText: 'name',
     optionsValue: 'guid',
-    value: $root.toGuid,
-    optionsCaption: 'Choose...'"></select> <button data-bind="click: sendSnap" id="send">send</button>
+    value: $root.toGuid"></select> <button data-bind="click: sendSnap" id="send">send</button>
 
 </p>
 
@@ -30,6 +29,8 @@
             self.doneLoading = false;
             self.contacts.removeAll();
             self.toContacts.removeAll();
+
+            self.toContacts.push({ name: "everyone", guid: "1" });
 
             $.get("@Url.Content("~/api/follower")", function (data, status) {
 
