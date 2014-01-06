@@ -35,9 +35,9 @@ namespace selfies.Controllers
             List<thread> threads = (from thread m in db.threads where m.toHandleId.Equals(user_id) || m.fromHandleId.Equals(user_id) select m).ToList();
 
             foreach(thread lx in threads) {
-                if (lx.toHandleId == "1")
+                if (lx.toHandleId == 1)
                 {
-                    lx.toHandleId = "everyone";
+                    lx.toHandleId = 1;
                 }
             }
             return threads;
@@ -55,17 +55,11 @@ namespace selfies.Controllers
             RODResponseMessage msg = new RODResponseMessage();
 
             string user_id = User.Identity.Name;
-
-            if (user_id != new_thread.fromHandleId)
-            {
-                msg.result = 0;
-                msg.message = "fromHandleId doesn't match logged in user.";
-                return msg;
-            }
+            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
             thread clean_thread = new thread();
             clean_thread.startDate = DateTime.UtcNow;
-            clean_thread.fromHandleId = User.Identity.Name;
+            clean_thread.fromHandleId = logged_in.id;
 
             // should it all be organized around this group key then?
             // add new threads and messages at the same with the same
@@ -82,5 +76,16 @@ namespace selfies.Controllers
             return msg;
         }
 
+        public void Delete(int id)
+        {
+            thread selected = (from m in db.threads where m.id.Equals(id) select m).FirstOrDefault();
+
+            string user_id = User.Identity.Name;
+            handle from_handle = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+
+
+
+
+        }
     }
 }

@@ -15,9 +15,13 @@ namespace selfies.Models
     public partial class thread
     {
         public int id { get; set; }
-        public string fromHandleId { get; set; }
-        public string toHandleId { get; set; }
+        public int fromHandleId { get; set; }
+        public int toHandleId { get; set; }
         public string groupKey { get; set; }
         public Nullable<System.DateTime> startDate { get; set; }
+        public int active { get; set; }
+    
+        public virtual handle fromHandle { get; set; }
+        public virtual handle toHandle { get; set; }
     }
 }

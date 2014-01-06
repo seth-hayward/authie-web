@@ -69,7 +69,7 @@ namespace selfies.Controllers
 
             ViewBag.addEdit = addEdit;
 
-            List<thread> public_threads = (from thread m in db.threads where m.fromHandleId.Equals(selected_handle.publicKey) && m.toHandleId.Equals("1") select m).ToList();
+            List<thread> public_threads = (from thread m in db.threads where m.fromHandleId.Equals(selected_handle.id) && m.toHandleId.Equals(1) select m).ToList();
             ViewData.Model = public_threads;
 
             return View();
@@ -81,7 +81,7 @@ namespace selfies.Controllers
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
             ViewBag.handle = logged_in;
 
-            List<thread> threads = (from thread m in db.threads where m.toHandleId.Equals(user_id) || m.fromHandleId.Equals(user_id) select m).ToList();
+            List<thread> threads = (from thread m in db.threads where m.toHandleId.Equals(logged_in.id) || m.fromHandleId.Equals(logged_in.id) select m).ToList();
             ViewBag.threads = threads;
 
             return View();

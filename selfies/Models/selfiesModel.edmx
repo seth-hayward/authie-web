@@ -19,6 +19,14 @@
             <End Role="handles" EntitySet="handles" />
             <End Role="followers" EntitySet="followers" />
           </AssociationSet>
+          <AssociationSet Name="FKfromHandleId" Association="selfiesModel.Store.FKfromHandleId">
+            <End Role="handles" EntitySet="handles" />
+            <End Role="threads" EntitySet="threads" />
+          </AssociationSet>
+          <AssociationSet Name="FKtoHandleId" Association="selfiesModel.Store.FKtoHandleId">
+            <End Role="handles" EntitySet="handles" />
+            <End Role="threads" EntitySet="threads" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="followers">
           <Key>
@@ -65,10 +73,11 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="fromHandleId" Type="varchar" MaxLength="45" />
-          <Property Name="toHandleId" Type="varchar" MaxLength="45" />
+          <Property Name="fromHandleId" Type="int" Nullable="false" />
+          <Property Name="toHandleId" Type="int" Nullable="false" />
           <Property Name="groupKey" Type="varchar" MaxLength="45" />
           <Property Name="startDate" Type="datetime" />
+          <Property Name="active" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FKfolloweeId">
           <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
@@ -94,6 +103,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKfromHandleId">
+          <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
+          <End Role="threads" Type="selfiesModel.Store.threads" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="threads">
+              <PropertyRef Name="fromHandleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKtoHandleId">
+          <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
+          <End Role="threads" Type="selfiesModel.Store.threads" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="threads">
+              <PropertyRef Name="toHandleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -102,7 +135,6 @@
           <EntitySet Name="selfies" EntityType="selfiesModel.selfy" />
           <EntitySet Name="handles" EntityType="selfiesModel.handle" />
           <EntitySet Name="messages" EntityType="selfiesModel.message" />
-          <EntitySet Name="threads" EntityType="selfiesModel.thread" />
           <EntitySet Name="followers" EntityType="selfiesModel.follower" />
           <AssociationSet Name="FKfolloweeId" Association="selfiesModel.FKfolloweeId">
             <End Role="handle" EntitySet="handles" />
@@ -111,6 +143,15 @@
           <AssociationSet Name="FKfollowerId" Association="selfiesModel.FKfollowerId">
             <End Role="handle" EntitySet="handles" />
             <End Role="follower" EntitySet="followers" />
+          </AssociationSet>
+          <EntitySet Name="threads" EntityType="selfiesModel.thread" />
+          <AssociationSet Name="FKfromHandleId" Association="selfiesModel.FKfromHandleId">
+            <End Role="handle" EntitySet="handles" />
+            <End Role="thread" EntitySet="threads" />
+          </AssociationSet>
+          <AssociationSet Name="FKtoHandleId" Association="selfiesModel.FKtoHandleId">
+            <End Role="handle" EntitySet="handles" />
+            <End Role="thread" EntitySet="threads" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="selfy">
@@ -144,16 +185,6 @@
           <Property Type="String" Name="selfieId" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="sentDate" />
         </EntityType>
-        <EntityType Name="thread">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="fromHandleId" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="toHandleId" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="groupKey" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="startDate" />
-        </EntityType>
         <EntityType Name="follower">
           <Key>
             <PropertyRef Name="id" />
@@ -186,6 +217,43 @@
             </Principal>
             <Dependent Role="follower">
               <PropertyRef Name="followerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="thread">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="fromHandleId" Nullable="false" />
+          <Property Type="Int32" Name="toHandleId" Nullable="false" />
+          <Property Type="String" Name="groupKey" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="startDate" />
+          <Property Type="Int32" Name="active" Nullable="false" />
+          <NavigationProperty Name="fromHandle" Relationship="selfiesModel.FKfromHandleId" FromRole="thread" ToRole="handle" />
+          <NavigationProperty Name="toHandle" Relationship="selfiesModel.FKtoHandleId" FromRole="thread" ToRole="handle" />
+        </EntityType>
+        <Association Name="FKfromHandleId">
+          <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
+          <End Type="selfiesModel.thread" Role="thread" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handle">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="thread">
+              <PropertyRef Name="fromHandleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKtoHandleId">
+          <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
+          <End Type="selfiesModel.thread" Role="thread" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handle">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="thread">
+              <PropertyRef Name="toHandleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -229,23 +297,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="threads">
-            <EntityTypeMapping TypeName="selfiesModel.thread">
-              <MappingFragment StoreEntitySet="threads">
-                <ScalarProperty Name="startDate" ColumnName="startDate" />
-                <ScalarProperty Name="groupKey" ColumnName="groupKey" />
-                <ScalarProperty Name="toHandleId" ColumnName="toHandleId" />
-                <ScalarProperty Name="fromHandleId" ColumnName="fromHandleId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="followers">
             <EntityTypeMapping TypeName="selfiesModel.follower">
               <MappingFragment StoreEntitySet="followers">
                 <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="followeeId" ColumnName="followeeId" />
                 <ScalarProperty Name="followerId" ColumnName="followerId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="threads">
+            <EntityTypeMapping TypeName="selfiesModel.thread">
+              <MappingFragment StoreEntitySet="threads">
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="groupKey" ColumnName="groupKey" />
+                <ScalarProperty Name="toHandleId" ColumnName="toHandleId" />
+                <ScalarProperty Name="fromHandleId" ColumnName="fromHandleId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
