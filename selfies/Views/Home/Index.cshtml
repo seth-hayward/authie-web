@@ -16,8 +16,8 @@
             {
                 foreach (thread thready in ViewBag.threads)
                 {
-                    <text><li><a href="@Url.Content("threads/" + thready.groupKey.Substring(0, 8))">@thready.startDate - from @thready.fromHandle.name to @thready.toHandle.name</a></li></text>
-                }                                
+                    <text><li id="li-@thready.groupKey"><a href="@Url.Content("threads/" + thready.groupKey.Substring(0, 8))">@thready.startDate - from @thready.fromHandle.name to @thready.toHandle.name</a> <a id="@thready.groupKey" class="remover" href="#">Remove</a></li></text>
+                }
             }
         </ul>
     </text>
@@ -43,3 +43,23 @@
     </text>   
 }
 
+@section Scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("a.remover").click(function () {
+            var currentId = $(this).attr('id');
+            $("#li-" + currentId).fadeOut();
+
+            $.ajax({
+                url: "@Url.Content("~/api/thread")",
+                data: { '': currentId },
+                type: 'DELETE',
+                success: function (result) {
+                    // Do something with the result
+                }
+            });
+
+        });
+    });
+</script>
+}

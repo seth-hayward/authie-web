@@ -55,7 +55,6 @@ namespace selfies.Controllers
         public RODResponseMessage Post(Snap _snap)
         {
 
-
             RODResponseMessage msg = new RODResponseMessage();
 
             if (_snap == null)
@@ -69,9 +68,8 @@ namespace selfies.Controllers
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
             handle to_handle = (from handle r in db.handles where r.publicKey == _snap.toGuid select r).FirstOrDefault();
 
-
-
             thread clean_thread = new thread();
+            clean_thread.active = 1;
             clean_thread.startDate = DateTime.UtcNow;
             clean_thread.fromHandleId = logged_in.id;
 
@@ -90,14 +88,20 @@ namespace selfies.Controllers
             return msg;
         }
 
-        public void Delete(int id)
+
+        [HttpDelete]
+        public RODResponseMessage Delete([FromBody]string s)
         {
-            thread selected = (from m in db.threads where m.id.Equals(id) select m).FirstOrDefault();
+            RODResponseMessage result = new RODResponseMessage();
+
+            thread selected = (from m in db.threads where m.groupKey.Equals(s) select m).FirstOrDefault();
 
             string user_id = User.Identity.Name;
             handle from_handle = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
-            if(selected.fromHandle.id.Equals(from_handle.id)) {
+            // only thread starter can delete for now
+            if (selected.fromHandle.id.Equals(from_handle.id))
+            {
 
                 selected.active = 0;
 
@@ -107,9 +111,17 @@ namespace selfies.Controllers
                 updated_thread.Property(e => e.active).IsModified = true;
                 db.SaveChanges();
 
+                result.result = 1;
+                result.message = "Success.";
+
+            }
+            else
+            {
+                result.result = 0;
+                result.message = "Unauthorized.";
             }
 
-
+            return result;
 
         }
     }
