@@ -100,7 +100,7 @@ namespace selfies.Controllers
             handle from_handle = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
             // only thread starter can delete for now
-            if (selected.fromHandle.id.Equals(from_handle.id))
+            if (selected.fromHandle.id.Equals(from_handle.id) || selected.toHandle.id.Equals(from_handle.id))
             {
 
                 selected.active = 0;
