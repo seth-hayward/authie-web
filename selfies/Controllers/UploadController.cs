@@ -120,6 +120,12 @@ namespace selfies.Controllers
             }
             catch (System.Exception e)
             {
+                string result = e.Message.ToString();
+                if (e.InnerException != null)
+                {
+                    result = result + " - " + e.InnerException.Message.ToString();
+                }
+
                 var response = new HttpResponseMessage()
                 {
                     Content = new StringContent(e.Message.ToString())
