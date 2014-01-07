@@ -97,6 +97,17 @@ namespace selfies.Controllers
             string user_id = User.Identity.Name;
             handle from_handle = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
+            if(selected.fromHandle.id.Equals(from_handle.id)) {
+
+                selected.active = 0;
+
+                db.threads.Attach(selected);
+                var updated_thread = db.Entry(selected);
+
+                updated_thread.Property(e => e.active).IsModified = true;
+                db.SaveChanges();
+
+            }
 
 
 

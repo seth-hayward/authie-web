@@ -12,7 +12,7 @@
     <input name="file" type="file" data-bind="event: { change: sendSnap }" />
     <input type="hidden" name="groupKey" id="groupKey" />
 </form>
-<progress></progress>
+<progress id="progress" style="display: none"></progress>
         
 </p>
 
@@ -65,6 +65,7 @@
 
         self.sendSnap = function () {
 
+            $("#progress").fadeIn('fast');
             $("#send").fadeOut('fast');
             var to_handle = self.toGuid();
 

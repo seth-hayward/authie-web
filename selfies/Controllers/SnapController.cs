@@ -25,10 +25,13 @@ namespace selfies.Controllers
                 return new HttpResponseMessage
                 ();
             }
+
             var stream = new FileStream(path, FileMode.Open);
             result.Content = new StreamContent(stream);
             result.Content.Headers.ContentType =
-                new MediaTypeHeaderValue("application/octet-stream");
+                 new MediaTypeHeaderValue("image/jpeg");            
+            result.StatusCode = HttpStatusCode.OK;
+
             return result;
         }
 

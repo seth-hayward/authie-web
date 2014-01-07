@@ -49,6 +49,11 @@ div#footer
     border-top: 1px dotted #808080;
 }
 
+div#welcome
+{
+    width: 500px;
+}
+
 span.error
 {
     display: none;
