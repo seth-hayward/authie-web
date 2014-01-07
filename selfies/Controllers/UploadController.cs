@@ -120,7 +120,11 @@ namespace selfies.Controllers
             }
             catch (System.Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+                var response = new HttpResponseMessage()
+                {
+                    Content = new StringContent(e.Message.ToString())
+                };
+                return response;
             }
         }
 
