@@ -53,11 +53,21 @@ namespace selfies.Controllers
         public RODResponseMessage Post(Snap _snap)
         {
 
+
             RODResponseMessage msg = new RODResponseMessage();
+
+            if (_snap == null)
+            {
+                msg.result = -1;
+                msg.message = "Snap was null.";
+                return msg;
+            }
 
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
             handle to_handle = (from handle r in db.handles where r.publicKey == _snap.toGuid select r).FirstOrDefault();
+
+
 
             thread clean_thread = new thread();
             clean_thread.startDate = DateTime.UtcNow;
