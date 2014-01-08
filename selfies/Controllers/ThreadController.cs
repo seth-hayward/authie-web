@@ -34,14 +34,9 @@ namespace selfies.Controllers
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
-            List<thread> threads = (from thread m in db.threads where m.toHandleId.Equals(logged_in.id) || m.fromHandleId.Equals(logged_in.id) select m).ToList();
+            List<thread> threads = (from thread m in db.threads where (m.toHandleId.Equals(logged_in.id) || m.fromHandleId.Equals(logged_in.id)) &
+                                    m.active.Equals(1) select m).ToList();
 
-            foreach(thread lx in threads) {
-                if (lx.toHandleId == 1)
-                {
-                    lx.toHandleId = 1;
-                }
-            }
             return threads;
         }
 
