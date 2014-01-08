@@ -14,7 +14,6 @@
     width: 500px;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 50px;
     margin-bottom: 5px;
     padding-bottom: 5px;
   }
@@ -44,13 +43,13 @@ div#body
 div#header
 {
     padding-top: 10px;
-    margin-top: 50px;
 }
 
 div#footer
 {
     padding-top: 10px;
     margin-top: 50px;
+    margin-bottom: 40px;
     width: 100%;
     text-align: center;
     border-top: 1px dotted #808080;
