@@ -3,13 +3,13 @@
     overflow-y: scroll;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 530px) {
   div#container {
     width: 100%;
   }
 }
 
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 530px) {
   div#container {
     width: 500px;
     margin-right: auto;
@@ -21,6 +21,7 @@
 }
 
 body {
+    margin: 0px;
 }
 
 div#logo
