@@ -105,6 +105,7 @@ add new contact: <input type="text" id="handle" /><button data-bind="click: subm
 
     function display_errors(err) {
         $("#add_results").html(err).fadeIn();
+        $("#add_contact").fadeIn('fast');
     }
 
     ko.applyBindings(new ContactsViewModel());
