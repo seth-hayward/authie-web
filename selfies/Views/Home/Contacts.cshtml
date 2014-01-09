@@ -36,6 +36,7 @@ add new contact: <input type="text" id="handle" /><button data-bind="click: subm
 
         self.loadContacts = function () {
             self.doneLoading = false;
+
             self.contacts.removeAll();
 
             $.get("@Url.Content("~/api/follower")", function (data, status) {
@@ -44,9 +45,6 @@ add new contact: <input type="text" id="handle" /><button data-bind="click: subm
                     $.each(data, function (i, item) {
                         self.contacts.push(item);
                     });
-                } else {
-                    self.contacts = ko.observableArray([]);
-                    //alert('oh');
                 }
 
             });
