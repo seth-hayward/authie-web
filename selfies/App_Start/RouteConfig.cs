@@ -38,6 +38,18 @@ namespace selfies
             );
 
             routes.MapRoute(
+                name: "InviteRoute",
+                url: "invite",
+                defaults: new { controller = "Home", action = "Invite" }
+            );
+
+            routes.MapRoute(
+                name: "PrivateKeyRoute",
+                url: "key",
+                defaults: new { controller = "Home", action = "PrivateKey" }
+            );
+
+            routes.MapRoute(
                 name: "ContactsRoute",
                 url: "contacts",
                 defaults: new { controller = "Home", action = "Contacts" }
