@@ -70,8 +70,9 @@ div#login ul
 
 div#login ul li
 {
+    text-align:right;
     float: left;
-    padding-right: 10px;
+    padding-left: 10px;
 }
 
 ul#footerLeft
