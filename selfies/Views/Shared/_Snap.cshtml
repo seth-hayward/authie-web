@@ -7,7 +7,11 @@
     </p>
 
     <p class="snapNavRight">
-        <a id="@Model.groupKey" class="remover" href="#">Remove</a>
+
+        @if (Model.fromHandle.publicKey == ViewBag.handle.publicKey || Model.toHandle.publicKey == ViewBag.handle.publicKey)
+        {
+            <a id="@Model.groupKey" class="remover" href="#">Remove</a>            
+        }
     </p>
     <a href="@Url.Content("~/api/snap/orig/" + Model.groupKey)"><img src="@Url.Content("~/api/snap/500/" + Model.groupKey)" /></a>
     
