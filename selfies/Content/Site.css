@@ -51,6 +51,7 @@ div#footer
     width: 100%;
     text-align: center;
     border-top: 1px dotted #808080;
+    clear: both;
 }
 
 span.error
@@ -79,6 +80,7 @@ ul#footerLeft
     -webkit-padding-start: 0px;
     float: left;
     margin-top: 0px;
+    clear: both;
 }
 
 ul#footerRight
@@ -98,4 +100,16 @@ div#footer ul li
 div#edit_tagline
 {
     width: 100%;
+}
+
+
+p.snapNavLeft
+{
+    float: left;
+    clear: both;
+}
+
+p.snapNavRight
+{
+    float: right;
 }

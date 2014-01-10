@@ -1,4 +1,15 @@
 ﻿@model selfies.Models.thread
 
-<p>to <b>@Model.toHandle.name</b>, from <b>@Model.fromHandle.name</b></p>            
-<a href="@Url.Content("~/api/snap/orig/" + Model.groupKey)"><img src="@Url.Content("~/api/snap/500/" + Model.groupKey)" /></a>
+<div id="snap-@Model.groupKey">
+
+    <p class="snapNavLeft">
+    to @Model.toHandle.name, from @Model.fromHandle.name
+    </p>
+
+    <p class="snapNavRight">
+        <a id="@Model.groupKey" class="remover" href="#">Remove</a>
+    </p>
+    <a href="@Url.Content("~/api/snap/orig/" + Model.groupKey)"><img src="@Url.Content("~/api/snap/500/" + Model.groupKey)" /></a>
+    
+</div>
+
