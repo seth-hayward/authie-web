@@ -7,19 +7,17 @@
         <p>
             threads
         </p>
-        <ul>
             @if (ViewBag.threads.Count == 0)
             {
-                <text><li>no threads yet, <a href="@Url.Content("~/send")">send one</a></li></text>
+                <text><ul><li>no threads yet, <a href="@Url.Content("~/send")">send one</a></li></ul></text>
             }
             else                
             {
                 foreach (thread thready in ViewBag.threads)
                 {
-                    <text><li id="li-@thready.groupKey"><a href="@Url.Content("threads/" + thready.groupKey.Substring(0, 8))">@thready.startDate - from @thready.fromHandle.name to @thready.toHandle.name</a> <a id="@thready.groupKey" class="remover" href="#">Remove</a></li></text>
+                    @Html.Partial("_Snap", thready);
                 }
             }
-        </ul>
     </text>
             
 } else {

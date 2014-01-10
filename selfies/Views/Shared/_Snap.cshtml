@@ -1,0 +1,4 @@
+﻿@model selfies.Models.thread
+
+<p>to <b>@Model.toHandle.name</b>, from <b>@Model.fromHandle.name</b></p>            
+<a href="@Url.Content("~/api/snap/orig/" + Model.groupKey)"><img src="@Url.Content("~/api/snap/500/" + Model.groupKey)" /></a>
