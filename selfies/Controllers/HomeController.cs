@@ -121,6 +121,15 @@ namespace selfies.Controllers
             return View();
         }
 
+        public ActionResult Daily()
+        {
+            string user_id = User.Identity.Name;
+            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+            ViewBag.handle = logged_in;
+
+            return View();
+        }
+
         public ActionResult Contacts()
         {
 
