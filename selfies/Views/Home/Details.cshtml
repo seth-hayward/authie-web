@@ -4,10 +4,13 @@
     ViewBag.Title = "chillfeed";
 }
 
-<div>
+<p class="profileLeft">
     <b>@ViewBag.selectedHandle.name</b>
-</div>
-<div id="edit_tagline" @if (ViewBag.addEdit == true) { @Html.Raw("class='edit'"); }>@ViewBag.selectedHandle.tagLine</div>
+</p>
+
+<p class="profileRight">
+    <span id="edit_tagline" @if (ViewBag.addEdit == true) { @Html.Raw("class='edit'"); }>@ViewBag.selectedHandle.tagLine</span>
+</p>
 
 
     @if (Model.Count == 0)

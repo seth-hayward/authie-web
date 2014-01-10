@@ -96,13 +96,6 @@ div#footer ul li
     padding-right: 10px;
 }
 
-
-div#edit_tagline
-{
-    width: 100%;
-}
-
-
 p.snapNavLeft
 {
     float: left;
@@ -112,4 +105,19 @@ p.snapNavLeft
 p.snapNavRight
 {
     float: right;
+}
+
+span#edit_tagline
+{
+}
+
+p.profileLeft
+{
+    float: left;
+}
+
+p.profileRight
+{
+    float: right;
+    text-align: right;
 }
