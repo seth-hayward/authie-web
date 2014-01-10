@@ -73,6 +73,28 @@ div#login ul li
     padding-right: 10px;
 }
 
+ul#footerLeft
+{
+    list-style-type: none;
+    -webkit-padding-start: 0px;
+    float: left;
+    margin-top: 0px;
+}
+
+ul#footerRight
+{
+    list-style-type: none;
+    -webkit-padding-start: 0px;
+    float: right;
+    margin-top: 0px;}
+
+div#footer ul li
+{
+    float: left;
+    padding-right: 10px;
+}
+
+
 div#edit_tagline
 {
     width: 100%;
