@@ -8,7 +8,7 @@
 
     <p class="snapNavRight">
 
-        @if (Model.fromHandle.publicKey == ViewBag.handle.publicKey || Model.toHandle.publicKey == ViewBag.handle.publicKey)
+        @if (ViewBag.handle != null && (Model.fromHandle.publicKey == ViewBag.handle.publicKey || Model.toHandle.publicKey == ViewBag.handle.publicKey))
         {
             <a id="@Model.groupKey" class="remover" href="#">Remove</a>            
         }
