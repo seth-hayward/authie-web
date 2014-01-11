@@ -34,7 +34,16 @@ namespace selfies.Controllers
         // GET api/values
         public IEnumerable<handle> Get()
         {
-            return (from m in db.handles where m.active.Equals(1) select m).ToList();
+            if (User.IsInRole("mod"))
+            {
+                return (from m in db.handles where m.active == 1 select m).ToList();
+            }
+            else
+            {
+                string user_id = User.Identity.Name;
+                handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+                return new List<handle> { logged_in };
+            }
         }
 
         // GET api/values/5
