@@ -128,6 +128,8 @@ namespace selfies.Controllers
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
             ViewBag.handle = logged_in;
 
+            ViewBag.privateKey = logged_in.privateKey.Substring(0, 5);
+
             return View();
         }
 
