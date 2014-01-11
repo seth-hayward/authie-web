@@ -83,7 +83,8 @@ namespace selfies.Controllers
 
             if (logged_in != null)
             {
-                List<thread> threads = (from thread m in db.threads where m.active.Equals(1) && (m.toHandleId.Equals(logged_in.id) || m.fromHandleId.Equals(logged_in.id)) select m).Reverse().ToList();
+                List<thread> threads = (from thread m in db.threads where m.active.Equals(1) && (m.toHandleId.Equals(logged_in.id) || m.fromHandleId.Equals(logged_in.id)) select m).ToList();
+                threads.Reverse();
                 ViewBag.threads = threads;
             }
 
