@@ -40,6 +40,19 @@ namespace selfies.Controllers
             return threads;
         }
 
+        // without parameters, return all threads to and from the current user
+        public List<thread> Get(string publicKey)
+        {
+            string user_id = User.Identity.Name;
+            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+
+            List<thread> threads = (from thread m in db.threads
+                                    where (m.fromHandle.publicKey.Equals(publicKey) &
+                                        m.active.Equals(1))
+                                    select m).ToList();
+            return threads;
+        }
+
         public thread Get(int id)
         {
             thread selected = (from m in db.threads where m.id.Equals(id) select m).FirstOrDefault();
