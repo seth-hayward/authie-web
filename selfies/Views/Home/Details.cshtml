@@ -5,10 +5,7 @@
 }
 
 <p class="profileLeft">
-    <b>@ViewBag.selectedHandle.name</b>
-</p>
-
-<p class="profileRight">
+    <b>@ViewBag.selectedHandle.name</b> <br />
     <span id="edit_tagline" @if (ViewBag.addEdit == true) { @Html.Raw("class='edit'"); }>@ViewBag.selectedHandle.tagLine</span>
 </p>
 
