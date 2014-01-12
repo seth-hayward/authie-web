@@ -3,3 +3,55 @@
 }
 
 <p>invite someone to authie.</p>
+
+<p>email: <br />
+    <input type="text" id="email" />
+</p>
+
+<p>
+    add a message, so they won't think it's spam: <br />
+    <textarea id="message"></textarea>
+</p>
+
+<p>
+    <input type="button" id="sendInvite" value="send invite" />
+</p>
+
+<p>
+    <span id="results"></span>
+</p>
+
+@section Scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#sendInvite").click(function () {
+            var currentId = $(this).attr('id');
+            $("#sendInvite").fadeOut();
+
+            var invite =
+                {
+                    email: $("#email").val(),
+                    message: $("#message").val(),
+                    handle: "@ViewBag.handle.name"
+                };
+
+
+            $.ajax({
+                url: "@Url.Content("~/api/invite")",
+                data: invite,
+                type: 'POST',
+                success: function (result) {
+                    // Do something with the result
+
+                    if (result.result == 0) {
+                        $("#sendInvite").fadeIn();
+                    }
+
+                    $("#results").html(result.message);
+                }
+            });
+
+        });
+    });
+</script>
+}

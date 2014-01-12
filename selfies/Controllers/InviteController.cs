@@ -21,8 +21,15 @@ namespace selfies.Controllers
 
         public RODResponseMessage Post(Invite invite)
         {
-            SendInvite(invite.message, invite.email, invite.handle);
-            return new RODResponseMessage { result = 0, message = "Not implemented yet" };
+            if (invite.email != null)
+            {
+                SendInvite(invite.message, invite.email, invite.handle);
+                return new RODResponseMessage { result = 1, message = "Invite sent. Thanks!" };
+            }
+            else
+            {
+                return new RODResponseMessage { result = 0, message = "Please enter an email address." };
+            }
         }
 
         public void SendInvite(string message, string email_address, string from_handle)
@@ -37,7 +44,7 @@ namespace selfies.Controllers
             string email = "hey, \n\n";
             email = email + "you have been invited to join authie! \n\n";
             email = email + "someone with " + 
-                "the handle '" + from_handle + "', thought you would like it -- so " + 
+                "the handle '" + from_handle + "' thought you would like it -- so " + 
                 "check us out, maybe? \n";
             email = email + "http://authie.me \n\n";
             email = email + "they included this message: \n";
