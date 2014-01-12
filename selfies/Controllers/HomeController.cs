@@ -122,6 +122,11 @@ namespace selfies.Controllers
             return View();
         }
 
+        public ActionResult Login()
+        {
+            return View();
+        }
+
         public ActionResult PrivateKey()
         {
             string user_id = User.Identity.Name;

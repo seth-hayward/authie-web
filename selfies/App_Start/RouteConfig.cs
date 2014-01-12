@@ -62,6 +62,12 @@ namespace selfies
             );
 
             routes.MapRoute(
+                name: "LoginRoute",
+                url: "login",
+                defaults: new { controller = "Home", action = "Login" }
+            );
+
+            routes.MapRoute(
                 name: "UploadRoute",
                 url: "upload/{guid}",
                 defaults: new { controller = "Home", action = "UploadSnap" }

@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<div id="loginBox">
+
+    <p>handle: <br />
+    <input type="text" id="handle" />
+    </p>
+    <p>
+        private key: <br />
+        <input type="text" id="key" />
+    </p>
+    <p><input type="button" id="loginButton" value="login" /></p>
+
+    <p>
+        <span class="error"></span>
+    </p>
+
+</div>
+
+
+@section Scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#loginButton").click(function () {
+
+            display_errors("in the a, in the a");
+
+        });
+
+
+        function display_errors(err) {
+            $("span.error").html(err).fadeIn();
+            $("#loginButton").fadeIn();
+        }
+
+    });
+</script>
+}

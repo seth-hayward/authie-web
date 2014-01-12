@@ -122,3 +122,24 @@ p.profileRight
     float: right;
     text-align: right;
 }
+
+div#loginBox
+{
+    margin-top: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 40px;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-bottom: 40px;
+
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px dotted black;
+}
+
+    div#loginBox input
+    {
+        width: 100%;
+    }
