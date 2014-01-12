@@ -12,6 +12,23 @@ namespace selfies.Controllers
     public class LoginController : ApiController
     {
 
+        private selfiesMySQL _db;
+        public selfiesMySQL db
+        {
+            get
+            {
+                if (_db == null)
+                {
+                    _db = new selfiesMySQL();
+                }
+                return _db;
+            }
+            set
+            {
+                _db = value;
+            }
+        }
+
         // return login status
         // GET api/login
         public RODResponseMessage Get()
@@ -36,13 +53,25 @@ namespace selfies.Controllers
         {
 
             RODResponseMessage msg = new RODResponseMessage();
-            if(Membership.ValidateUser(login.publicKey, login.privateKey)) {
-                FormsAuthentication.SetAuthCookie(login.publicKey, true);
+
+            if (login.privateKey.Length <= 4)
+            {
+                msg.result = 0;
+                msg.message = "Unable to login. Please re-type your private key (case sensitive.)";
+                return msg;
+            }
+
+            handle og = (from m in db.handles
+                         where m.name == login.name.ToLower() && m.active == 1 && m.privateKey.StartsWith(login.privateKey)
+                         select m).FirstOrDefault();            
+            
+            if(og != null && Membership.ValidateUser(og.publicKey, og.privateKey)) {
+                FormsAuthentication.SetAuthCookie(og.publicKey, true);
                 msg.result = 1;
                 msg.message = "Welcome.";
             } else {
                 msg.result = 0;
-                msg.message = "Unable to login.";
+                msg.message = "Unable to login. Please re-type your private key (case sensitive.)";
             }
 
             return msg;

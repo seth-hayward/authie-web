@@ -26,7 +26,35 @@
 
         $("#loginButton").click(function () {
 
-            display_errors("in the a, in the a");
+            var nick = $("#handle").val();
+            var key = $("#key").val();
+            var handle = { id: 1, name: nick, active: 1, userGuid: "lol", privateKey: key };
+
+            // Send the data using post
+            var posting = $.post("@Url.Content("/api/login")", handle);
+
+            $("#loginButton").fadeOut();
+
+            // Put the results in a div
+            posting.done(function (data) {
+
+                switch (data.result) {
+                    case 0:
+                        $("#loginButton").fadeIn('fast');
+                        $("span.error").html(data.message).fadeIn();
+                        break;
+                    case 1:
+                        // success
+                        window.location = "@Url.Content("~/")";
+                            break;
+                    }
+
+                });
+
+            posting.error(function () {
+                display_errors("unable to log in due to technical error.");
+            });
+
 
         });
 
