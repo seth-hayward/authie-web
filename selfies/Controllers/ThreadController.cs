@@ -37,6 +37,8 @@ namespace selfies.Controllers
             List<thread> threads = (from thread m in db.threads where (m.toHandleId.Equals(logged_in.id) || m.fromHandleId.Equals(logged_in.id)) &
                                     m.active.Equals(1) select m).ToList();
 
+            threads.Reverse();
+
             return threads;
         }
 
