@@ -26,15 +26,14 @@ namespace selfies.Controllers
 
             string password = System.Web.Configuration.WebConfigurationManager.AppSettings["MailPassword"];
 
-            System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential("hello@selfies.io", password);
+            System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential("noreply@letterstocrushes.com", password);
 
-            string email = "hey, \n";
-            email = email + "you have been invited to join authie. someone with " + 
+            string email = "hey, \n\n";
+            email = email + "you have been invited to join authie! \n\n";
+            email = email + "someone with " + 
                 "the handle '" + from_handle + "', thought you would like it -- so " + 
                 "check us out, maybe? \n";
-            email = email + "http://authie.me \n";
-            email = email + "\n";
-            email = email + "\n";
+            email = email + "http://authie.me \n\n";
             email = email + "they included this message: \n";
             email = email + message + "\n\n";
             email = email + "<3, the authie team";
