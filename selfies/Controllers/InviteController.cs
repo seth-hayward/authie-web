@@ -15,7 +15,6 @@ namespace selfies.Controllers
 
         public RODResponseMessage Get()
         {
-            SendInvite("Hey.", "seth.hayward@gmail.com", "seth");
             return new RODResponseMessage { result = 0, message = "Not implemented yet" };
         }
 
