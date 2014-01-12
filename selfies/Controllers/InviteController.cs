@@ -15,22 +15,35 @@ namespace selfies.Controllers
 
         public RODResponseMessage Get()
         {
+            SendInvite("Hey.", "seth.hayward@gmail.com", "seth");
             return new RODResponseMessage { result = 0, message = "Not implemented yet" };
         }
 
-        public void SendContact(string message_body, string email_address)
+        public void SendInvite(string message, string email_address, string from_handle)
         {
             MailMessage Message = new MailMessage();
             SmtpClient Smtp = new SmtpClient();
-            System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential("noreply@letterstocrushes.com", l_mail_password);
 
-            message_body = "<html><head></head><body>" + message_body + "</body></html>";
+            string password = System.Web.Configuration.WebConfigurationManager.AppSettings["MailPassword"];
 
-            Message.From = new MailAddress("noreply@letterstocrushes.com");
-            Message.To.Add(new MailAddress("seth.hayward@gmail.com"));
-            Message.IsBodyHtml = true;
-            Message.Subject = "feedback: " + email_address;
-            Message.Body = message_body;
+            System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential("hello@selfies.io", password);
+
+            string email = "hey, \n";
+            email = email + "you have been invited to join authie. someone with " + 
+                "the handle '" + from_handle + "', thought you would like it -- so " + 
+                "check us out, maybe? \n";
+            email = email + "http://authie.me \n";
+            email = email + "\n";
+            email = email + "\n";
+            email = email + "they included this message: \n";
+            email = email + message + "\n\n";
+            email = email + "<3, the authie team";
+
+            Message.From = new MailAddress("hello@selfies.io");
+            Message.To.Add(new MailAddress(email_address));
+            Message.IsBodyHtml = false;
+            Message.Subject = "Check out authie";
+            Message.Body = email;
             Message.Priority = MailPriority.Normal;
             Smtp.EnableSsl = false;
 
@@ -38,9 +51,6 @@ namespace selfies.Controllers
             Smtp.Host = "198.57.199.92";
             Smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             Smtp.Port = 26;
-
-            List<string> ignore_phrases = new List<string>();
-            ignore_phrases.Add("url=http:");
 
             Smtp.Send(Message);
         }
