@@ -21,7 +21,8 @@ namespace selfies.Controllers
 
         public RODResponseMessage Post(Invite invite)
         {
-
+            SendInvite(invite.message, invite.email, invite.handle);
+            return new RODResponseMessage { result = 0, message = "Not implemented yet" };
         }
 
         public void SendInvite(string message, string email_address, string from_handle)
