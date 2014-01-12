@@ -29,10 +29,10 @@ namespace selfies
         protected void Application_BeginRequest()
         {
             string currentUrl = HttpContext.Current.Request.Url.ToString().ToLower();
-            if (currentUrl.StartsWith("http://www.selfies.io"))
+            if (currentUrl.StartsWith("http://www.authie.me"))
             {
                 Response.Status = "301 Moved Permanently";
-                Response.AddHeader("Location", currentUrl.Replace("http://www.selfies.io", "http://selfies.io"));
+                Response.AddHeader("Location", currentUrl.Replace("http://www.authie.me", "http://authie.me"));
                 Response.End();
             }
         }
