@@ -11,6 +11,8 @@ packages/*
 selfies/App_Data/
 selfies/snaps/*
 
+selfies/Web.config
+
 # Build results
 
 [Dd]ebug/
