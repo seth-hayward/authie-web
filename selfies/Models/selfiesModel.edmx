@@ -78,6 +78,10 @@
           <Property Name="groupKey" Type="varchar" MaxLength="45" />
           <Property Name="startDate" Type="datetime" />
           <Property Name="active" Type="int" Nullable="false" />
+          <Property Name="caption" Type="varchar" MaxLength="255" />
+          <Property Name="authorizeRequest" Type="int" />
+          <Property Name="toHandleSeen" Type="int" />
+          <Property Name="hearts" Type="int" />
         </EntityType>
         <Association Name="FKfolloweeId">
           <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
@@ -232,6 +236,10 @@
           <Property Type="Int32" Name="active" Nullable="false" />
           <NavigationProperty Name="fromHandle" Relationship="selfiesModel.FKfromHandleId" FromRole="thread" ToRole="handle" />
           <NavigationProperty Name="toHandle" Relationship="selfiesModel.FKtoHandleId" FromRole="thread" ToRole="handle" />
+          <Property Type="String" Name="caption" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="authorizeRequest" />
+          <Property Type="Int32" Name="toHandleSeen" />
+          <Property Type="Int32" Name="hearts" />
         </EntityType>
         <Association Name="FKfromHandleId">
           <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
@@ -310,6 +318,10 @@
           <EntitySetMapping Name="threads">
             <EntityTypeMapping TypeName="selfiesModel.thread">
               <MappingFragment StoreEntitySet="threads">
+                <ScalarProperty Name="hearts" ColumnName="hearts" />
+                <ScalarProperty Name="toHandleSeen" ColumnName="toHandleSeen" />
+                <ScalarProperty Name="authorizeRequest" ColumnName="authorizeRequest" />
+                <ScalarProperty Name="caption" ColumnName="caption" />
                 <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="startDate" ColumnName="startDate" />
                 <ScalarProperty Name="groupKey" ColumnName="groupKey" />

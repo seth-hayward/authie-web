@@ -20,6 +20,10 @@ namespace selfies.Models
         public string groupKey { get; set; }
         public Nullable<System.DateTime> startDate { get; set; }
         public int active { get; set; }
+        public string caption { get; set; }
+        public Nullable<int> authorizeRequest { get; set; }
+        public Nullable<int> toHandleSeen { get; set; }
+        public Nullable<int> hearts { get; set; }
     
         public virtual handle fromHandle { get; set; }
         public virtual handle toHandle { get; set; }
