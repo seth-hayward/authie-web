@@ -7,6 +7,8 @@
     optionsText: 'name',
     optionsValue: 'guid',
     value: $root.toGuid"></select> <br />
+    caption: <input type="text" id="caption" /> <br />
+
 
 <form enctype="multipart/form-data">
     <input name="file" type="file" data-bind="event: { change: sendSnap }" />
@@ -38,7 +40,7 @@
             self.contacts.removeAll();
             self.toContacts.removeAll();
 
-            self.toContacts.push({ name: "everyone", guid: "1" });
+            self.toContacts.push({ name: "profile", guid: "1" });
 
             $.get("@Url.Content("~/api/follower")", function (data, status) {
 
@@ -82,7 +84,10 @@
                 $("#send").fadeIn('fast');
                 return;
             }
-            var thread = { toGuid: to_handle, groupKey: group_key };
+
+            var threadCaption = $("#caption").val();
+
+            var thread = { toGuid: to_handle, groupKey: group_key, caption: threadCaption };
 
             // Send the data using post
             var posting = $.post("@Url.Content("/api/thread")", thread);

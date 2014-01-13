@@ -85,6 +85,9 @@ namespace selfies.Controllers
             clean_thread.active = 1;
             clean_thread.startDate = DateTime.UtcNow;
             clean_thread.fromHandleId = logged_in.id;
+            clean_thread.caption = _snap.caption;
+            clean_thread.authorizeRequest = 0;
+            clean_thread.hearts = 1;
 
             // should it all be organized around this group key then?
             // add new threads and messages at the same with the same
