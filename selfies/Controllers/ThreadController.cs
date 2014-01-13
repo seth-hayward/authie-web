@@ -50,7 +50,7 @@ namespace selfies.Controllers
 
             List<thread> threads = (from thread m in db.threads
                                     where (m.fromHandle.publicKey.Equals(publicKey) &
-                                        m.active.Equals(1))
+                                        m.active.Equals(1) && m.toHandleId.Equals(1))
                                     select m).ToList();
             return threads;
         }
