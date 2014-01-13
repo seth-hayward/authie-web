@@ -69,6 +69,9 @@ namespace selfies.Controllers
             ViewBag.addEdit = addEdit;
 
             List<thread> public_threads = (from thread m in db.threads where m.fromHandleId.Equals(selected_handle.id) && m.toHandleId.Equals(1) && m.active.Equals(1) select m).ToList();
+
+            public_threads.Reverse();
+
             ViewData.Model = public_threads;
 
             return View();

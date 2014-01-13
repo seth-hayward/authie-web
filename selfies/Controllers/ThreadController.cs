@@ -52,6 +52,9 @@ namespace selfies.Controllers
                                     where (m.fromHandle.publicKey.Equals(publicKey) &
                                         m.active.Equals(1) && m.toHandleId.Equals(1))
                                     select m).ToList();
+
+            threads.Reverse();
+
             return threads;
         }
 
