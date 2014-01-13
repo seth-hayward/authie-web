@@ -38,7 +38,7 @@ namespace selfies.Controllers
 
             string password = System.Web.Configuration.WebConfigurationManager.AppSettings["MailPassword"];
 
-            System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential("noreply@letterstocrushes.com", password);
+            System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential("hello@selfies.io", password);
 
             string email = "hey, \n\n";
             email = email + "you have been invited to join authie! \n\n";
