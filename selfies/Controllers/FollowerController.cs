@@ -73,7 +73,7 @@ namespace selfies.Controllers
                 //db.followers.Add(f);
                 //db.SaveChanges();
 
-                result.message = "Handle exists, please complete authorization process.";
+                result.message = to_handle.publicKey;
                 result.result = 1;
             }
 
