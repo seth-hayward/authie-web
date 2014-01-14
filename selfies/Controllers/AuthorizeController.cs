@@ -63,8 +63,8 @@ namespace selfies.Controllers
 
 
                 follower f = new follower();
-                f.followeeId = from_handle.id;
-                f.followerId = logged_in.id;
+                f.followeeId = logged_in.id;
+                f.followerId = from_handle.id;
                 f.active = 1;
                 db.followers.Add(f);
 
