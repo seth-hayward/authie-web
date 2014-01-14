@@ -91,6 +91,7 @@ namespace selfies.Controllers
             clean_thread.fromHandleId = logged_in.id;
             clean_thread.caption = _snap.caption;
             clean_thread.hearts = 1;
+            clean_thread.toHandleId = to_handle.id;
 
             //
             // check to see if the to_handle is authorized
@@ -126,7 +127,6 @@ namespace selfies.Controllers
             // group key generated on the client (like a guid)...
 
             clean_thread.groupKey = _snap.groupKey;
-            clean_thread.toHandleId = to_handle.id;
             db.threads.Add(clean_thread);
             db.SaveChanges();
 
