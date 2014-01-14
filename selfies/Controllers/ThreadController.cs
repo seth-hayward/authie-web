@@ -101,7 +101,8 @@ namespace selfies.Controllers
 
             follower confirmed_to_handle_follower = (from m in db.followers
                                                             where m.followeeId == to_handle.id &&
-                                                            m.followerId == logged_in.id
+                                                            m.followerId == logged_in.id &&
+                                                            m.active == 1
                                                             select m).FirstOrDefault();
 
             if (confirmed_to_handle_follower == null)
