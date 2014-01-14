@@ -61,11 +61,34 @@ namespace selfies.Controllers
                     return result;
                 }
 
+
                 follower f = new follower();
-                f.followeeId = logged_in.id;
-                f.followerId = from_handle.id;
+                f.followeeId = from_handle.id;
+                f.followerId = logged_in.id;
                 f.active = 1;
                 db.followers.Add(f);
+
+                // trash the old message
+
+                thread request = (from m in db.threads
+                                  where m.toHandleId.Equals(logged_in.id) &&
+                                      m.fromHandleId == from_handle.id &&
+                                      m.active == 1 &&
+                                      m.authorizeRequest == 1
+                                  select m).FirstOrDefault();
+
+                if (request != null)
+                {
+                    // it really has to exist, otherwise something
+                    // sketchy is going on
+                    request.active = 0;
+
+                    db.threads.Attach(request);
+                    var updated_request = db.Entry(request);
+
+                    updated_request.Property(e => e.active).IsModified = true;
+                }
+
                 db.SaveChanges();
 
                 result.message = "Successful add.";
