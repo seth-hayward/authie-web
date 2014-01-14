@@ -68,7 +68,7 @@ namespace selfies.Controllers
             if(og != null && Membership.ValidateUser(og.publicKey, og.privateKey)) {
                 FormsAuthentication.SetAuthCookie(og.publicKey, true);
                 msg.result = 1;
-                msg.message = "Welcome.";
+                msg.message = og.privateKey;
             } else {
                 msg.result = 0;
                 msg.message = "Unable to login. Please re-type your private key (case sensitive.)";
