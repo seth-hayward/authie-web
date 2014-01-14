@@ -28,7 +28,8 @@ namespace selfies.Controllers
             }
         }
 
-        // without parameters, return all threads to and from the current user
+        // inbox 
+        // super secret
         public List<thread> Get()
         {
             string user_id = User.Identity.Name;
@@ -42,7 +43,7 @@ namespace selfies.Controllers
             return threads;
         }
 
-        // without parameters, return all threads to and from the current user
+        // profile, 24 hour view of all public posts from this key
         public List<thread> Get(string publicKey)
         {
             string user_id = User.Identity.Name;
