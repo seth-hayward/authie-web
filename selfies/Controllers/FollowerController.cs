@@ -65,15 +65,15 @@ namespace selfies.Controllers
                     return result;
                 }
 
-                follower f = new follower();
-                f.followeeId = to_handle.id;
-                f.followerId = from_handle.id;
-                f.active = 1;
+                // DISABLED --> for now ^^
+                //follower f = new follower();
+                //f.followeeId = to_handle.id;
+                //f.followerId = from_handle.id;
+                //f.active = 1;
+                //db.followers.Add(f);
+                //db.SaveChanges();
 
-                db.followers.Add(f);
-                db.SaveChanges();
-
-                result.message = "Contact added.";
+                result.message = "Handle exists, please complete authorization process.";
                 result.result = 1;
             }
 
