@@ -54,7 +54,7 @@ namespace selfies.Controllers
 
             RODResponseMessage msg = new RODResponseMessage();
 
-            if (login.privateKey.Length <= 4)
+            if (login.publicKey.Length <= 4)
             {
                 msg.result = 0;
                 msg.message = "Unable to login. Please re-type your private key (case sensitive.)";
@@ -62,7 +62,7 @@ namespace selfies.Controllers
             }
 
             handle og = (from m in db.handles
-                         where m.name == login.name.ToLower() && m.active == 1 && m.privateKey.StartsWith(login.privateKey)
+                         where m.name == login.name.ToLower() && m.active == 1 && m.privateKey.StartsWith(login.publicKey)
                          select m).FirstOrDefault();            
             
             if(og != null && Membership.ValidateUser(og.publicKey, og.privateKey)) {
