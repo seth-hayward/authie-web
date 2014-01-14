@@ -90,8 +90,24 @@ namespace selfies.Controllers
             clean_thread.startDate = DateTime.UtcNow;
             clean_thread.fromHandleId = logged_in.id;
             clean_thread.caption = _snap.caption;
-            clean_thread.authorizeRequest = 0;
             clean_thread.hearts = 1;
+
+            //
+            // check to see if the to_handle is authorized
+            // to make the send, if they are not, then this is
+            // an authorization request. 
+            //
+            clean_thread.authorizeRequest = 0;
+
+            follower confirmed_to_handle_follower = (from m in db.followers
+                                                            where m.followeeId == to_handle.id &&
+                                                            m.followerId == logged_in.id
+                                                            select m).FirstOrDefault();
+
+            if (confirmed_to_handle_follower == null)
+            {
+                clean_thread.authorizeRequest = 1;
+            }
 
             // should it all be organized around this group key then?
             // add new threads and messages at the same with the same
