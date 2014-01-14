@@ -123,6 +123,11 @@ p.profileRight
     text-align: right;
 }
 
+div#snapHolder
+{
+    clear: both;
+}
+
 div#loginBox
 {
     margin-top: 60px;

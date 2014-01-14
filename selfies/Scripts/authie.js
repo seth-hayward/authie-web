@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
 
+    $("abbr.timeago").timeago();
+
     $("a.remover").click(function () {
         var currentId = $(this).attr('id');
         $("#snap-" + currentId).fadeOut();

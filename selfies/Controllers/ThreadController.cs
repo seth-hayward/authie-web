@@ -49,8 +49,11 @@ namespace selfies.Controllers
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
+            DateTime cutoff = DateTime.Today.AddDays(-1);
+
             List<thread> threads = (from thread m in db.threads
-                                    where (m.fromHandle.publicKey.Equals(publicKey) &
+                                    where (m.fromHandle.publicKey.Equals(publicKey) &&
+                                        m.startDate >= cutoff &&
                                         m.active.Equals(1) && m.toHandleId.Equals(1))
                                     select m).ToList();
 

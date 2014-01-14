@@ -1,13 +1,24 @@
 ﻿@model selfies.Models.thread
 
-<div id="snap-@Model.groupKey">
+<div class="snapHolder" id="snap-@Model.groupKey">
 
     <p class="snapNavLeft">
-    to @Model.toHandle.name, from @Model.fromHandle.name <br />
-        @Model.caption
+
+        @if(Model.toHandleId.Equals(1)) {
+            <text>profile snap<br /></text>
+        } else {
+            <text>to @Model.toHandle.name, from @Model.fromHandle.name <br /></text>           
+        }
+        <b>@Model.caption</b>
+
+    </p>
+
+    <p>
     </p>
 
     <p class="snapNavRight">
+
+        <abbr class="timeago" title="@Model.startDate.Value.ToString("s")"></abbr>
 
         @if (ViewBag.handle != null && (Model.fromHandle.publicKey == ViewBag.handle.publicKey || Model.toHandle.publicKey == ViewBag.handle.publicKey))
         {
