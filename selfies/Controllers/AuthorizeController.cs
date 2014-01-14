@@ -40,7 +40,7 @@ namespace selfies.Controllers
             // an authorization request sent to THEM, so they need
             // to get the handle of the sender (From handle)
 
-            handle from_handle = (from m in db.handles where m.name == s && m.active == 1 select m).FirstOrDefault();
+            handle from_handle = (from m in db.handles where m.publicKey == s && m.active == 1 select m).FirstOrDefault();
             if (from_handle == null)
             {
                 result.result = 0;
