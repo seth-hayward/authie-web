@@ -39,6 +39,7 @@ namespace selfies.Controllers
             return View();
         }
 
+        // profile
         public ActionResult Details(string handle)
         {
 
@@ -68,7 +69,14 @@ namespace selfies.Controllers
 
             ViewBag.addEdit = addEdit;
 
-            List<thread> public_threads = (from thread m in db.threads where m.fromHandleId.Equals(selected_handle.id) && m.toHandleId.Equals(1) && m.active.Equals(1) select m).ToList();
+            DateTime cutoff = DateTime.Today.AddDays(-1);
+
+
+            List<thread> public_threads = (from thread m in db.threads where
+                                               m.fromHandleId.Equals(selected_handle.id) &&
+                                               m.toHandleId.Equals(1) &&
+                                               m.startDate >= cutoff &&
+                                               m.active.Equals(1) select m).ToList();
 
             public_threads.Reverse();
 
@@ -77,6 +85,7 @@ namespace selfies.Controllers
             return View();
         }
 
+        // inbox
         public ActionResult Index()
         {
             string user_id = User.Identity.Name;
