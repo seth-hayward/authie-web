@@ -99,15 +99,26 @@ namespace selfies.Controllers
             //
             clean_thread.authorizeRequest = 0;
 
-            follower confirmed_to_handle_follower = (from m in db.followers
-                                                            where m.followeeId == to_handle.id &&
-                                                            m.followerId == logged_in.id &&
-                                                            m.active == 1
-                                                            select m).FirstOrDefault();
+            //
+            // we don't need to do this check if this is for
+            // toHandleId = 1 or toHandleId = 2 (snaps sent
+            // to profile and the daily)
+            //
 
-            if (confirmed_to_handle_follower == null)
+            if (clean_thread.toHandleId != 1 && clean_thread.toHandleId != 2)
             {
-                clean_thread.authorizeRequest = 1;
+
+                follower confirmed_to_handle_follower = (from m in db.followers
+                                                         where m.followeeId == to_handle.id &&
+                                                         m.followerId == logged_in.id &&
+                                                         m.active == 1
+                                                         select m).FirstOrDefault();
+
+                if (confirmed_to_handle_follower == null)
+                {
+                    clean_thread.authorizeRequest = 1;
+                }
+
             }
 
             // should it all be organized around this group key then?
