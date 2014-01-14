@@ -18,7 +18,7 @@
 
     <p class="snapNavRight">
 
-        <abbr class="timeago" title="@Model.startDate.Value.ToString("s")"></abbr>
+        <abbr class="timeago" title="@Model.startDate.Value.ToString("s")Z"></abbr>
 
         @if (ViewBag.handle != null && (Model.fromHandle.publicKey == ViewBag.handle.publicKey || Model.toHandle.publicKey == ViewBag.handle.publicKey))
         {
