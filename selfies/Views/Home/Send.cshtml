@@ -47,7 +47,6 @@
 
                 if (data.length > 0) {
                     $.each(data, function (i, item) {
-                        console.log(item);
                         self.contacts.push(item);
 
                         self.toContacts.push({ name: item.followeeHandle.name, guid: item.followeeHandle.publicKey });

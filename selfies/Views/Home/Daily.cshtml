@@ -4,4 +4,54 @@
 
 <p><u>The Daily</u></p>
 
-<p>Deploying soon.</p>
+<div id="daily">
+
+    <ul data-bind="foreach: dailyThread">
+        <li data-bind="text: groupKey"></li>
+    </ul>
+
+</div>
+
+@section Scripts {
+<script type="text/javascript">
+
+    function DailyViewModel() {
+        var self = this;
+
+        console.log('hey');
+
+        self.dailyThread = ko.observableArray([]);
+
+        self.loadDaily = function () {
+
+            console.log('call');
+
+            $.get("@Url.Content("~/api/daily")", function (data, status) {
+
+                console.log('ok');
+
+                if (data.length > 0) {
+
+                    $.each(data, function (i, item) {
+                        self.dailyThread.push(item);
+                        console.log(item);
+                    });
+
+                } else {
+                    $("daily").html("No daily threads.");
+                }
+
+            });
+
+
+        }
+
+        // init load
+        self.loadDaily();
+
+    }
+
+    ko.applyBindings(new DailyViewModel());
+
+</script>
+}
