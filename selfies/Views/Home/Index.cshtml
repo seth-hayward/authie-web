@@ -32,7 +32,17 @@
                             </div>
 
                             <div class="inboxText">
-                                <a href="@Url.Content("~/threads/" + thready.groupKey)"> from: @thready.fromHandle.name, to @thready.toHandle.name</a>
+                                <a href="@Url.Content("~/threads/" + thready.groupKey)"> from: @thready.fromHandle.name, to @thready.toHandle.name</a> <br />
+                                <abbr class="timeago" title="@thready.startDate.Value.ToString("s")Z"></abbr>
+                            </div>
+
+                            <div class="inboxControls">
+
+                                @if (ViewBag.handle != null && (thready.fromHandle.publicKey == ViewBag.handle.publicKey || thready.toHandle.publicKey == ViewBag.handle.publicKey))
+                                {
+                                    <a id="@thready.groupKey" class="remover" href="#">Remove</a>            
+                                }
+
                             </div>
 
                     </li>
