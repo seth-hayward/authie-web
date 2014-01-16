@@ -21,16 +21,15 @@
                     
                 <text>
                     <li>
-                        <div class="inboxLine">
 
-                            <img class="lock" src="@Url.Content("~/Images/lock.png")" />
 
-                            <span class="inboxText">
+                            <div class="inboxImage">
+                                <img class="lock" src="@Url.Content("~/Images/lock.png")" />
+                            </div>
+
+                            <div class="inboxText">
                                 <a href="@Url.Content("~/threads/" + thready.groupKey)"> from: @thready.fromHandle.name, to @thready.toHandle.name</a>
-
-                            </span>
-
-                        </div>
+                            </div>
 
                     </li>
                 </text>
