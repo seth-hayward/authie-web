@@ -41,6 +41,7 @@
             self.toContacts.removeAll();
 
             self.toContacts.push({ name: "profile", guid: "1" });
+            self.toContacts.push({ name: "the daily", guid: "2" });
 
             $.get("@Url.Content("~/api/follower")", function (data, status) {
 

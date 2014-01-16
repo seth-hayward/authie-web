@@ -198,6 +198,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthorizeController.cs" />
     <Compile Include="Controllers\CheckHandleController.cs" />
+    <Compile Include="Controllers\DailyController.cs" />
     <Compile Include="Controllers\FollowerController.cs" />
     <Compile Include="Controllers\HandleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
