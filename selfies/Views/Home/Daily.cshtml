@@ -13,6 +13,10 @@
             <span data-bind="text: caption"></span>            
         </p>
 
+        <p class="snapNavRight" data-bind="click: $parent.giveLove">
+            <a href="#"><span data-bind="text: hearts"></span></a> <img src="@Url.Content("~/Images/heart.png")" />
+        </p>
+
     </div>
 
     <img data-bind="attr: { src: groupKey }" />
@@ -27,6 +31,16 @@
         var self = this;
 
         self.dailyThread = ko.observableArray([]);
+
+        self.giveLove = function (item) {
+
+            var voter = $.post("@Url.Content("~/api/heart")", item.groupKey);
+            voter.done(function (data) {
+                item.hearts = data;
+                alert(data);
+            })
+
+        }
 
         self.loadDaily = function () {
 
