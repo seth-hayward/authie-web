@@ -7,20 +7,31 @@
         <p>
             inbox
         </p>
+
+        <ul>
             @if (ViewBag.threads.Count == 0)
             {
-                <text><ul><li>no threads yet, <a href="@Url.Content("~/send")">send one</a></li></ul></text>
-            }
-            else                
+                <text><li>no threads yet, <a href="@Url.Content("~/send")">send one</a></li></text>
+            } 
+
+            @if (ViewBag.threads.Count > 0)
             {
                 foreach (thread thready in ViewBag.threads)
                 {
-                    @Html.Partial("_Snap", thready);
+                    
+                <text>
+                    <li><a href="@Url.Content("~/threads/" + thready.groupKey)"> from: @thready.fromHandle.name, to @thready.toHandle.name</a></li>
+                </text>
                 }
             }
+
+        </ul>
+
     </text>
             
-} else {
+}
+else
+{
  
     <text>
 
