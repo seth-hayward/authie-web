@@ -24,7 +24,11 @@
 
 
                             <div class="inboxImage">
-                                <img class="lock" src="@Url.Content("~/Images/lock.png")" />
+                                @if(thready.authorizeRequest.Equals(1)) {
+                                    <img src="@Url.Content("~/Images/lock.png")" />
+                                } else {
+                                    <img src="@Url.Content("~/api/snap/thumb/" + thready.groupKey)" />                                    
+                                }
                             </div>
 
                             <div class="inboxText">
