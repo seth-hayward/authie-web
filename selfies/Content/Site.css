@@ -148,3 +148,27 @@ div#loginBox
     {
         width: 100%;
     }
+
+img.lock
+{
+    border: 1px dotted black;
+    position: relative;
+}
+
+ul.inbox li
+{
+    min-height: 50px;
+    border: 1px dotted red;
+}
+
+div.inboxLine
+{
+    height: 50px;
+    width: 100%;
+    border: 1px dotted green;
+}
+
+span.inboxText
+{
+    padding-bottom: 10px;
+}

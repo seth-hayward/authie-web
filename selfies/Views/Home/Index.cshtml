@@ -8,7 +8,7 @@
             inbox
         </p>
 
-        <ul>
+        <ul class="inbox">
             @if (ViewBag.threads.Count == 0)
             {
                 <text><li>no threads yet, <a href="@Url.Content("~/send")">send one</a></li></text>
@@ -20,7 +20,19 @@
                 {
                     
                 <text>
-                    <li><a href="@Url.Content("~/threads/" + thready.groupKey)"> from: @thready.fromHandle.name, to @thready.toHandle.name</a></li>
+                    <li>
+                        <div class="inboxLine">
+
+                            <img class="lock" src="@Url.Content("~/Images/lock.png")" />
+
+                            <span class="inboxText">
+                                <a href="@Url.Content("~/threads/" + thready.groupKey)"> from: @thready.fromHandle.name, to @thready.toHandle.name</a>
+
+                            </span>
+
+                        </div>
+
+                    </li>
                 </text>
                 }
             }
