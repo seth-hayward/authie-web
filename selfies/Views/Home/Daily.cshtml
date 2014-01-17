@@ -14,12 +14,12 @@
         </p>
 
         <p class="snapNavRight" data-bind="click: $parent.giveLove">
-            <a href="#"><span data-bind="text: hearts"></span></a> <img src="@Url.Content("~/Images/heart.png")" />
+            <a href="#"><span data-bind="text: hearts, attr: { id: groupKey }"></span></a> <img src="@Url.Content("~/Images/heart.png")" />
         </p>
 
     </div>
 
-    <img data-bind="attr: { src: groupKey }" />
+    <img data-bind="attr: { src: imageUrl }" />
 
 </div>
 
@@ -34,10 +34,9 @@
 
         self.giveLove = function (item) {
 
-            var voter = $.post("@Url.Content("~/api/heart")", item.groupKey);
+            var voter = $.post("@Url.Content("~/api/heart")", item );
             voter.done(function (data) {
-                item.hearts = data;
-                alert(data);
+                $("#" + item.groupKey).html(data);
             })
 
         }
@@ -49,7 +48,7 @@
                 if (data.length > 0) {
 
                     $.each(data, function (i, item) {
-                        item.groupKey = "@Url.Content("~/api/snap/500/")" + item.groupKey;
+                        item.imageUrl = "@Url.Content("~/api/snap/500/")" + item.groupKey;
                         self.dailyThread.push(item);
                     });
 

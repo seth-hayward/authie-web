@@ -48,11 +48,10 @@ namespace selfies.Controllers
 
         }
 
-        [HttpPost]
-        public int Post(string id)
+        public int Post(thread id)
         {
 
-            thread selected_thread = (from thread m in db.threads where m.groupKey.StartsWith(id) select m).FirstOrDefault();
+            thread selected_thread = (from thread m in db.threads where m.groupKey.StartsWith(id.groupKey) select m).FirstOrDefault();
             int hearts = 1;
 
             if (int.TryParse(selected_thread.hearts.ToString(), out hearts) == false)
