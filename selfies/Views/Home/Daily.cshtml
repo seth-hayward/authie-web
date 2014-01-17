@@ -7,7 +7,7 @@
 
 <div id="dailyThreads" data-bind="foreach: dailyThread" style="display: none">
 
-    <div class="snapHolder">
+    <div class="snapHolder" data-bind="attr: { id: 'd' + groupKey } ">
         <p class="snapNavLeft">
             from <span data-bind="text: fromHandle.name"></span><br />
             <span data-bind="text: caption"></span>            
@@ -17,9 +17,12 @@
             <a href="#"><span data-bind="text: hearts, attr: { id: groupKey }"></span></a> <img src="@Url.Content("~/Images/heart.png")" />
         </p>
 
+        <img data-bind="attr: { src: imageUrl }" />
+
     </div>
 
-    <img data-bind="attr: { src: imageUrl }" />
+
+    <span data-bind="attr: { id: 'r' + groupKey } "><a href="#" data-bind="    click: $parent.report">Report</a></span>
 
 </div>
 
@@ -31,6 +34,17 @@
         var self = this;
 
         self.dailyThread = ko.observableArray([]);
+
+        self.report = function (item) {
+
+            var voter = $.post("@Url.Content("~/api/report")", item);
+            voter.done(function (data) {
+                $("#d" + item.groupKey).fadeOut();
+                $("#r" + item.groupKey).html("Thank you. This post has been reported.");
+            })
+
+
+        }
 
         self.giveLove = function (item) {
 
