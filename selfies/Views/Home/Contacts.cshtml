@@ -37,7 +37,7 @@
         caption: <input type="text" id="caption" /><br />
     </p>
 
-    <form enctype="multipart/form-data">
+    <form enctype="multipart/form-data" id="requestForm">
     <input name="file" type="file" data-bind="event: { change: sendRequest }" />
     <input type="hidden" name="groupKey" id="groupKey" />
     </form>
@@ -120,6 +120,7 @@
                 } else {
 
                     // now we need to show the send snap form...
+                    self.toGuid(data.message);
                     self.handleToAdd(handle);
                     $("#contactList").fadeOut();
                     $("#sendAuthorizationRequest").fadeIn();
@@ -145,12 +146,6 @@
 
             self.toGroupKey = group_key;
 
-            if (to_handle.length == 0) {
-                $("span.error").html("please type a handle.").fadeIn();
-                $("#send").fadeIn('fast');
-                return;
-            }
-
             var threadCaption = $("#caption").val();
 
             var thread = { toGuid: to_handle, groupKey: group_key, caption: threadCaption };
@@ -160,11 +155,6 @@
 
             // Put the results in a div
             posting.done(function (data) {
-
-                // if active=1, then they have successfully registered a handle and logged in
-                // if active=-1, then the username was taken
-                // if active=-1, then there was an error
-                console.log(data);
 
                 switch (data.result) {
                     case 0:
@@ -183,8 +173,6 @@
 
                         // just upload the file
                         var formData = new FormData($('form')[0]);
-
-                        //console.log(formData);
 
                         $.ajax({
                             url: '@Url.Content("~/api/upload/postfile")?key=' + group_key,  //Server script to process data
@@ -229,6 +217,12 @@
         }
 
 
+    }
+
+    function progressHandlingFunction(e) {
+        if (e.lengthComputable) {
+            $('progress').attr({ value: e.loaded, max: e.total });
+        }
     }
 
     function display_errors(err) {
