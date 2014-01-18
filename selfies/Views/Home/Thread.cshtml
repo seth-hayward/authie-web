@@ -12,7 +12,7 @@
 
         <p>
             this is the authorization request you sent to @Model.toHandle.name.
-            you need to wait until they accept it, or you can <a class="remover" id="@Model.groupKey" href="#">delete</a>
+            you need to wait until they accept it, or you can <a class="contact_remover" id="r-@Model.groupKey" href="#">delete</a>
             it immediately.
         </p>   
         
@@ -28,9 +28,8 @@
         </p>   
     
         <ul>
-            <li>accept</li>
-            <li><a href="#" class="remover" id="@Model.groupKey">deny</a></li>
-            <li>block</li>
+            <li><a href="#" class="authorize" id="a-@Model.fromHandle.publicKey">accept</a></li>
+            <li><a href="#" class="contact_remover" id="d-@Model.groupKey">deny</a></li>
         </ul>
         
     }
@@ -42,9 +41,31 @@
 @section Scripts {
 <script type="text/javascript">
     $(document).ready(function () {
-        $("a.remover").click(function () {
+
+        $("a.authorize").click(function () {
+
             var currentId = $(this).attr('id');
-            $("#li-" + currentId).fadeOut();
+            currentId = currentId.substring(2, currentId.length);
+
+            console.log("authorize id: " + currentId);
+
+            $.ajax({
+                url: "@Url.Content("~/api/authorize")",
+                data: { '': currentId },
+                type: 'POST',
+                success: function (result) {
+                    // redirect to inbox... so dirty again
+                    window.location = "@Url.Content("~/")";
+
+                }
+            });
+            
+        });
+
+        $("a.contact_remover").click(function () {
+
+            var currentId = $(this).attr('id');
+            currentId = currentId.substring(2, currentId.length - 2);
 
             $.ajax({
                 url: "@Url.Content("~/api/thread")",
