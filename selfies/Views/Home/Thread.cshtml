@@ -3,5 +3,13 @@
 <p>
     to: @Model.toHandle.name, from @Model.fromHandle.name
 </p>
+
+@if (Model.authorizeRequest == 1)
+{
+    <p>
+        this is an authorization request. you can <a href="#">accept</a>, <a href="#">deny</a> or <a href="#">block</a>.
+    </p>   
+}
+
             
 <a href="@Url.Content("~/api/snap/orig/" + Model.groupKey)"><img src="@Url.Content("~/api/snap/500/" + Model.groupKey)" alt="snap" /></a>
