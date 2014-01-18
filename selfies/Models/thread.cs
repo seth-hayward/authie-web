@@ -24,6 +24,7 @@ namespace selfies.Models
         public Nullable<int> authorizeRequest { get; set; }
         public Nullable<int> toHandleSeen { get; set; }
         public Nullable<int> hearts { get; set; }
+        public int uploadSuccess { get; set; }
     
         public virtual handle fromHandle { get; set; }
         public virtual handle toHandle { get; set; }

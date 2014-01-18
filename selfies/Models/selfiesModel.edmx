@@ -82,6 +82,7 @@
           <Property Name="authorizeRequest" Type="int" />
           <Property Name="toHandleSeen" Type="int" />
           <Property Name="hearts" Type="int" />
+          <Property Name="uploadSuccess" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FKfolloweeId">
           <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
@@ -240,6 +241,7 @@
           <Property Type="Int32" Name="authorizeRequest" />
           <Property Type="Int32" Name="toHandleSeen" />
           <Property Type="Int32" Name="hearts" />
+          <Property Type="Int32" Name="uploadSuccess" Nullable="false" />
         </EntityType>
         <Association Name="FKfromHandleId">
           <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
@@ -318,6 +320,7 @@
           <EntitySetMapping Name="threads">
             <EntityTypeMapping TypeName="selfiesModel.thread">
               <MappingFragment StoreEntitySet="threads">
+                <ScalarProperty Name="uploadSuccess" ColumnName="uploadSuccess" />
                 <ScalarProperty Name="hearts" ColumnName="hearts" />
                 <ScalarProperty Name="toHandleSeen" ColumnName="toHandleSeen" />
                 <ScalarProperty Name="authorizeRequest" ColumnName="authorizeRequest" />
