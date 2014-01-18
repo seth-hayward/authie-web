@@ -6,10 +6,58 @@
 
 @if (Model.authorizeRequest == 1)
 {
-    <p>
-        this is an authorization request. you can <a href="#">accept</a>, <a href="#">deny</a> or <a href="#">block</a>.
-    </p>   
-}
 
+    if (Model.fromHandle.id == ViewBag.handle.id)
+    {
+
+        <p>
+            this is the authorization request you sent to @Model.toHandle.name.
+            you need to wait until they accept it, or you can <a class="remover" id="@Model.groupKey" href="#">delete</a>
+            it immediately.
+        </p>   
+        
+    }
+    else
+    {
+
+        <p>
+            @Model.fromHandle.name sent you an authorization request. if you accept
+            their request, they will be able to see your profile stream as well
+            as send you direct messages. you can remove people from your contact
+            list at any time.
+        </p>   
+    
+        <ul>
+            <li>accept</li>
+            <li>deny</li>
+            <li>block</li>
+        </ul>
+        
+    }
+    
+}
             
 <a href="@Url.Content("~/api/snap/orig/" + Model.groupKey)"><img src="@Url.Content("~/api/snap/500/" + Model.groupKey)" alt="snap" /></a>
+
+@section Scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("a.remover").click(function () {
+            var currentId = $(this).attr('id');
+            $("#li-" + currentId).fadeOut();
+
+            $.ajax({
+                url: "@Url.Content("~/api/thread")",
+                data: { '': currentId },
+                type: 'DELETE',
+                success: function (result) {
+                    // redirect to inbox... so dirty again
+                    window.location = "@Url.Content("~/")";
+
+                }
+            });
+
+        });
+    });
+</script>
+}
