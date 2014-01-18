@@ -12,6 +12,23 @@ namespace selfies.Controllers
     public class InviteController : ApiController
     {
 
+        private selfiesMySQL _db;
+        public selfiesMySQL db
+        {
+            get
+            {
+                if (_db == null)
+                {
+                    _db = new selfiesMySQL();
+                }
+                return _db;
+            }
+            set
+            {
+                _db = value;
+            }
+        }
+
 
         public RODResponseMessage Get()
         {
@@ -22,7 +39,13 @@ namespace selfies.Controllers
         {
             if (invite.email != null)
             {
-                SendInvite(invite.message, invite.email, invite.handle);
+
+                string user_id = User.Identity.Name;
+                handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+
+                SendInvite(invite.message, invite.email, logged_in.name);
+                // this could be abused right here,
+                // it should only send the logged in user's handle, nothing from the client
                 return new RODResponseMessage { result = 1, message = "Invite sent. Thanks!" };
             }
             else
@@ -31,7 +54,7 @@ namespace selfies.Controllers
             }
         }
 
-        public void SendInvite(string message, string email_address, string from_handle)
+        public void SendInvite(string message, string email_address, string handle)
         {
             MailMessage Message = new MailMessage();
             SmtpClient Smtp = new SmtpClient();
@@ -43,7 +66,7 @@ namespace selfies.Controllers
             string email = "hey, \n\n";
             email = email + "you have been invited to join authie! \n\n";
             email = email + "someone with " + 
-                "the handle '" + from_handle + "' thought you would like it -- so " + 
+                "the handle '" + handle + "' thought you would like it -- so " + 
                 "check us out, maybe? \n";
             email = email + "http://authie.me \n\n";
             email = email + "they included this message: \n";

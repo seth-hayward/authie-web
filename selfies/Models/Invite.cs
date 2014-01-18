@@ -9,6 +9,5 @@ namespace selfies.Models
     {
         public string email { get; set; }
         public string message { get; set; }
-        public string handle { get; set; }
     }
 }
