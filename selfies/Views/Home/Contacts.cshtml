@@ -2,35 +2,64 @@
     ViewBag.Title = "Contacts";
 }
 
+<div id="contactList">
 
-<!-- ko if: contacts().length == 0 -->
-<ul>
-    <li>no contacts yet</li>
-</ul>
-<!-- /ko -->
-
-<!-- ko if: contacts().length > 0 -->
-    <ul data-bind="foreach: contacts">
-        <li><a data-bind="attr: { href: '@Url.Content("~/")' + followeeHandle.name }"><span data-bind="text: followeeHandle.name"></span></a>
-            <a href="#" data-bind="click: $root.removeContact">Remove</a></li>
+    <!-- ko if: contacts().length == 0 -->
+    <ul>
+        <li>no contacts yet</li>
     </ul>
-<!-- /ko -->
+    <!-- /ko -->
+
+    <!-- ko if: contacts().length > 0 -->
+        <ul data-bind="foreach: contacts">
+            <li><a data-bind="attr: { href: '@Url.Content("~/")    ' + followeeHandle.name }"><span data-bind="    text: followeeHandle.name"></span></a>
+                <a href="#" data-bind="click: $root.removeContact">Remove</a></li>
+        </ul>
+    <!-- /ko -->
 
 
-<p>
-add new contact: <input type="text" id="handle" /><button data-bind="click: submitContactToSite" id="add_contact">add</button>
-        <span id="add_results"> </span>
+    <p>if you want to add someone, you will need to send verification. we suggest a selfie. 
+    begin by typing their handle: <input type="text" id="handle" /><button data-bind="click: submitContactToSite" id="add_contact">add</button>
+            <span id="add_results"> </span>
 
-</p>
+    </p>
 
-<p>authie does not notify your contact when you add them.
-</p>
+</div>
+
+<div id="sendAuthorizationRequest" style="display: none">
+
+    <p>
+        <span class="error"></span>
+    </p>
+
+    <p>
+        to: <span data-bind="text: $root.handleToAdd"></span><br />
+        caption: <input type="text" id="caption" /><br />
+    </p>
+
+    <form enctype="multipart/form-data">
+    <input name="file" type="file" data-bind="event: { change: sendRequest }" />
+    <input type="hidden" name="groupKey" id="groupKey" />
+    </form>
+    <progress id="progress" style="display: none"></progress>
+        
+
+
+    <p>
+        <span id="thread_result"></span>
+    </p>
+
+</div>
 
 @section Scripts {
 <script type="text/javascript">
 
     function ContactsViewModel() {
         var self = this;
+
+        self.toGuid = ko.observable("");
+        self.toGroupKey = ko.observable("");
+        self.handleToAdd = ko.observable("");
 
         self.contacts = ko.observableArray([]);
 
@@ -72,6 +101,7 @@ add new contact: <input type="text" id="handle" /><button data-bind="click: subm
         }
 
         self.submitContactToSite = function (contact) {
+
             $("#add_contact").fadeOut('fast');
             $("#add_results").html("");
 
@@ -88,9 +118,11 @@ add new contact: <input type="text" id="handle" /><button data-bind="click: subm
                 if (data.result == 0) {
                     display_errors(data.message);
                 } else {
-                    self.loadContacts();
-                    $("#add_contact").fadeIn('fast');
-                    $("handle").val("");
+
+                    // now we need to show the send snap form...
+                    self.handleToAdd(handle);
+                    $("#contactList").fadeOut();
+                    $("#sendAuthorizationRequest").fadeIn();
 
                 }
 
@@ -98,6 +130,104 @@ add new contact: <input type="text" id="handle" /><button data-bind="click: subm
 
 
         }
+
+        self.sendRequest = function () {
+
+            $("#progress").fadeIn('fast');
+            $("#send").fadeOut('fast');
+            var to_handle = self.toGuid();
+
+            // guid code from http://stackoverflow.com/a/2117523/146516
+            var group_key = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+
+            self.toGroupKey = group_key;
+
+            if (to_handle.length == 0) {
+                $("span.error").html("please type a handle.").fadeIn();
+                $("#send").fadeIn('fast');
+                return;
+            }
+
+            var threadCaption = $("#caption").val();
+
+            var thread = { toGuid: to_handle, groupKey: group_key, caption: threadCaption };
+
+            // Send the data using post
+            var posting = $.post("@Url.Content("/api/thread")", thread);
+
+            // Put the results in a div
+            posting.done(function (data) {
+
+                // if active=1, then they have successfully registered a handle and logged in
+                // if active=-1, then the username was taken
+                // if active=-1, then there was an error
+                console.log(data);
+
+                switch (data.result) {
+                    case 0:
+                        $("#send").fadeIn('fast');
+                        $("span.error").html("there was an error starting the thread.").fadeIn();
+                        break;
+                    case 1:
+                        // now upload the image
+                        var drop = $(':file')[0];
+                        var file = drop.files[0];
+                        var name = file.name;
+                        var size = file.size;
+                        var type = file.type;
+                        //Your validation
+                        console.log(file);
+
+                        // just upload the file
+                        var formData = new FormData($('form')[0]);
+
+                        //console.log(formData);
+
+                        $.ajax({
+                            url: '@Url.Content("~/api/upload/postfile")?key=' + group_key,  //Server script to process data
+                            type: 'POST',
+                            xhr: function () {  // Custom XMLHttpRequest
+                                var myXhr = $.ajaxSettings.xhr();
+                                if (myXhr.upload) { // Check if upload property exists
+                                    myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // For handling the progress of the upload
+                                }
+                                return myXhr;
+                            },
+                            //Ajax events
+                            //beforeSend: beforeSendHandler,
+                            success: function (data) {
+
+                                // redirect to details page... so dirty again
+
+                                window.location = "@Url.Content("~/")";
+
+                            },
+                            error: function (err) {
+                                alert("error :(");
+                                console.log(err);
+                            },
+                            // Form data
+                            data: formData,
+                            //Options to tell jQuery not to process data or worry about content-type.
+                            cache: false,
+                            contentType: false,
+                            processData: false
+                        });
+
+                    }
+
+            });
+
+            posting.error(function () {
+                $("#send").fadeIn('fast');
+                $("span.error").html("there was an error starting the thread.").fadeIn();
+            });
+
+        }
+
 
     }
 
