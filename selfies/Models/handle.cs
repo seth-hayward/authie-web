@@ -11,7 +11,6 @@ namespace selfies.Models
 {
     using System;
     using System.Collections.Generic;
-    using Newtonsoft.Json;
     
     public partial class handle
     {
@@ -20,8 +19,6 @@ namespace selfies.Models
         public string userGuid { get; set; }
         public Nullable<int> active { get; set; }
         public string publicKey { get; set; }
-
-        [JsonIgnore]
         public string privateKey { get; set; }
         public string tagLine { get; set; }
     }

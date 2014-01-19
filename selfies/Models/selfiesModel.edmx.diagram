@@ -7,13 +7,14 @@
       <Diagram DiagramId="e917f441807845d78a7acf48f61c8361" Name="Diagram1" ZoomLevel="77">
         <EntityTypeShape EntityType="selfiesModel.selfy" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="selfiesModel.handle" Width="1.5" PointX="2.375" PointY="1.125" />
-        <EntityTypeShape EntityType="selfiesModel.message" Width="1.5" PointX="4.625" PointY="0.625" />
         <EntityTypeShape EntityType="selfiesModel.follower" Width="1.5" PointX="8.375" PointY="4.375" />
         <AssociationConnector Association="selfiesModel.FKfolloweeId" />
         <AssociationConnector Association="selfiesModel.FKfollowerId" />
         <EntityTypeShape EntityType="selfiesModel.thread" Width="1.5" PointX="8.875" PointY="0.75" />
         <AssociationConnector Association="selfiesModel.FKfromHandleId" />
         <AssociationConnector Association="selfiesModel.FKtoHandleId" />
+        <AssociationConnector Association="selfiesModel.FKmessagesfromHandleId" />
+        <AssociationConnector Association="selfiesModel.FKmessagesthreadId" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

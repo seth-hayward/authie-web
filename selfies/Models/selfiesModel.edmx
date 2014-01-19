@@ -8,7 +8,6 @@
         <EntityContainer Name="selfiesModelStoreContainer">
           <EntitySet Name="followers" EntityType="selfiesModel.Store.followers" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="handles" EntityType="selfiesModel.Store.handles" store:Type="Tables" Schema="selfies" />
-          <EntitySet Name="messages" EntityType="selfiesModel.Store.messages" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="selfies" EntityType="selfiesModel.Store.selfies" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="threads" EntityType="selfiesModel.Store.threads" store:Type="Tables" Schema="selfies" />
           <AssociationSet Name="FKfolloweeId" Association="selfiesModel.Store.FKfolloweeId">
@@ -48,16 +47,6 @@
           <Property Name="publicKey" Type="varchar" MaxLength="45" />
           <Property Name="privateKey" Type="varchar" MaxLength="45" />
           <Property Name="tagLine" Type="varchar" MaxLength="255" />
-        </EntityType>
-        <EntityType Name="messages">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="fromHandleId" Type="varchar" MaxLength="45" />
-          <Property Name="message" Type="text" />
-          <Property Name="selfieId" Type="varchar" MaxLength="45" />
-          <Property Name="sentDate" Type="datetime" />
         </EntityType>
         <EntityType Name="selfies">
           <Key>
@@ -139,7 +128,6 @@
         <EntityContainer Name="selfiesMySQL" p1:LazyLoadingEnabled="true">
           <EntitySet Name="selfies" EntityType="selfiesModel.selfy" />
           <EntitySet Name="handles" EntityType="selfiesModel.handle" />
-          <EntitySet Name="messages" EntityType="selfiesModel.message" />
           <EntitySet Name="followers" EntityType="selfiesModel.follower" />
           <AssociationSet Name="FKfolloweeId" Association="selfiesModel.FKfolloweeId">
             <End Role="handle" EntitySet="handles" />
@@ -180,16 +168,6 @@
           <Property Type="String" Name="privateKey" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="tagLine" MaxLength="255" FixedLength="false" Unicode="false" />
           </EntityType>
-        <EntityType Name="message">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="fromHandleId" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="message1" MaxLength="65535" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="selfieId" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="sentDate" />
-        </EntityType>
         <EntityType Name="follower">
           <Key>
             <PropertyRef Name="id" />
@@ -292,17 +270,6 @@
                 <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="userGuid" ColumnName="userGuid" />
                 <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="messages">
-            <EntityTypeMapping TypeName="selfiesModel.message">
-              <MappingFragment StoreEntitySet="messages">
-                <ScalarProperty Name="sentDate" ColumnName="sentDate" />
-                <ScalarProperty Name="selfieId" ColumnName="selfieId" />
-                <ScalarProperty Name="message1" ColumnName="message" />
-                <ScalarProperty Name="fromHandleId" ColumnName="fromHandleId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
