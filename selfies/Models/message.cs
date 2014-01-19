@@ -12,21 +12,18 @@ namespace selfies.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class handle
+    public partial class message
     {
-        public handle()
-        {
-            this.messages = new HashSet<message>();
-        }
-    
         public int id { get; set; }
-        public string name { get; set; }
-        public string userGuid { get; set; }
-        public Nullable<int> active { get; set; }
-        public string publicKey { get; set; }
-        public string privateKey { get; set; }
-        public string tagLine { get; set; }
+        public int fromHandleId { get; set; }
+        public int threadId { get; set; }
+        public System.DateTime sentDate { get; set; }
+        public int active { get; set; }
+        public int anon { get; set; }
+        public int toHandleSeen { get; set; }
+        public string messageText { get; set; }
     
-        public virtual ICollection<message> messages { get; set; }
+        public virtual handle handle { get; set; }
+        public virtual thread thread { get; set; }
     }
 }

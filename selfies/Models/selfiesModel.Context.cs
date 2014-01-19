@@ -29,5 +29,6 @@ namespace selfies.Models
         public DbSet<handle> handles { get; set; }
         public DbSet<follower> followers { get; set; }
         public DbSet<thread> threads { get; set; }
+        public DbSet<message> messages { get; set; }
     }
 }

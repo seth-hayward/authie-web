@@ -8,6 +8,7 @@
         <EntityContainer Name="selfiesModelStoreContainer">
           <EntitySet Name="followers" EntityType="selfiesModel.Store.followers" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="handles" EntityType="selfiesModel.Store.handles" store:Type="Tables" Schema="selfies" />
+          <EntitySet Name="messages" EntityType="selfiesModel.Store.messages" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="selfies" EntityType="selfiesModel.Store.selfies" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="threads" EntityType="selfiesModel.Store.threads" store:Type="Tables" Schema="selfies" />
           <AssociationSet Name="FKfolloweeId" Association="selfiesModel.Store.FKfolloweeId">
@@ -21,6 +22,14 @@
           <AssociationSet Name="FKfromHandleId" Association="selfiesModel.Store.FKfromHandleId">
             <End Role="handles" EntitySet="handles" />
             <End Role="threads" EntitySet="threads" />
+          </AssociationSet>
+          <AssociationSet Name="FKmessagesfromHandleId" Association="selfiesModel.Store.FKmessagesfromHandleId">
+            <End Role="handles" EntitySet="handles" />
+            <End Role="messages" EntitySet="messages" />
+          </AssociationSet>
+          <AssociationSet Name="FKmessagesthreadId" Association="selfiesModel.Store.FKmessagesthreadId">
+            <End Role="threads" EntitySet="threads" />
+            <End Role="messages" EntitySet="messages" />
           </AssociationSet>
           <AssociationSet Name="FKtoHandleId" Association="selfiesModel.Store.FKtoHandleId">
             <End Role="handles" EntitySet="handles" />
@@ -47,6 +56,19 @@
           <Property Name="publicKey" Type="varchar" MaxLength="45" />
           <Property Name="privateKey" Type="varchar" MaxLength="45" />
           <Property Name="tagLine" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="messages">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="fromHandleId" Type="int" Nullable="false" />
+          <Property Name="threadId" Type="int" Nullable="false" />
+          <Property Name="sentDate" Type="datetime" Nullable="false" />
+          <Property Name="active" Type="int" Nullable="false" />
+          <Property Name="anon" Type="int" Nullable="false" />
+          <Property Name="toHandleSeen" Type="int" Nullable="false" />
+          <Property Name="messageText" Type="text" Nullable="false" />
         </EntityType>
         <EntityType Name="selfies">
           <Key>
@@ -109,6 +131,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKmessagesfromHandleId">
+          <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
+          <End Role="messages" Type="selfiesModel.Store.messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="messages">
+              <PropertyRef Name="fromHandleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKmessagesthreadId">
+          <End Role="threads" Type="selfiesModel.Store.threads" Multiplicity="1" />
+          <End Role="messages" Type="selfiesModel.Store.messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="threads">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="messages">
+              <PropertyRef Name="threadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKtoHandleId">
           <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
           <End Role="threads" Type="selfiesModel.Store.threads" Multiplicity="*" />
@@ -146,6 +192,15 @@
             <End Role="handle" EntitySet="handles" />
             <End Role="thread" EntitySet="threads" />
           </AssociationSet>
+          <EntitySet Name="messages" EntityType="selfiesModel.message" />
+          <AssociationSet Name="FKmessagesfromHandleId" Association="selfiesModel.FKmessagesfromHandleId">
+            <End Role="handle" EntitySet="handles" />
+            <End Role="message" EntitySet="messages" />
+          </AssociationSet>
+          <AssociationSet Name="FKmessagesthreadId" Association="selfiesModel.FKmessagesthreadId">
+            <End Role="thread" EntitySet="threads" />
+            <End Role="message" EntitySet="messages" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="selfy">
           <Key>
@@ -167,6 +222,7 @@
           <Property Type="String" Name="publicKey" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="privateKey" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="tagLine" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="messages" Relationship="selfiesModel.FKmessagesfromHandleId" FromRole="handle" ToRole="message" />
           </EntityType>
         <EntityType Name="follower">
           <Key>
@@ -220,6 +276,7 @@
           <Property Type="Int32" Name="toHandleSeen" />
           <Property Type="Int32" Name="hearts" />
           <Property Type="Int32" Name="uploadSuccess" Nullable="false" />
+          <NavigationProperty Name="messages" Relationship="selfiesModel.FKmessagesthreadId" FromRole="thread" ToRole="message" />
         </EntityType>
         <Association Name="FKfromHandleId">
           <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
@@ -242,6 +299,45 @@
             </Principal>
             <Dependent Role="thread">
               <PropertyRef Name="toHandleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="fromHandleId" Nullable="false" />
+          <Property Type="Int32" Name="threadId" Nullable="false" />
+          <Property Type="DateTime" Name="sentDate" Nullable="false" />
+          <Property Type="Int32" Name="active" Nullable="false" />
+          <Property Type="Int32" Name="anon" Nullable="false" />
+          <Property Type="Int32" Name="toHandleSeen" Nullable="false" />
+          <Property Type="String" Name="messageText" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="handle" Relationship="selfiesModel.FKmessagesfromHandleId" FromRole="message" ToRole="handle" />
+          <NavigationProperty Name="thread" Relationship="selfiesModel.FKmessagesthreadId" FromRole="message" ToRole="thread" />
+        </EntityType>
+        <Association Name="FKmessagesfromHandleId">
+          <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
+          <End Type="selfiesModel.message" Role="message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handle">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="fromHandleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKmessagesthreadId">
+          <End Type="selfiesModel.thread" Role="thread" Multiplicity="1" />
+          <End Type="selfiesModel.message" Role="message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="thread">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="threadId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -296,6 +392,20 @@
                 <ScalarProperty Name="startDate" ColumnName="startDate" />
                 <ScalarProperty Name="groupKey" ColumnName="groupKey" />
                 <ScalarProperty Name="toHandleId" ColumnName="toHandleId" />
+                <ScalarProperty Name="fromHandleId" ColumnName="fromHandleId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="messages">
+            <EntityTypeMapping TypeName="selfiesModel.message">
+              <MappingFragment StoreEntitySet="messages">
+                <ScalarProperty Name="messageText" ColumnName="messageText" />
+                <ScalarProperty Name="toHandleSeen" ColumnName="toHandleSeen" />
+                <ScalarProperty Name="anon" ColumnName="anon" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="sentDate" ColumnName="sentDate" />
+                <ScalarProperty Name="threadId" ColumnName="threadId" />
                 <ScalarProperty Name="fromHandleId" ColumnName="fromHandleId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
