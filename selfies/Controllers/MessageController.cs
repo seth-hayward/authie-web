@@ -4,10 +4,46 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using selfies.Models;
 
 namespace selfies.Controllers
 {
     public class MessageController : ApiController
     {
+
+        private selfiesMySQL _db;
+        public selfiesMySQL db
+        {
+            get
+            {
+                if (_db == null)
+                {
+                    _db = new selfiesMySQL();
+                }
+                return _db;
+            }
+            set
+            {
+                _db = value;
+            }
+        }
+
+        // return the messages from that thread...
+        public List<message> Get(int id)
+        {
+            List<message> msgs = (from m in db.messages where m.threadId == id select m).ToList();
+            return msgs;
+        }
+
+        public RODResponseMessage Post(message msg)
+        {
+            RODResponseMessage response = new RODResponseMessage();
+
+            response.result = 0;
+            response.message = "Not implemented.";
+
+            return response;
+        }
+
     }
 }
