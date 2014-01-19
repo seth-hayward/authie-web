@@ -28,7 +28,7 @@
 
             var nick = $("#handle").val();
             var key = $("#key").val();
-            var handle = { id: 1, name: nick, active: 1, userGuid: "lol", privateKey: key };
+            var handle = { id: 1, name: nick, active: 1, userGuid: "lol", publicKey: key };
 
             // Send the data using post
             var posting = $.post("@Url.Content("/api/login")", handle);
