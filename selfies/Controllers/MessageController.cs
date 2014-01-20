@@ -51,8 +51,29 @@ namespace selfies.Controllers
         {
             RODResponseMessage response = new RODResponseMessage();
 
-            response.result = 0;
-            response.message = "Not implemented.";
+
+            string user_id = User.Identity.Name;
+            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+
+            message clean_message = new message();
+            clean_message.fromHandleId = logged_in.id;
+            clean_message.sentDate = DateTime.UtcNow;
+
+            string groupKey = msg.thread.groupKey;
+            thread referring_thread = (from thread r in db.threads where r.groupKey == groupKey).FirstOrDefault();
+
+            if(referring_thread == null) {
+                response.result = 0;
+                response.message = "Null referring thread";
+            } else {
+                clean_message.threadId = referring_thread.id;
+                response.result = 1;
+                response.message = "Success";
+
+                db.messages.Add(clean_message);
+                db.SaveChanges();
+
+            }
 
             return response;
         }
