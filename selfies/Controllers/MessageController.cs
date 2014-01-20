@@ -57,6 +57,7 @@ namespace selfies.Controllers
             message clean_message = new message();
             clean_message.fromHandleId = logged_in.id;
             clean_message.sentDate = DateTime.UtcNow;
+            clean_message.messageText = msg.messageText;
 
             string groupKey = msg.thread.groupKey;
             thread referring_thread = (from thread r in db.threads where r.groupKey == groupKey select r).FirstOrDefault();

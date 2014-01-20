@@ -38,9 +38,39 @@
             
 <a href="@Url.Content("~/api/snap/orig/" + Model.groupKey)"><img src="@Url.Content("~/api/snap/500/" + Model.groupKey)" alt="snap" /></a>
 
+<input type="text" id="chatMessage" />
+<input type="button" id="sendChat" value="send" />
+
 @section Scripts {
 <script type="text/javascript">
     $(document).ready(function () {
+
+        $("#sendChat").click(function () {
+
+            var text = $("#chatMessage").val();
+
+            var msg = {
+                id: 1,
+                fromHandleId: 1,
+                sentDate: "",
+                thread: { groupKey: "@Model.groupKey" },
+                active: 1,
+                anon: 0,
+                toHandleSeen: 0,
+                messageText: text,
+                threadId: "@Model.id"
+                };
+
+            $.ajax({
+                url: "@Url.Content("~/api/message")",
+                data: msg,
+                type: 'POST',
+                success: function (result) {
+                    window.location.reload();
+                }
+            });
+
+        });
 
         $("a.authorize").click(function () {
 
