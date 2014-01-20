@@ -222,7 +222,6 @@
           <Property Type="String" Name="publicKey" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="privateKey" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="tagLine" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="messages" Relationship="selfiesModel.FKmessagesfromHandleId" FromRole="handle" ToRole="message" />
           </EntityType>
         <EntityType Name="follower">
           <Key>

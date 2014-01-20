@@ -15,11 +15,6 @@ namespace selfies.Models
     
     public partial class handle
     {
-        public handle()
-        {
-            this.messages = new HashSet<message>();
-        }
-    
         public int id { get; set; }
         public string name { get; set; }
         public string userGuid { get; set; }
@@ -29,7 +24,5 @@ namespace selfies.Models
         [JsonIgnore]
         public string privateKey { get; set; }
         public string tagLine { get; set; }
-    
-        public virtual ICollection<message> messages { get; set; }
     }
 }

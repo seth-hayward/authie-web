@@ -221,6 +221,7 @@
     <Compile Include="Models\handle.cs">
       <DependentUpon>selfiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\handleDTO.cs" />
     <Compile Include="Models\Invite.cs" />
     <Compile Include="Models\message.cs">
       <DependentUpon>selfiesModel.tt</DependentUpon>
