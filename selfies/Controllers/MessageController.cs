@@ -51,7 +51,6 @@ namespace selfies.Controllers
         {
             RODResponseMessage response = new RODResponseMessage();
 
-
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
@@ -60,7 +59,7 @@ namespace selfies.Controllers
             clean_message.sentDate = DateTime.UtcNow;
 
             string groupKey = msg.thread.groupKey;
-            thread referring_thread = (from thread r in db.threads where r.groupKey == groupKey).FirstOrDefault();
+            thread referring_thread = (from thread r in db.threads where r.groupKey == groupKey select r).FirstOrDefault();
 
             if(referring_thread == null) {
                 response.result = 0;
