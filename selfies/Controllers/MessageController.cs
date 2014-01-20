@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using selfies.Models;
 
@@ -47,7 +48,7 @@ namespace selfies.Controllers
             return msgs;
         }
 
-        public RODResponseMessage Post(message msg)
+        public async Task<RODResponseMessage> Post(message msg)
         {
             RODResponseMessage response = new RODResponseMessage();
 
@@ -63,8 +64,10 @@ namespace selfies.Controllers
             thread referring_thread = (from thread r in db.threads where r.groupKey == groupKey select r).FirstOrDefault();
 
             if(referring_thread == null) {
+
                 response.result = 0;
-                response.message = "Null referring thread";
+                response.message = "Unable to find thread";
+
             } else {
                 clean_message.threadId = referring_thread.id;
                 response.result = 1;
@@ -73,10 +76,18 @@ namespace selfies.Controllers
                 db.messages.Add(clean_message);
                 db.SaveChanges();
 
+                string alert_text = logged_in.name + " said: " + msg.messageText;
+
+                // post the message to urbanairship now
+                AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
+                AirshipResponse rep = await service.SendChat("993974DE1EC1225327875BFF8A8B40325C90B75C3A5EE1921100A6777EB1DE4C", alert_text);
+
             }
 
             return response;
         }
+
+
 
     }
 }

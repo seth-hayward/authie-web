@@ -215,6 +215,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AirshipChatNotificationRESTService.cs" />
+    <Compile Include="Models\AirshipNotification.cs" />
+    <Compile Include="Models\AirshipResponse.cs" />
     <Compile Include="Models\follower.cs">
       <DependentUpon>selfiesModel.tt</DependentUpon>
     </Compile>
