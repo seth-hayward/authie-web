@@ -14,7 +14,8 @@ namespace selfies.Models
     public class AirshipChatNotificationRESTService
     {
 
-        readonly string uri = "https://go.urbanairship.com/api/push";
+        readonly string uri = "https://go.urbanairship.com/api/push/";
+        readonly string echo_uri = "https://go.urbanairship.com/api/echo/?msg=hello";
 
         public async Task<AirshipResponse> SendChat(string device_token, string message)
         {
@@ -28,7 +29,7 @@ namespace selfies.Models
             HttpClient client = new HttpClient(handler);
 
             var byteArray = Encoding.ASCII.GetBytes(username + ":" + password);
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("basic", Convert.ToBase64String(byteArray));
 
             // ...
             AirshipNotification note = new AirshipNotification
@@ -45,32 +46,12 @@ namespace selfies.Models
 
             string js = JsonConvert.SerializeObject(note);
 
-            HttpResponseMessage response = await client.PostAsync(uri, new StringContent(js));
+            //HttpResponseMessage response = await client.GetAsync(echo_uri);
+            HttpResponseMessage response = await client.PostAsync(uri, new StringContent(js, Encoding.UTF8, "application/json"));
             HttpContent content = response.Content;
 
             // ... Check Status Code                                
             Console.WriteLine("Response StatusCode: " + (int)response.StatusCode);
-
-            //using (var client = new HttpClient(new HttpClientHandler(), true))
-            //{
-
-            
-            //    System.Diagnostics.Debug.Print(js);
-
-
-            //    string auth = Convert.ToBase64String(
-            //    System.Text.ASCIIEncoding.ASCII.GetBytes(
-            //        string.Format("{0}:{1}", "bowqtjANSiadJX-dQQjikg", "6pFP8TKoSEqNpRiyxgYEgA")));
-
-            //    client.DefaultRequestHeaders.Authorization = CreateBasicAuthenticationHeader("bowqtjANSiadJX-dQQjikg", "6pFP8TKoSEqNpRiyxgYEgA");
-
-            //    await client.PostAsync(uri, new StringContent(js)).ContinueWith(
-            //    (postTask) =>
-            //    {
-            //        postTask.Result.EnsureSuccessStatusCode();
-            //    });
-
-            //}
 
             arr.result = 1;
             arr.message = "Success";
