@@ -36,6 +36,9 @@ namespace selfies.Controllers
             thread selected_thread = (from thread m in db.threads where m.groupKey.StartsWith(key) select m).FirstOrDefault();
             ViewData.Model = selected_thread;
 
+            List<message> thread_chats = (from message m in db.messages where m.thread.id.Equals(selected_thread.id) select m).ToList();
+            ViewBag.chats = thread_chats;
+
             return View();
         }
 

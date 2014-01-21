@@ -38,6 +38,18 @@
             
 <a href="@Url.Content("~/api/snap/orig/" + Model.groupKey)"><img src="@Url.Content("~/api/snap/500/" + Model.groupKey)" alt="snap" /></a>
 
+<p>
+    chatty
+</p>
+
+<ul>
+
+    @foreach (selfies.Models.message m in ViewBag.chats)
+    {
+        <li>@m.handle.name said: @m.messageText</li>
+    }
+</ul>
+
 <input type="text" id="chatMessage" />
 <input type="button" id="sendChat" value="send" />
 
