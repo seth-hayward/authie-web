@@ -63,6 +63,21 @@ namespace selfies.Controllers
             string groupKey = msg.thread.groupKey;
             thread referring_thread = (from thread r in db.threads where r.groupKey == groupKey select r).FirstOrDefault();
 
+            // if logged_in = referring_thread.fromHandle,
+            // then use toHandle,
+
+            string to_key;
+
+            if(logged_in.id == referring_thread.fromHandle.id) {
+                // it's the logged in user's thread, send it 
+                // to the other guy
+                to_key = referring_thread.toHandle.publicKey;
+            } else {
+                // it's the other guy's thread, send it to
+                // the other guy
+                to_key = referring_thread.fromHandle.publicKey;
+            }
+
             if(referring_thread == null) {
 
                 response.result = 0;
@@ -80,7 +95,7 @@ namespace selfies.Controllers
 
                 // post the message to urbanairship now
                 AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-                AirshipResponse rep = await service.SendChat(logged_in.publicKey, alert_text);
+                AirshipResponse rep = await service.SendChat(to_key, alert_text);
 
             }
 
