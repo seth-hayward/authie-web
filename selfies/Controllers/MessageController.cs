@@ -80,7 +80,7 @@ namespace selfies.Controllers
 
                 // post the message to urbanairship now
                 AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-                AirshipResponse rep = await service.SendChat("993974DE1EC1225327875BFF8A8B40325C90B75C3A5EE1921100A6777EB1DE4C", alert_text);
+                AirshipResponse rep = await service.SendChat(logged_in.publicKey, alert_text);
 
             }
 
