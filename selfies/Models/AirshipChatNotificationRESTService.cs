@@ -17,7 +17,7 @@ namespace selfies.Models
         readonly string uri = "https://go.urbanairship.com/api/push/";
         readonly string echo_uri = "https://go.urbanairship.com/api/echo/?msg=hello";
 
-        public async Task<AirshipResponse> SendChat(string device_token, string message)
+        public async Task<AirshipResponse> SendChat(string handle_public_key, string message)
         {
 
             AirshipResponse arr = new AirshipResponse();
@@ -31,27 +31,29 @@ namespace selfies.Models
             var byteArray = Encoding.ASCII.GetBytes(username + ":" + password);
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("basic", Convert.ToBase64String(byteArray));
 
+
             // ...
             AirshipNotification note = new AirshipNotification
             {
-                aps = new AirshipNotification.AirshipBody
+                audience = new AirshipNotification.AirshipAudience
                 {
-                    Alert = message
+                    alias = handle_public_key
                 },
-                device_tokens = new List<string>
+                notification = new AirshipNotification.AirshipNotificationPayload
                 {
-                    device_token
-                }
+                    alert = message
+                },
+                device_types = new List<string>() { "ios" }
             };
 
             string js = JsonConvert.SerializeObject(note);
 
-            //HttpResponseMessage response = await client.GetAsync(echo_uri);
-            HttpResponseMessage response = await client.PostAsync(uri, new StringContent(js, Encoding.UTF8, "application/json"));
-            HttpContent content = response.Content;
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/vnd.urbanairship+json; version=3");            
 
-            // ... Check Status Code                                
-            Console.WriteLine("Response StatusCode: " + (int)response.StatusCode);
+            StringContent sc =  new StringContent(js, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(uri,sc);
+
+            response.EnsureSuccessStatusCode();
 
             arr.result = 1;
             arr.message = "Success";

@@ -12,19 +12,26 @@ namespace selfies.Models
 
         // should be using netwonsoft for this!!!!!
 
-        [DataMember(Name = "device_tokens")]
-        public List<string> device_tokens { get; set; }
+        //public List<string> device_tokens { get; set; }
+        //public AirshipBody aps { get; set; }
+        //public class AirshipBody
+        //{
+        //    public string Alert { get; set; }
+        //}
 
-        [DataMember(Name = "aps")]
-        public AirshipBody aps { get; set; }
-
-        [DataContract(Name = "apsBody")]
-        public class AirshipBody
+        public AirshipAudience audience { get; set; }
+        public class AirshipAudience
         {
-            [DataMember(Name="alert")]
-            public string Alert { get; set; }
+            public string alias { get; set; }
         }
 
+        public AirshipNotificationPayload notification { get; set; }
+        public class AirshipNotificationPayload
+        {
+            public string alert { get; set; }
+        }
+
+        public List<string> device_types { get; set; }
 
     }
 }
