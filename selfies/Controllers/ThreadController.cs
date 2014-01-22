@@ -69,8 +69,6 @@ namespace selfies.Controllers
             return selected;
         }
 
-
-        [HttpGet]
         public async Task SendNotes(thread thready)
         {
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
