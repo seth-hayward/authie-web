@@ -29,7 +29,7 @@ namespace selfies.Controllers
             }
         }
 
-        public async Task<RODResponseMessage> Get(thread thready)
+        public RODResponseMessage Get(thread thready)
         {
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
             thread selected_thread = (from thread r in db.threads where r.groupKey == thready.groupKey select r).FirstOrDefault();
@@ -45,10 +45,10 @@ namespace selfies.Controllers
                 string alert_message = logged_in.name + " sent you a snap";
                 // post the message to urbanairship now
                 AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-                await service.SendChat(selected_thread.toHandle.publicKey, alert_message, thready.groupKey);
+                service.SendChat(selected_thread.toHandle.publicKey, alert_message, thready.groupKey);
 
                 msg.result = 1;
-                msg.message = "Success.";
+                msg.message = "Success";
             }
 
             return msg;
