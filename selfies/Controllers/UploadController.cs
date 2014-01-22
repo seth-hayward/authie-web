@@ -78,6 +78,13 @@ namespace selfies.Controllers
 
                     thread group_key = (from m in db.threads where m.groupKey.StartsWith(key) select m).FirstOrDefault();
 
+                    // send notification to airship
+                    string alert_text = logged_in.name + " sent you a snap";
+
+                    // post the message to urbanairship now
+                    AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
+                    AirshipResponse rep = await service.SendChat(group_key.toHandle.publicKey, alert_text, group_key.groupKey);
+
                     self.dateCreated = DateTime.UtcNow;
                     self.selfieGuid = group_key.groupKey;
                     self.userGuid = "1";
@@ -119,14 +126,6 @@ namespace selfies.Controllers
                     i.Build();
 
                     fileInfo.Delete();
-
-                    // send notification to airship
-                    string alert_text = logged_in.name + " sent you a snap";
-
-                    // post the message to urbanairship now
-                    AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-                    AirshipResponse rep = await service.SendChat(referring_thread.toHandle.publicKey, alert_text, referring_thread.groupKey);
-
                     
                 }
 
