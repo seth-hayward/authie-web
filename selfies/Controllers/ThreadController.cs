@@ -130,7 +130,7 @@ namespace selfies.Controllers
             db.threads.Add(clean_thread);
             db.SaveChanges();
 
-            if (_snap.caption.Length > 0)
+            if (_snap.caption != null)
             {
                 message chat_message = new message();
                 chat_message.threadId = clean_thread.id;
