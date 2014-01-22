@@ -58,7 +58,7 @@ namespace selfies.Controllers
 
                 // Read the form data and return an async task.
                 await Request.Content.ReadAsMultipartAsync(provider);
-
+                
                 // This illustrates how to get the form data.
                 foreach (var item_key in provider.FormData.AllKeys)
                 {
@@ -119,15 +119,16 @@ namespace selfies.Controllers
                     i.Build();
 
                     fileInfo.Delete();
+
+                    // send notification to airship
+                    string alert_text = logged_in.name + " sent you a snap";
+
+                    // post the message to urbanairship now
+                    AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
+                    AirshipResponse rep = await service.SendChat(referring_thread.toHandle.publicKey, alert_text, referring_thread.groupKey);
+
                     
                 }
-
-                // send notification to airship
-                string alert_text = logged_in.name + " sent you a snap";
-
-                // post the message to urbanairship now
-                AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-                AirshipResponse rep = await service.SendChat(referring_thread.toHandle.publicKey, alert_text, referring_thread.groupKey);
 
                 var response = new HttpResponseMessage()
                 {
