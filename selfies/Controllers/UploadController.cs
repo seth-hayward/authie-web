@@ -120,13 +120,6 @@ namespace selfies.Controllers
 
                     fileInfo.Delete();
                     
-                    // send notification to airship
-                    string alert_text = logged_in.name + " sent you a snap";
-
-                    // post the message to urbanairship now
-
-                    await SendNotification(referring_thread.toHandle.publicKey, alert_text, referring_thread.groupKey);
-
                 }
 
                 var response = new HttpResponseMessage()
@@ -150,15 +143,6 @@ namespace selfies.Controllers
                 };
                 return response;
             }
-        }
-
-        private async Task SendNotification(string to_public_key, string alert_message, string thread_key)
-        {
-
-            // post the message to urbanairship now
-            AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-            await service.SendChat(to_public_key, alert_message, thread_key);
-
         }
 
     }
