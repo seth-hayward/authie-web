@@ -29,10 +29,10 @@ namespace selfies.Controllers
             }
         }
 
-        public async Task<RODResponseMessage> Get(Snap thready)
+        public async Task<RODResponseMessage> Get([FromBody]string s)
         {
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
-            thread selected_thread = (from thread r in db.threads where r.groupKey == thready.groupKey select r).FirstOrDefault();
+            thread selected_thread = (from thread r in db.threads where r.groupKey == s select r).FirstOrDefault();
 
             RODResponseMessage msg = new RODResponseMessage();
 
