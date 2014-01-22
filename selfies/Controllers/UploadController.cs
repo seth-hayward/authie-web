@@ -37,6 +37,7 @@ namespace selfies.Controllers
         public async Task<HttpResponseMessage> PostFile(string key)
         {
             string user_id = User.Identity.Name;
+            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
             // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent())
@@ -110,6 +111,14 @@ namespace selfies.Controllers
                     fileInfo.Delete();
                     
                 }
+
+                // send notification to airship
+                string alert_text = logged_in.name + " sent you a snap";
+
+                // post the message to urbanairship now
+                AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
+                AirshipResponse rep = await service.SendChat(to_key, alert_text, referring_thread.groupKey);
+
 
                 var response = new HttpResponseMessage()
                 {
