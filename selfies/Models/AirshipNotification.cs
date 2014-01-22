@@ -29,6 +29,15 @@ namespace selfies.Models
         public class AirshipNotificationPayload
         {
             public string alert { get; set; }
+            public AirshipIos ios { get; set; }
+            public class AirshipIos
+            {
+                public AirshipThreadKey extra { get; set; }
+                public class AirshipThreadKey
+                {
+                    public string threadKey { get; set; } 
+                }
+            }
         }
 
         public List<string> device_types { get; set; }
