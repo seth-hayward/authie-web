@@ -29,10 +29,10 @@ namespace selfies.Controllers
             }
         }
 
-        public async Task<RODResponseMessage> Get([FromBody]string s)
+        public async Task<RODResponseMessage> Get(string id)
         {
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
-            thread selected_thread = (from thread r in db.threads where r.groupKey == s select r).FirstOrDefault();
+            thread selected_thread = (from thread r in db.threads where r.groupKey == id select r).FirstOrDefault();
 
             RODResponseMessage msg = new RODResponseMessage();
 
@@ -45,7 +45,7 @@ namespace selfies.Controllers
                 string alert_message = logged_in.name + " sent you a snap";
                 // post the message to urbanairship now
                 AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-                AirshipResponse arg = await service.SendChat(selected_thread.toHandle.publicKey, alert_message, s);
+                AirshipResponse arg = await service.SendChat(selected_thread.toHandle.publicKey, alert_message, id);
 
                 msg.result = 1;
                 msg.message = arg.message;
