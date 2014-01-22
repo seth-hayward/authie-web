@@ -69,23 +69,6 @@ namespace selfies.Controllers
             return selected;
         }
 
-        public async Task SendNotes(thread thready)
-        {
-            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
-            thread selected_thread = (from thread r in db.threads where r.groupKey == thready.groupKey select r).FirstOrDefault();
-
-            if (selected_thread != null && selected_thread.fromHandle.id == logged_in.id)
-            {
-
-                string alert_message = logged_in.name + " sent you a snap";
-                // post the message to urbanairship now
-                AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-                await service.SendChat(selected_thread.toHandle.publicKey, alert_message, thready.groupKey);
-            }
-
-        }
-
-        [HttpPost]
         public async Task<RODResponseMessage> Post(Snap _snap)
         {
 
