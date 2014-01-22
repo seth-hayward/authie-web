@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using selfies.Models;
 
@@ -69,7 +70,7 @@ namespace selfies.Controllers
         }
 
         [HttpPost]
-        public RODResponseMessage Post(Snap _snap)
+        public async Task<RODResponseMessage> Post(Snap _snap)
         {
 
             RODResponseMessage msg = new RODResponseMessage();
@@ -132,16 +133,27 @@ namespace selfies.Controllers
 
             if (_snap.caption != null)
             {
-                message chat_message = new message();
-                chat_message.threadId = clean_thread.id;
-                chat_message.messageText = clean_thread.caption;
-                chat_message.fromHandleId = clean_thread.fromHandleId;
-                db.messages.Add(chat_message);
-                db.SaveChanges();
+
+                if (_snap.caption.Length > 0)
+                {
+                    message chat_message = new message();
+                    chat_message.threadId = clean_thread.id;
+                    chat_message.messageText = clean_thread.caption;
+                    chat_message.fromHandleId = clean_thread.fromHandleId;
+                    db.messages.Add(chat_message);
+                    db.SaveChanges();
+                }
             }
 
             msg.message = clean_thread.id.ToString();
             msg.result = 1;
+
+            // send notification to airship
+            string alert_text = logged_in.name + " sent you a snap";
+
+            // post the message to urbanairship now
+            AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
+            AirshipResponse rep = await service.SendChat(clean_thread.toHandle.publicKey, alert_text, clean_thread.groupKey);
 
             return msg;
         }
