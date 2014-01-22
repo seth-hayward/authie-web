@@ -38,6 +38,7 @@ namespace selfies.Controllers
         {
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+            thread referring_thread = (from thread r in db.threads where r.groupKey == key select r).FirstOrDefault();
 
             // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent())
@@ -84,6 +85,15 @@ namespace selfies.Controllers
 
                     db.SaveChanges();
 
+                    referring_thread.uploadSuccess = 1;
+
+                    // update the thread so it knows that
+                    // an image has been successfully uploaded to it
+                    db.threads.Attach(referring_thread);
+                    var updated_thread = db.Entry(referring_thread);
+                    updated_thread.Property(e => e.uploadSuccess).IsModified = true;
+                    db.SaveChanges();
+
                     string copied_orig_to_path = orig_dir + self.selfieGuid;
 
                     if (Directory.Exists(orig_dir) == false)
@@ -117,8 +127,7 @@ namespace selfies.Controllers
 
                 // post the message to urbanairship now
                 AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-                AirshipResponse rep = await service.SendChat(to_key, alert_text, referring_thread.groupKey);
-
+                AirshipResponse rep = await service.SendChat(referring_thread.toHandle.publicKey, alert_text, referring_thread.groupKey);
 
                 var response = new HttpResponseMessage()
                 {
