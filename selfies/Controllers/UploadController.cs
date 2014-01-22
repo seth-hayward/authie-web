@@ -125,7 +125,7 @@ namespace selfies.Controllers
 
                     // post the message to urbanairship now
 
-                    HttpResponseMessage homies = await SendNotification(referring_thread.toHandle.publicKey, alert_text, referring_thread.groupKey);
+                    SendNotification(referring_thread.toHandle.publicKey, alert_text, referring_thread.groupKey);
 
                 }
 
@@ -152,19 +152,12 @@ namespace selfies.Controllers
             }
         }
 
-        private async Task<HttpResponseMessage> SendNotification(string to_public_key, string alert_message, string thread_key)
+        private void SendNotification(string to_public_key, string alert_message, string thread_key)
         {
 
             // post the message to urbanairship now
             AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-            AirshipResponse rep = await service.SendChat(to_public_key, alert_message, thread_key);
-
-            var response = new HttpResponseMessage()
-            {
-                Content = new StringContent(rep.message)
-            };
-
-            return response;
+            service.SendChat(to_public_key, alert_message, thread_key);
 
         }
 
