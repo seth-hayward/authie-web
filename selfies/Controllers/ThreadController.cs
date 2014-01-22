@@ -148,12 +148,6 @@ namespace selfies.Controllers
             msg.message = clean_thread.id.ToString();
             msg.result = 1;
 
-            // send notification to airship
-            string alert_text = logged_in.name + " sent you a snap";
-
-            // post the message to urbanairship now
-            AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-            AirshipResponse rep = await service.SendChat(clean_thread.toHandle.publicKey, alert_text, clean_thread.groupKey);
 
             return msg;
         }
