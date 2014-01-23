@@ -138,10 +138,10 @@
             // Reference the auto-generated proxy for the hub.  
             var chat = $.connection.authHub;
             // Create a function that the hub can call back to display messages.
-            chat.client.addMessage = function (name, message) {
+            chat.client.addMessage = function (name, message, group_key) {
                 // Add the message to the page. 
                 $('#discussion').append('<li><strong>' + htmlEncode(name)
-                    + '</strong>: ' + htmlEncode(message) + '</li>');
+                    + ' (' + group_key + ')</strong>: ' + htmlEncode(message) + '</li>');
             };
 
 
