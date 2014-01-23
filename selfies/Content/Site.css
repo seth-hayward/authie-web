@@ -197,5 +197,6 @@ div.inboxImage
 div.inboxControls
 {
     float: right;
-    padding-top: 7px;
+    padding-top: 10px;
+    padding-right: 20px;
 }
