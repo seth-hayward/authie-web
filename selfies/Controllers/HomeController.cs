@@ -42,6 +42,17 @@ namespace selfies.Controllers
             return View();
         }
 
+        public ActionResult Admin()
+        {
+            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+            if (logged_in.name != "seth")
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
+
         // profile
         public ActionResult Details(string handle)
         {

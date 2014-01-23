@@ -80,6 +80,9 @@ namespace selfies.Hubs
                 string user_id = Context.User.Identity.Name;
                 chatter = (from handle r in db.handles where r.userGuid.Equals(user_id) select r).FirstOrDefault();
                 handles.Add(connect_id, chatter);
+
+                Groups.Add(connect_id, chatter.publicKey);
+
             }
 
             // now loop through all of the clients,

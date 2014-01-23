@@ -51,8 +51,7 @@
 </ul>
 
 <input type="text" id="chatMessage" />
-<input type="button" id="sendChat" value="send" />
-<input type="button" id="async" value="async" />
+<input type="button" id="async" value="send" />
 
 
 @section Scripts {
@@ -158,7 +157,10 @@
                     // Call the Send method on the hub. 
                     var handle = '@ViewBag.handle.name';
                     var groupKey = '@Model.groupKey';
-                    chat.server.send(handle, $('#chatMessage').val(), groupKey);
+                    var message = $('#chatMessage').val();
+                    chat.server.send(handle, message, groupKey);
+                    $('#discussion').append('<li><strong>' + htmlEncode(handle)
+                        + ' (' + groupKey + ')</strong>: ' + htmlEncode(message) + '</li>');
                     // Clear text box and reset focus for next comment. 
                     $('#chatMessage').val('').focus();
                 });
