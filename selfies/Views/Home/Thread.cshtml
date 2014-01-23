@@ -150,6 +150,10 @@
 
             // Start the connection.
             $.connection.hub.start().done(function () {
+
+                // make a call to the join function
+                chat.server.join("OK");
+
                 $('#async').click(function () {
                     // Call the Send method on the hub. 
                     var handle = '@ViewBag.handle.name';

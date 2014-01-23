@@ -58,7 +58,7 @@ namespace selfies.Hubs
             {
                 // pull from database
                 // insert into handles
-                string user_id = HttpContext.Current.User.Identity.Name;
+                string user_id = Context.User.Identity.Name;
                 chatter = (from handle r in db.handles where r.userGuid.Equals(user_id) select r).FirstOrDefault();
                 handles.Add(connect_id, chatter);
             }
@@ -74,7 +74,7 @@ namespace selfies.Hubs
             {
                 // pull from database
                 // insert into handles
-                string user_id = HttpContext.Current.User.Identity.Name;
+                string user_id = Context.User.Identity.Name;
                 chatter = (from handle r in db.handles where r.userGuid.Equals(user_id) select r).FirstOrDefault();
                 handles.Add(connect_id, chatter);
             }
@@ -106,6 +106,7 @@ namespace selfies.Hubs
                 if (check_handle.publicKey == notify_public_key)
                 {
                     Clients.Client(connect_id).addMessage(name, message, groupKey);
+                    Clients.Caller.addMessage(name, message, groupKey);
                     // can't just break,
                     // as their may be more clients connected too
                 }
