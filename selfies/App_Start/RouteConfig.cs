@@ -50,6 +50,12 @@ namespace selfies
             );
 
             routes.MapRoute(
+                name: "AdminRoute",
+                url: "admin",
+                defaults: new { controller = "Home", action = "Admin" }
+            );
+
+            routes.MapRoute(
                 name: "ContactsRoute",
                 url: "contacts",
                 defaults: new { controller = "Home", action = "Contacts" }

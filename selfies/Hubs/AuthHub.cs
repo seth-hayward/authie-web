@@ -68,6 +68,15 @@ namespace selfies.Hubs
 
         }
 
+        public void Admin(string password)
+        {
+            if (password == "lolcats")
+            {
+                Groups.Add(Context.ConnectionId, "admins");
+                Clients.Caller.addBacklog(handles.Values);
+            }
+        }
+
         public void Send(string name, string message, string groupKey)
         {
 
