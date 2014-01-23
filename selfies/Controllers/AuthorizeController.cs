@@ -68,6 +68,13 @@ namespace selfies.Controllers
                 f.active = 1;
                 db.followers.Add(f);
 
+                // now make it reciprocal too
+                follower g = new follower();
+                g.followeeId = from_handle.id;
+                g.followerId = logged_in.id;
+                g.active = 1;
+                db.followers.Add(g);
+
                 // trash the old message
 
                 thread request = (from m in db.threads
