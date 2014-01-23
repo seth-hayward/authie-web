@@ -49,7 +49,7 @@ namespace selfies.Hubs
 
 
         // register to receive direct udpates from signalr
-        public void Join()
+        public void Join(string msg)
         {
             string connect_id = Context.ConnectionId;
             handle chatter = (handle)handles[connect_id];
