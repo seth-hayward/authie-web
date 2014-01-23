@@ -8,10 +8,10 @@ namespace selfies.Hubs
 {
     public class AuthHub : Hub
     {
-        public void Send(string name, string message)
+        public void Send(string name, string message, string groupKey)
         {
             // Call the addNewMessageToPage method to update clients.
-            Clients.All.addMessage(name, message);
+            Clients.All.addMessage(name, message, groupKey);
         }
     }
 }
