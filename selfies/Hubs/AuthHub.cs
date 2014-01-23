@@ -61,6 +61,9 @@ namespace selfies.Hubs
                 string user_id = Context.User.Identity.Name;
                 chatter = (from handle r in db.handles where r.userGuid.Equals(user_id) select r).FirstOrDefault();
                 handles.Add(connect_id, chatter);
+
+                // add to group for easier sending, plus multi-devicers
+                Groups.Add(connect_id, chatter.publicKey);
             }
 
         }
@@ -98,18 +101,7 @@ namespace selfies.Hubs
                 notify_public_key = selected_thread.fromHandle.publicKey;
             }
 
-
-            // now how i get the hashtable key from that object?
-            foreach (string connection_id in handles.Keys)
-            {
-                handle check_handle = (handle)handles[connection_id];
-                if (check_handle.publicKey == notify_public_key)
-                {
-                    Clients.Client(connect_id).addMessage(name, message, groupKey);
-                    // can't just break,
-                    // as their may be more clients connected too
-                }
-            }
+            Clients.Group(notify_public_key).addMessage(name, message, groupKey);
 
             message clean_message = new message();
             clean_message.fromHandleId = chatter.id;
