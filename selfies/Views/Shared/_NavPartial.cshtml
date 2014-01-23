@@ -6,9 +6,6 @@
 
         <text>
             <li><a href="@Url.Content("~/send")">send</a></li>
-            <li><a href="@Url.Content("~/contacts")">contacts</a></li>
-            <li><a href="@Url.Content("~/daily")">the daily</a></li>
-            <li><a href="@Url.Content("~/" + ViewBag.handle.name )">@ViewBag.handle.name</a></li>
         </text>        
         
     }
@@ -18,7 +15,6 @@ else {
     <text>
         <li><a href="@Url.Content("~/login")">login</a></li>
         <li>@Html.ActionLink("register", "Register", "Home")</li>
-        <li><a href="@Url.Content("~/daily")">the daily</a></li>
         <li><a href="@Url.Content("~/what")">what?</a></li>
     </text>
 }
