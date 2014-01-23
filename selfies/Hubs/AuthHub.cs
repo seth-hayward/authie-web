@@ -102,11 +102,10 @@ namespace selfies.Hubs
             // now how i get the hashtable key from that object?
             foreach (string connection_id in handles.Keys)
             {
-                handle check_handle = (handle)handles[connect_id];
+                handle check_handle = (handle)handles[connection_id];
                 if (check_handle.publicKey == notify_public_key)
                 {
                     Clients.Client(connect_id).addMessage(name, message, groupKey);
-                    Clients.Caller.addMessage(name, message, groupKey);
                     // can't just break,
                     // as their may be more clients connected too
                 }
