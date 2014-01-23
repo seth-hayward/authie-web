@@ -21,9 +21,7 @@
 
             var auth = $.connection.authHub;
 
-            auth.client.admin("lolcats");
-
-            visitor_update.client.addBacklog = function (messages) {
+            auth.client.addBacklog = function (messages) {
                 for (var i = 0; i < messages.length; i++) {
                     $("#handles").append("<li>" + messages[i].name + "</li>");
                 }
@@ -31,7 +29,7 @@
 
             // Start the connection
             $.connection.hub.start().done(function () {
-                visitor_update.server.admin("lolcats");
+                auth.server.admin("lolcats");
             });
 
         });
