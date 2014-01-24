@@ -38,6 +38,15 @@ namespace selfies.Controllers
             
             List<message> msgs = (from m in db.messages where (m.thread.fromHandleId == logged_in.id
                                   || m.thread.toHandleId == logged_in.id) select m).ToList();
+
+            foreach (message msg in msgs)
+            {
+                string s = msg.thread.groupKey;
+                msg.thread = new thread();
+                msg.thread.groupKey = s;
+
+            }
+
             return msgs;
         }
 
