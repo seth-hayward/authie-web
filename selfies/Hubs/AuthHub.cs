@@ -12,6 +12,12 @@ namespace selfies.Hubs
     public class AuthHub : Hub
     {
 
+        public class lilAuthie
+        {
+            public string connectionId;
+            public handle handle;
+        }
+
         private Hashtable _handles;
         public Hashtable handles
         {
@@ -52,18 +58,21 @@ namespace selfies.Hubs
         public void Join(string msg)
         {
             string connect_id = Context.ConnectionId;
-            handle chatter = (handle)handles[connect_id];
+            lilAuthie chatter = (lilAuthie)handles[connect_id];
 
             if (chatter == null)
             {
                 // pull from database
                 // insert into handles
                 string user_id = Context.User.Identity.Name;
-                chatter = (from handle r in db.handles where r.userGuid.Equals(user_id) select r).FirstOrDefault();
+
+                chatter = new lilAuthie();
+                chatter.connectionId = connect_id;
+                chatter.handle = (from handle r in db.handles where r.userGuid.Equals(user_id) select r).FirstOrDefault();
                 handles.Add(connect_id, chatter);
 
                 // add to group for easier sending, plus multi-devicers
-                Groups.Add(connect_id, chatter.publicKey);
+                Groups.Add(connect_id, chatter.handle.publicKey);
             }
 
         }
@@ -81,16 +90,21 @@ namespace selfies.Hubs
         {
 
             string connect_id = Context.ConnectionId;
-            handle chatter = (handle)handles[connect_id];
+            lilAuthie chatter = (lilAuthie)handles[connect_id];
+
             if (chatter == null)
             {
                 // pull from database
                 // insert into handles
                 string user_id = Context.User.Identity.Name;
-                chatter = (from handle r in db.handles where r.userGuid.Equals(user_id) select r).FirstOrDefault();
-                handles.Add(connect_id, chatter);
-                Groups.Add(connect_id, chatter.publicKey);
 
+                chatter = new lilAuthie();
+                chatter.connectionId = connect_id;
+                chatter.handle = (from handle r in db.handles where r.userGuid.Equals(user_id) select r).FirstOrDefault();
+                handles.Add(connect_id, chatter);
+
+                // add to group for easier sending, plus multi-devicers
+                Groups.Add(connect_id, chatter.handle.publicKey);
             }
 
             // now loop through all of the clients,
@@ -103,7 +117,7 @@ namespace selfies.Hubs
                   // if it is, then we are to the other person
 
             string notify_public_key = "";
-            if (selected_thread.fromHandle.id == chatter.id)
+            if (selected_thread.fromHandle.id == chatter.handle.id)
             {
                 notify_public_key = selected_thread.toHandle.publicKey;
             }
@@ -113,10 +127,17 @@ namespace selfies.Hubs
             }
 
             Clients.Group(notify_public_key).addMessage(name, message, groupKey);
-            Clients.All.addMessage("*" + name, message, groupKey);
+
+            foreach (lilAuthie a in handles.Values)
+            {
+                if (a.handle.publicKey == notify_public_key)
+                {
+                    Clients.Client(a.connectionId).addMessage(name, message, groupKey);
+                }
+            }
 
             message clean_message = new message();
-            clean_message.fromHandleId = chatter.id;
+            clean_message.fromHandleId = chatter.handle.id;
             clean_message.sentDate = DateTime.UtcNow;
             clean_message.messageText = message;
             clean_message.threadId = selected_thread.id;
