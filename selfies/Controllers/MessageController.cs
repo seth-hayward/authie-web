@@ -51,9 +51,17 @@ namespace selfies.Controllers
         }
 
         // return the messages from that thread...
-        public List<message> Get(string groupKey)
+        public List<message> Get(string id)
         {
-            List<message> msgs = (from m in db.messages where m.thread.groupKey == groupKey select m).ToList();
+            List<message> msgs = (from m in db.messages where m.thread.groupKey == id select m).ToList();
+
+            foreach (message msg in msgs)
+            {
+                string s = msg.thread.groupKey;
+                msg.thread = new thread();
+                msg.thread.groupKey = s;
+
+            }
             return msgs;
         }
 
