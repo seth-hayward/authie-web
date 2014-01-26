@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using selfies.Models;
 using System.Web.Security;
+using System.Net.Mail;
 
 
 namespace selfies.Controllers
@@ -88,6 +89,33 @@ namespace selfies.Controllers
 
                         safe_handle.publicKey = public_key.ToString();
                         safe_handle.privateKey = private_key.ToString();
+
+                        // send email about it
+
+                        MailMessage Message = new MailMessage();
+                        SmtpClient Smtp = new SmtpClient();
+
+                        string password = System.Web.Configuration.WebConfigurationManager.AppSettings["MailPassword"];
+
+                        System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential("noreply@letterstocrushes.com", password);
+
+                        string email = "new handle registered: \n\n";
+                        email = safe_handle.name + "\n\n";
+
+                        Message.From = new MailAddress("hello@selfies.io");
+                        Message.To.Add(new MailAddress("seth.hayward@gmail.com"));
+                        Message.IsBodyHtml = false;
+                        Message.Subject = "new handle";
+                        Message.Body = email;
+                        Message.Priority = MailPriority.Normal;
+                        Smtp.EnableSsl = false;
+
+                        Smtp.Credentials = SmtpUser;
+                        Smtp.Host = "198.57.199.92";
+                        Smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        Smtp.Port = 26;
+
+                        Smtp.Send(Message);
 
                         db.handles.Add(safe_handle);
                         db.SaveChanges();
