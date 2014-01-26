@@ -34,7 +34,17 @@ namespace selfies.Controllers
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
+            // fake the dash
+
+            follower dash = new follower();
+
+            dash.active = 1;
+            dash.followeeHandle = new handle();
+            dash.followeeHandle.name = "dash";
+
             List<follower> followers = (from follower m in db.followers where m.followerHandle.id.Equals(logged_in.id) && m.active.Equals(1) select m).ToList();
+
+            followers.Insert(0, dash);
 
             return followers;
         }
