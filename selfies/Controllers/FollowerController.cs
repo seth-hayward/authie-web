@@ -41,6 +41,7 @@ namespace selfies.Controllers
             dash.active = 1;
             dash.followeeHandle = new handle();
             dash.followeeHandle.name = "dash";
+            dash.followeeHandle.publicKey = "1";
 
             List<follower> followers = (from follower m in db.followers where m.followerHandle.id.Equals(logged_in.id) && m.active.Equals(1) select m).ToList();
 
