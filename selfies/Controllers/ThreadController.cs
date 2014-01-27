@@ -139,6 +139,7 @@ namespace selfies.Controllers
                     chat_message.threadId = clean_thread.id;
                     chat_message.messageText = clean_thread.caption;
                     chat_message.fromHandleId = clean_thread.fromHandleId;
+                    chat_message.sentDate = DateTime.UtcNow;
                     db.messages.Add(chat_message);
                     db.SaveChanges();
                 }
