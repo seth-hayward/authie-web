@@ -86,7 +86,7 @@ namespace selfies.Hubs
             }
         }
 
-        public void Send(string name, string message, string groupKey)
+        public async void Send(string name, string message, string groupKey)
         {
 
             string connect_id = Context.ConnectionId;
@@ -104,7 +104,7 @@ namespace selfies.Hubs
                 handles.Add(connect_id, chatter);
 
                 // add to group for easier sending, plus multi-devicers
-                Groups.Add(connect_id, chatter.handle.publicKey);
+                await Groups.Add(connect_id, chatter.handle.publicKey);
             }
 
             // now loop through all of the clients,
@@ -144,6 +144,11 @@ namespace selfies.Hubs
 
             db.messages.Add(clean_message);
             db.SaveChanges();
+
+            // send a notification
+            string alert_message = chatter.handle.name + "said: " + message;
+            AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
+            AirshipResponse arg = await service.SendChat(notify_public_key, alert_message, selected_thread.groupKey);
 
         }
     }
