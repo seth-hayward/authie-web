@@ -146,7 +146,7 @@ namespace selfies.Hubs
             db.SaveChanges();
 
             // send a notification
-            string alert_message = chatter.handle.name + "said: " + message;
+            string alert_message = chatter.handle.name + " said: " + message;
             AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
             AirshipResponse arg = await service.SendChat(notify_public_key, alert_message, selected_thread.groupKey);
 
