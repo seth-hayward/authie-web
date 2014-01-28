@@ -36,22 +36,27 @@ namespace selfies.Controllers
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
+
+            if (logged_in == null)
+            {
+                return new List<thread>();
+            }
+
             List<follower> followers = (from follower m in db.followers
-                                      where m.followerId == logged_in.id &&
+                                      where m.followeeId == logged_in.id &&
                                       m.active == 1
                                       select m).ToList();
 
-            List<int> follower_ids = (from m in followers select m.id).ToList();
+            List<int> follower_ids = (from m in followers select m.followerHandle.id).ToList();
 
-            //List<thread> threads = (from thread m in db.threads
-            //                        where
-            //                            (m.toHandleId.Equals(logged_in.id)
-            //                            || m.fromHandleId.Equals(logged_in.id)
-            //                            ) &
-            //                            m.active.Equals(1)
-            //                        select m).ToList();
+            List<thread> threads = (from thread m in db.threads
+                                    where
+                                        (m.toHandleId.Equals(logged_in.id)
+                                        || m.fromHandleId.Equals(logged_in.id)
+                                        ) &
+                                        m.active.Equals(1)
+                                    select m).ToList();
 
-            List<thread> threads = new List<thread>();
             List<thread> follower_threads = (from thread m in db.threads where
                                                  follower_ids.Contains(m.fromHandleId)
                                                  && m.toHandleId == 1 && m.active == 1
@@ -59,7 +64,7 @@ namespace selfies.Controllers
 
             List <thread> ordered_threads = threads.Union(follower_threads).ToList();
 
-            threads = (from t in threads orderby t.id descending select t).ToList();
+            threads = (from t in ordered_threads orderby t.id descending select t).ToList();
 
             return threads;
         }
