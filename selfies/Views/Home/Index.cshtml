@@ -5,13 +5,36 @@
 
     <text>
 
-        <ul class="inbox">
-            @if (ViewBag.threads.Count == 0)
-            {
-                <text><li>no threads yet, <a href="@Url.Content("~/send")">send one</a></li></text>
-            } 
 
-            @if (ViewBag.threads.Count > 0)
+    <!-- ko if: threads().length == 0 -->
+    <ul>
+        <li>no threads yet, <a href="@Url.Content("~/send")">send one</a></li>
+    </ul>
+    <!-- /ko -->
+
+    <!-- ko if: threads().length > 0 -->
+        <ul class="inbox" data-bind="foreach: threads">
+            <li data-bind="attr: { id: 'li-' + groupKey }">
+
+                <div class="inboxImage">
+                    <img data-bind="attr: { src: '@Url.Content("~/api/snap/thumb/")' + groupKey }" />
+                </div>
+
+                <div class="inboxText">
+                    <a data-bind="attr: { href: '@Url.Content("~/threads/")' + groupKey }">
+                        from <span data-bind="text: fromHandle.name"></span>, to <span data-bind="text: toHandle.name"></span><br />
+                        <abbr class="timeago" data-bind="attr: { title: startDate }"><span data-bind="text: startDate + 'Z'"></span></abbr>
+                    </a>
+                </div>
+
+            </li>
+        </ul>
+    <!-- /ko -->
+
+
+
+
+@*            @if (ViewBag.threads.Count > 0)
             {
                 foreach (thread thready in ViewBag.threads)
                 {
@@ -43,9 +66,7 @@
                     </li>
                 </text>
                 }
-            }
-
-        </ul>
+            }*@
 
     </text>
             
@@ -103,5 +124,37 @@ else
 
         });
     });
+</script>
+<script type="text/javascript">
+
+    function InboxViewModel() {
+        var self = this;
+
+        self.threads = ko.observableArray([]);
+
+        self.loadThreads = function () {
+
+            self.threads.removeAll();
+
+            $.get("@Url.Content("~/api/thread")", function (data, status) {
+
+                if (data.length > 0) {
+                    $.each(data, function (i, item) {
+                        self.threads.push(item);
+                    });
+                }
+
+            });
+
+
+        }
+
+        // initial load on init...
+        self.loadThreads();
+
+
+        }
+
+        ko.applyBindings(new InboxViewModel());
 </script>
 }
