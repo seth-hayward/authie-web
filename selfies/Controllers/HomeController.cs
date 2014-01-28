@@ -106,14 +106,6 @@ namespace selfies.Controllers
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
             ViewBag.handle = logged_in;
 
-
-            if (logged_in != null)
-            {
-                List<thread> threads = (from thread m in db.threads where m.active.Equals(1) && (m.toHandleId.Equals(logged_in.id) || m.fromHandleId.Equals(logged_in.id)) select m).ToList();
-                threads.Reverse();
-                ViewBag.threads = threads;
-            }
-
             return View();
         }
 

@@ -23,7 +23,7 @@
                 <div class="inboxText">
                     <a data-bind="attr: { href: '@Url.Content("~/threads/")' + groupKey }">
                         from <span data-bind="text: fromHandle.name"></span>, to <span data-bind="text: toHandle.name"></span><br />
-                        <abbr class="timeago" data-bind="attr: { title: startDate }"><span data-bind="text: startDate + 'Z'"></span></abbr>
+                        <div data-bind="text: startDate"></div>
                     </a>
                 </div>
 
@@ -140,6 +140,7 @@ else
 
                 if (data.length > 0) {
                     $.each(data, function (i, item) {
+                        item.startDate = item.startDate + "Z";
                         self.threads.push(item);
                     });
                 }
@@ -153,6 +154,21 @@ else
         self.loadThreads();
 
 
+        }
+
+        ko.bindingHandlers.timeago = {
+            init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+                var value = valueAccessor();
+                var valueUnwrapped = ko.unwrap(value);
+                element.title = moment(valueUnwrapped).toISOString();
+                $(element).timeago();
+            },
+            update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+                var value = valueAccessor();
+                var valueUnwrapped = ko.unwrap(value);
+                element.title = moment(valueUnwrapped).toISOString();
+                $(element).timeago('update', element.title);
+            }
         }
 
         ko.applyBindings(new InboxViewModel());
