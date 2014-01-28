@@ -56,7 +56,7 @@ namespace selfies.Controllers
 
             threads = threads.Union(follower_threads).ToList();
 
-            threads.Reverse(); 
+            threads = (from t in threads orderby t.id descending select t).ToList();
 
             return threads;
         }
