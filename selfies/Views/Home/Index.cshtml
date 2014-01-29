@@ -23,8 +23,8 @@
                 <div class="inboxText">
                     <a data-bind="attr: { href: '@Url.Content("~/threads/")' + groupKey }">
                         from <span data-bind="text: fromHandle.name"></span>, to <span data-bind="text: toHandle.name"></span><br />
-                        <div data-bind="text: startDate"></div>
                     </a>
+                    <div data-bind="timeago: startDate"></div>
                 </div>
 
             </li>
@@ -129,6 +129,23 @@ else
 
     function InboxViewModel() {
         var self = this;
+
+        ko.bindingHandlers.timeago = {
+            init: function(element, valueAccessor, allBindingsAccessor) {
+                // First get the latest data that we're bound to
+                var value = valueAccessor(), allBindings = allBindingsAccessor();
+
+                // Next, whether or not the supplied model property is observable,
+                // get its current value
+                var valueUnwrapped = ko.utils.unwrapObservable(value);
+
+                // set the title attribute to the value passed
+                $(element).attr('title', valueUnwrapped);
+
+                // apply timeago to change the text of the element
+                $(element).timeago();
+            }
+        };
 
         self.threads = ko.observableArray([]);
 

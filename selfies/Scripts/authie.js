@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    $("abbr.timeago").timeago();
+    $("abbr.timeago").timeago('updateFromDOM');
 
     $("a.remover").click(function () {
         var currentId = $(this).attr('id');
