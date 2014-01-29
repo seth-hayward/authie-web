@@ -48,6 +48,7 @@ namespace selfies.Controllers
 
             string orig_dir = HttpContext.Current.Server.MapPath("~/snaps/orig/");
             string sz500_dir = HttpContext.Current.Server.MapPath("~/snaps/500/");
+            string sz640_dir = HttpContext.Current.Server.MapPath("~/snaps/640/");
             string thumb_dir = HttpContext.Current.Server.MapPath("~/snaps/thumb/");
 
             var provider = new MultipartFormDataStreamProvider(orig_dir);
@@ -107,6 +108,14 @@ namespace selfies.Controllers
 
                     ImageResizer.ImageJob i = new ImageResizer.ImageJob(copied_orig_to_path, fileName, new ImageResizer.Instructions(
                                     "width=500;height=900;format=jpg;mode=max;autorotate=true"));
+                    i.CreateParentDirectory = true; //Auto-create the uploads directory.
+                    i.Build();
+
+                    // generate 640px version (retina display)
+                    fileName = sz640_dir + self.selfieGuid;
+
+                    i = new ImageResizer.ImageJob(copied_orig_to_path, fileName, new ImageResizer.Instructions(
+                                    "width=640;height=900;format=jpg;mode=max;autorotate=true"));
                     i.CreateParentDirectory = true; //Auto-create the uploads directory.
                     i.Build();
 
