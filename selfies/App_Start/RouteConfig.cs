@@ -26,6 +26,12 @@ namespace selfies
             );
 
             routes.MapRoute(
+                name: "AppAboutRoute",
+                url: "appabout",
+                defaults: new { controller = "Home", action = "AppAbout" }
+            );
+
+            routes.MapRoute(
                 name: "WhatRoute",
                 url: "what",
                 defaults: new { controller = "Home", action = "What" }

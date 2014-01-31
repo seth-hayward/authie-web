@@ -282,6 +282,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>selfiesModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Images\authie-help-home.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\heart.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -386,6 +389,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Admin.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\AppAbout.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -130,6 +130,12 @@ namespace selfies.Controllers
 
         }
 
+        // this view is shown in-app 
+        public ActionResult AppAbout()
+        {
+            return View();
+        }
+
         public ActionResult Register()
         {
             return View();
