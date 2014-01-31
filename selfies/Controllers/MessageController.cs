@@ -37,7 +37,7 @@ namespace selfies.Controllers
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
             
             List<message> msgs = (from m in db.messages where (m.thread.fromHandleId == logged_in.id
-                                  || m.thread.toHandleId == logged_in.id) select m).ToList();
+                                  || m.thread.toHandleId == logged_in.id) orderby m.sentDate descending select m).Take(50).ToList();
 
             foreach (message msg in msgs)
             {
