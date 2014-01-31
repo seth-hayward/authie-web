@@ -39,6 +39,8 @@ namespace selfies.Controllers
             List<message> msgs = (from m in db.messages where (m.thread.fromHandleId == logged_in.id
                                   || m.thread.toHandleId == logged_in.id) orderby m.sentDate descending select m).Take(50).ToList();
 
+            msgs.Reverse();
+
             foreach (message msg in msgs)
             {
                 string s = msg.thread.groupKey;
