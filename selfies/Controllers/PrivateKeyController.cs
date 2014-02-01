@@ -8,9 +8,8 @@ using selfies.Models;
 
 namespace selfies.Controllers
 {
-    public class CheckHandleController : ApiController
+    public class PrivateKeyController : ApiController
     {
-
         private selfiesMySQL _db;
         public selfiesMySQL db
         {
@@ -28,16 +27,18 @@ namespace selfies.Controllers
             }
         }
 
-
-        // POST api/values
-        public RODResponseMessage Post(handle check_handle)
+        public RODResponseMessage Get()
         {
 
+            string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
-            if (logged_in == null)
+            // always return handle name so the client knows which response
+            // they are getting
+
+            if (logged_in.name == null)
             {
-                return new RODResponseMessage { message = "load error", result = 0 };
+                return new RODResponseMessage { message = "error", result = 0 };
             }
             else
             {
@@ -45,6 +46,5 @@ namespace selfies.Controllers
             }
 
         }
-
     }
 }

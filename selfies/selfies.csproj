@@ -211,6 +211,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\PrivateKeyController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SnapController.cs" />
     <Compile Include="Controllers\TagLineController.cs" />

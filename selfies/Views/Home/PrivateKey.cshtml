@@ -3,8 +3,22 @@
 }
 
 <p>your private key is:<br />
-    <b><span style="font-size: 35px">@ViewBag.privateKey</span></b></p>
+    <b><span style="font-size: 35px" id="key"></span></b></p>
 <p>you use your private key to log in to authie on a phone or other
     computers/browsers/technologies. your private key is like a password,
     so please don't show it to anyone.
 </p>
+
+@section Scripts {
+
+<script>
+$(document).ready(function () {
+    $.get("@Url.Content("~/api/privatekey")", function(data, status) {
+        
+        $("#key").html(data.message);
+          
+      });
+});
+</script>
+
+}
