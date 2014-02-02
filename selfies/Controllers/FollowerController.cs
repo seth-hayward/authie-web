@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using selfies.Models;
+using AutoMapper;
 
 namespace selfies.Controllers
 {
@@ -28,8 +29,13 @@ namespace selfies.Controllers
             }
         }
 
+        public FollowerController()
+        {
+            Mapper.CreateMap<follower, followerDTO>();
+        }
+
         // without parameters, return all followers/contacts from the current user
-        public List<follower> Get()
+        public List<followerDTO> Get()
         {
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
@@ -47,7 +53,24 @@ namespace selfies.Controllers
 
             followers.Insert(0, dash);
 
-            return followers;
+            List<followerDTO> followersDTO = Mapper.Map<List<follower>, List<followerDTO>>(followers);
+
+            foreach (followerDTO d in followersDTO)
+            {
+                thread t = (from m in db.threads
+                            where m.fromHandleId == d.followeeId
+                                && m.active == 1 && m.toHandleId == 1
+                            orderby m.id descending
+                            select m).FirstOrDefault();
+
+                if (t != null)
+                {
+                    d.mostRecentSnap = t.groupKey;
+                }
+
+            }
+
+            return followersDTO;
         }
 
         [HttpPost]
