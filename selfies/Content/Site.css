@@ -200,3 +200,21 @@ div.inboxControls
     padding-top: 10px;
     padding-right: 20px;
 }
+
+div#backButton
+{
+    width: 100px;
+    padding: 25px;
+    font-size: 14px;
+    float: left;
+    text-align: center;
+}
+
+div#nextButton
+{
+    width: 100px;
+    padding: 25px;
+    font-size: 14px;
+    float: right;
+    text-align: center;
+}
