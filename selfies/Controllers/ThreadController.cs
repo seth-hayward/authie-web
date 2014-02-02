@@ -31,7 +31,8 @@ namespace selfies.Controllers
 
         // inbox 
         // super secret
-        public List<thread> Get()
+        // paginated
+        public List<thread> Get(int id = 1)
         {
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
@@ -66,6 +67,13 @@ namespace selfies.Controllers
 
             threads = (from t in ordered_threads orderby t.id descending select t).ToList();
 
+            threads = threads.Skip((id - 1) * 10).Take(10).ToList();
+
+            foreach (thread d in threads)
+            {
+                d.messages = new List<message>();
+            }
+
             return threads;
         }
 
@@ -86,12 +94,6 @@ namespace selfies.Controllers
             threads.Reverse();
 
             return threads;
-        }
-
-        public thread Get(int id)
-        {
-            thread selected = (from m in db.threads where m.id.Equals(id) select m).FirstOrDefault();
-            return selected;
         }
 
         public async Task<RODResponseMessage> Post(Snap _snap)
