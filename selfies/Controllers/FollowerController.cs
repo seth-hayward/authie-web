@@ -55,19 +55,39 @@ namespace selfies.Controllers
 
             List<followerDTO> followersDTO = Mapper.Map<List<follower>, List<followerDTO>>(followers);
 
+
             foreach (followerDTO d in followersDTO)
             {
-                thread t = (from m in db.threads
-                            where m.fromHandleId == d.followeeId
-                                && m.active == 1 && m.toHandleId == 1
-                            orderby m.id descending
-                            select m).FirstOrDefault();
 
-                if (t != null)
-                {
-                    d.mostRecentSnap = t.groupKey;
+                if(d.followeeHandle.name == "dash") {
+
+                    thread yourMostRecentDash = (from m in db.threads
+                                                 where
+                                                     m.fromHandleId == logged_in.id &&
+                                                     m.active == 1 && m.toHandleId == 1
+                                                 orderby m.id descending
+                                                 select m).FirstOrDefault();
+
+                    if (yourMostRecentDash != null)
+                    {
+                        d.mostRecentSnap = yourMostRecentDash.groupKey;
+                    }
+
+                } else {
+
+                    thread t = (from m in db.threads
+                                where m.fromHandleId == d.followeeId
+                                    && m.active == 1 && m.toHandleId == 1
+                                orderby m.id descending
+                                select m).FirstOrDefault();
+
+                    if (t != null)
+                    {
+                        d.mostRecentSnap = t.groupKey;
+                    }
+
+
                 }
-
             }
 
             return followersDTO;
