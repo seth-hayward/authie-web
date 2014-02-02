@@ -31,6 +31,19 @@
         </ul>
     <!-- /ko -->
 
+    <!-- pager -->
+
+    <div id="pager">
+
+        <div id="backButton" data-bind="visible: currentPage() > 1">
+            <a href="#" data-bind="click: goBack">back</a>
+        </div>
+        <div id="nextButton">
+            <a href="#" data-bind="click: goNext">next</a>
+        </div>
+
+    </div>
+    
 
 
 
@@ -148,12 +161,25 @@ else
         };
 
         self.threads = ko.observableArray([]);
+        self.currentPage = ko.observable(1);
+
+        self.goBack = function() {
+            var page = self.currentPage() - 1;
+            self.currentPage(page);
+            self.loadThreads();
+        }
+
+        self.goNext = function() {
+            var page = self.currentPage() + 1;
+            self.currentPage(page);
+            self.loadThreads();
+        }
 
         self.loadThreads = function () {
 
             self.threads.removeAll();
 
-            $.get("@Url.Content("~/api/thread")", function (data, status) {
+            $.get("@Url.Content("~/api/thread/")" + self.currentPage(), function (data, status) {
 
                 if (data.length > 0) {
                     $.each(data, function (i, item) {
