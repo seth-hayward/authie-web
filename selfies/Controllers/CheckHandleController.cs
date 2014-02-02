@@ -33,16 +33,20 @@ namespace selfies.Controllers
         public RODResponseMessage Post(handle check_handle)
         {
 
-            handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+            handle currently_exists = (from m in db.handles where m.name.Equals(check_handle.name) && m.active == 1 select m).FirstOrDefault();
 
-            if (logged_in == null)
+            // always return handle name so the client knows which response
+            // they are getting
+
+            if (currently_exists == null)
             {
-                return new RODResponseMessage { message = "load error", result = 0 };
+                return new RODResponseMessage { message = check_handle.name, result = 1 };
             }
             else
             {
-                return new RODResponseMessage { message = logged_in.privateKey.Substring(0, 5), result = 1 };
+                return new RODResponseMessage { message = check_handle.name, result = 0 };
             }
+
 
         }
 
