@@ -13,5 +13,6 @@ namespace selfies.Models
         public Nullable<int> active { get; set; }
         public string publicKey { get; set; }
         public string tagLine { get; set; }
+        public string mostRecentPublicSnap { get; set; }
     }
 }
