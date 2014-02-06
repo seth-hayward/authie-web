@@ -21,8 +21,8 @@ namespace selfies.Models
 
             AirshipResponse arr = new AirshipResponse();
 
-            string username = "bowqtjANSiadJX-dQQjikg";
-            string password = "6pFP8TKoSEqNpRiyxgYEgA";
+            string username = System.Web.Configuration.WebConfigurationManager.AppSettings["UAUser"];
+            string password = System.Web.Configuration.WebConfigurationManager.AppSettings["UAPassword"];
 
             HttpClientHandler handler = new HttpClientHandler();
             HttpClient client = new HttpClient(handler);
