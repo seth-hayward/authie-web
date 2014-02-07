@@ -16,8 +16,9 @@
         <AssociationConnector Association="selfiesModel.FKmessagesfromHandleId" />
         <AssociationConnector Association="selfiesModel.FKmessagesthreadId" />
         <EntityTypeShape EntityType="selfiesModel.message" Width="1.5" PointX="4.25" PointY="6.25" />
-        <AssociationConnector Association="selfiesModel.FKmessagesfromHandleId" />
-        <AssociationConnector Association="selfiesModel.FKmessagesthreadId" />
+        <EntityTypeShape EntityType="selfiesModel.block" Width="1.5" PointX="0.5" PointY="4.875" />
+        <AssociationConnector Association="selfiesModel.FKblockedById" />
+        <AssociationConnector Association="selfiesModel.FKblockedHandleId" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

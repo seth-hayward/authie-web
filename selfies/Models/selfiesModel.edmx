@@ -6,11 +6,20 @@
     <edmx:StorageModels>
     <Schema Namespace="selfiesModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="selfiesModelStoreContainer">
+          <EntitySet Name="blocks" EntityType="selfiesModel.Store.blocks" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="followers" EntityType="selfiesModel.Store.followers" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="handles" EntityType="selfiesModel.Store.handles" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="messages" EntityType="selfiesModel.Store.messages" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="selfies" EntityType="selfiesModel.Store.selfies" store:Type="Tables" Schema="selfies" />
           <EntitySet Name="threads" EntityType="selfiesModel.Store.threads" store:Type="Tables" Schema="selfies" />
+          <AssociationSet Name="FKblockedById" Association="selfiesModel.Store.FKblockedById">
+            <End Role="handles" EntitySet="handles" />
+            <End Role="blocks" EntitySet="blocks" />
+          </AssociationSet>
+          <AssociationSet Name="FKblockedHandleId" Association="selfiesModel.Store.FKblockedHandleId">
+            <End Role="handles" EntitySet="handles" />
+            <End Role="blocks" EntitySet="blocks" />
+          </AssociationSet>
           <AssociationSet Name="FKfolloweeId" Association="selfiesModel.Store.FKfolloweeId">
             <End Role="handles" EntitySet="handles" />
             <End Role="followers" EntitySet="followers" />
@@ -36,6 +45,16 @@
             <End Role="threads" EntitySet="threads" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="blocks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="blockedHandleId" Type="int" Nullable="false" />
+          <Property Name="blockedByHandleId" Type="int" Nullable="false" />
+          <Property Name="blockedOn" Type="datetime" Nullable="false" />
+          <Property Name="active" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="followers">
           <Key>
             <PropertyRef Name="id" />
@@ -61,7 +80,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="fromHandleId" Type="int" Nullable="false" />
           <Property Name="threadId" Type="int" Nullable="false" />
           <Property Name="sentDate" Type="datetime" Nullable="false" />
@@ -95,6 +114,30 @@
           <Property Name="hearts" Type="int" />
           <Property Name="uploadSuccess" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FKblockedById">
+          <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
+          <End Role="blocks" Type="selfiesModel.Store.blocks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="blocks">
+              <PropertyRef Name="blockedByHandleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKblockedHandleId">
+          <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
+          <End Role="blocks" Type="selfiesModel.Store.blocks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="blocks">
+              <PropertyRef Name="blockedHandleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKfolloweeId">
           <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
           <End Role="followers" Type="selfiesModel.Store.followers" Multiplicity="*" />
@@ -200,6 +243,15 @@
           <AssociationSet Name="FKmessagesthreadId" Association="selfiesModel.FKmessagesthreadId">
             <End Role="thread" EntitySet="threads" />
             <End Role="message" EntitySet="messages" />
+          </AssociationSet>
+          <EntitySet Name="blocks" EntityType="selfiesModel.block" />
+          <AssociationSet Name="FKblockedById" Association="selfiesModel.FKblockedById">
+            <End Role="handle" EntitySet="handles" />
+            <End Role="block" EntitySet="blocks" />
+          </AssociationSet>
+          <AssociationSet Name="FKblockedHandleId" Association="selfiesModel.FKblockedHandleId">
+            <End Role="handle" EntitySet="handles" />
+            <End Role="block" EntitySet="blocks" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="selfy">
@@ -340,6 +392,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="block">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="blockedHandleId" Nullable="false" />
+          <Property Type="Int32" Name="blockedByHandleId" Nullable="false" />
+          <Property Type="DateTime" Name="blockedOn" Nullable="false" />
+          <Property Type="Int32" Name="active" Nullable="false" />
+          <NavigationProperty Name="blockedByHandle" Relationship="selfiesModel.FKblockedById" FromRole="block" ToRole="handle" />
+          <NavigationProperty Name="blockedHandle" Relationship="selfiesModel.FKblockedHandleId" FromRole="block" ToRole="handle" />
+        </EntityType>
+        <Association Name="FKblockedById">
+          <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
+          <End Type="selfiesModel.block" Role="block" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handle">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="block">
+              <PropertyRef Name="blockedByHandleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKblockedHandleId">
+          <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
+          <End Type="selfiesModel.block" Role="block" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handle">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="block">
+              <PropertyRef Name="blockedHandleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -406,6 +494,17 @@
                 <ScalarProperty Name="sentDate" ColumnName="sentDate" />
                 <ScalarProperty Name="threadId" ColumnName="threadId" />
                 <ScalarProperty Name="fromHandleId" ColumnName="fromHandleId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="blocks">
+            <EntityTypeMapping TypeName="selfiesModel.block">
+              <MappingFragment StoreEntitySet="blocks">
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="blockedOn" ColumnName="blockedOn" />
+                <ScalarProperty Name="blockedByHandleId" ColumnName="blockedByHandleId" />
+                <ScalarProperty Name="blockedHandleId" ColumnName="blockedHandleId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -30,5 +30,6 @@ namespace selfies.Models
         public DbSet<follower> followers { get; set; }
         public DbSet<thread> threads { get; set; }
         public DbSet<message> messages { get; set; }
+        public DbSet<block> blocks { get; set; }
     }
 }
