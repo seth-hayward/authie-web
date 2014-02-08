@@ -1,4 +1,4 @@
-selfies.io
+authie-web
 ==========
 
-silly little selfies project with @fake_train and @Jeevesmeister
+photo-sharing instant messenger project with @katelosse
