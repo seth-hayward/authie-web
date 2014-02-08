@@ -57,8 +57,7 @@ namespace selfies.Controllers
                 db.SaveChanges();
 
                 // remove original contact if it exists
-                FollowerController fc = new FollowerController();
-                fc.removeContact(blocked_user.id);
+                removeContact(blocked_user.id);
 
                 string password = System.Web.Configuration.WebConfigurationManager.AppSettings["MailPassword"];
 
@@ -92,6 +91,33 @@ namespace selfies.Controllers
             }
 
             return b;
+        }
+
+        public int removeContact(int remove_id)
+        {
+
+            handle to_handle = (from m in db.handles where m.id == remove_id && m.active == 1 select m).FirstOrDefault();
+            handle from_handle = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
+
+            follower follow_connect = (from m in db.followers where m.followerHandle.id == from_handle.id && m.followeeHandle.id == to_handle.id && m.active == 1 select m).FirstOrDefault();
+            if (follow_connect == null)
+            {
+                return 0;
+            }
+            else
+            {
+                follow_connect.active = 0;
+
+                db.followers.Attach(follow_connect);
+
+                var updated_follower = db.Entry(follow_connect);
+                updated_follower.Property(e => e.active).IsModified = true;
+
+                db.SaveChanges();
+
+                return 1;
+            }
+
         }
 
     }
