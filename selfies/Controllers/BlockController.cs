@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Web.Http;
 using selfies.Models;
 
@@ -59,6 +60,34 @@ namespace selfies.Controllers
             {
                 b.active = 0;
             }
+
+            // remove original contact if it exists
+            FollowerController fc = new FollowerController();
+            fc.removeContact(blocked_user.id);
+
+            string password = System.Web.Configuration.WebConfigurationManager.AppSettings["MailPassword"];
+
+            MailMessage Message = new MailMessage();
+            SmtpClient Smtp = new SmtpClient();
+
+            System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential("noreply@letterstocrushes.com", password);
+
+            string email = logged_in.name + " blocked " + blocked_user.name;
+
+            Message.From = new MailAddress("hello@selfies.io");
+            Message.To.Add(new MailAddress("seth.hayward@gmail.com"));
+            Message.IsBodyHtml = false;
+            Message.Subject = "block";
+            Message.Body = email;
+            Message.Priority = MailPriority.Normal;
+            Smtp.EnableSsl = false;
+
+            Smtp.Credentials = SmtpUser;
+            Smtp.Host = "198.57.199.92";
+            Smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            Smtp.Port = 26;
+
+            Smtp.Send(Message);
 
             return b;
         }
