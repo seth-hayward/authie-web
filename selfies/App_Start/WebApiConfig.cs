@@ -19,6 +19,12 @@ namespace selfies
             );
 
             config.Routes.MapHttpRoute(
+                name: "BlockApi",
+                routeTemplate: "api/block/{id}",
+                defaults: new { controller = "Block", id = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "ThreadsApi",
                 routeTemplate: "api/threads/{publicKey}",
                 defaults: new { controller = "Thread" }
