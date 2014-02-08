@@ -57,31 +57,47 @@ namespace selfies.Controllers
                 db.SaveChanges();
 
                 // remove original contact if it exists
-                removeContact(blocked_user.id);
+                //handle to_handle = (from m in db.handles where m.id == remove_id && m.active == 1 select m).FirstOrDefault();
+                //handle from_handle = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
-                string password = System.Web.Configuration.WebConfigurationManager.AppSettings["MailPassword"];
+                follower follow_connect = (from m in db.followers where m.followerHandle.id == logged_in.id && m.followeeHandle.id == blocked_user.id && m.active == 1 select m).FirstOrDefault();
+                if (follow_connect != null)
+                {
+                    follow_connect.active = 0;
 
-                MailMessage Message = new MailMessage();
-                SmtpClient Smtp = new SmtpClient();
+                    db.followers.Attach(follow_connect);
 
-                System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential("noreply@letterstocrushes.com", password);
+                    var updated_follower = db.Entry(follow_connect);
+                    updated_follower.Property(e => e.active).IsModified = true;
 
-                string email = logged_in.name + " blocked " + blocked_user.name;
+                    db.SaveChanges();
 
-                Message.From = new MailAddress("hello@selfies.io");
-                Message.To.Add(new MailAddress("seth.hayward@gmail.com"));
-                Message.IsBodyHtml = false;
-                Message.Subject = "block";
-                Message.Body = email;
-                Message.Priority = MailPriority.Normal;
-                Smtp.EnableSsl = false;
+                    string password = System.Web.Configuration.WebConfigurationManager.AppSettings["MailPassword"];
 
-                Smtp.Credentials = SmtpUser;
-                Smtp.Host = "198.57.199.92";
-                Smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                Smtp.Port = 26;
+                    MailMessage Message = new MailMessage();
+                    SmtpClient Smtp = new SmtpClient();
 
-                Smtp.Send(Message);
+                    System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential("noreply@letterstocrushes.com", password);
+
+                    string email = logged_in.name + " blocked " + blocked_user.name;
+
+                    Message.From = new MailAddress("hello@selfies.io");
+                    Message.To.Add(new MailAddress("seth.hayward@gmail.com"));
+                    Message.IsBodyHtml = false;
+                    Message.Subject = "block";
+                    Message.Body = email;
+                    Message.Priority = MailPriority.Normal;
+                    Smtp.EnableSsl = false;
+
+                    Smtp.Credentials = SmtpUser;
+                    Smtp.Host = "198.57.199.92";
+                    Smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    Smtp.Port = 26;
+
+                    Smtp.Send(Message);
+
+                }
+
 
 
             }
@@ -96,27 +112,7 @@ namespace selfies.Controllers
         public void removeContact(int remove_id)
         {
 
-            handle to_handle = (from m in db.handles where m.id == remove_id && m.active == 1 select m).FirstOrDefault();
-            handle from_handle = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
-            follower follow_connect = (from m in db.followers where m.followerHandle.id == from_handle.id && m.followeeHandle.id == to_handle.id && m.active == 1 select m).FirstOrDefault();
-            if (follow_connect == null)
-            {
-                return;
-            }
-            else
-            {
-                follow_connect.active = 0;
-
-                db.followers.Attach(follow_connect);
-
-                var updated_follower = db.Entry(follow_connect);
-                updated_follower.Property(e => e.active).IsModified = true;
-
-                db.SaveChanges();
-
-                return;
-            }
 
         }
 
