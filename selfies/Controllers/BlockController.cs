@@ -93,7 +93,7 @@ namespace selfies.Controllers
             return b;
         }
 
-        public int removeContact(int remove_id)
+        public void removeContact(int remove_id)
         {
 
             handle to_handle = (from m in db.handles where m.id == remove_id && m.active == 1 select m).FirstOrDefault();
@@ -102,7 +102,7 @@ namespace selfies.Controllers
             follower follow_connect = (from m in db.followers where m.followerHandle.id == from_handle.id && m.followeeHandle.id == to_handle.id && m.active == 1 select m).FirstOrDefault();
             if (follow_connect == null)
             {
-                return 0;
+                return;
             }
             else
             {
@@ -115,7 +115,7 @@ namespace selfies.Controllers
 
                 db.SaveChanges();
 
-                return 1;
+                return;
             }
 
         }
