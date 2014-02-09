@@ -126,6 +126,21 @@ namespace selfies.Hubs
                 notify_public_key = selected_thread.fromHandle.publicKey;
             }
 
+
+
+            // make sure that the user is not blocked
+            handle msg_sent_to_user = (from m in db.handles where m.publicKey == notify_public_key select m).FirstOrDefault();
+            block blocked = (from m in db.blocks
+                             where m.blockedByHandleId == msg_sent_to_user.id
+                                 && m.blockedHandleId == chatter.handle.id && m.active == 1
+                             select m).FirstOrDefault();
+            if (blocked != null)
+            {
+                // bail out, don't send the message
+                return;
+            }
+
+
             Clients.Group(notify_public_key).addMessage(name, message, groupKey);
 
             foreach (lilAuthie a in handles.Values)
