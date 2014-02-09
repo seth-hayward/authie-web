@@ -110,6 +110,20 @@ namespace selfies.Controllers
             else
             {
 
+                // check to make sure that this person is not blocked
+
+                block blocked = (from m in db.blocks where m.blockedByHandleId == to_handle.id
+                                 && m.blockedHandleId == from_handle.id && m.active == 1 select m).FirstOrDefault();
+
+                if (blocked != null)
+                {
+                    result.message = "Unable to send request.";
+                    result.result = 0;
+                    return result;
+                }
+
+
+
                 follower currently_added = (from m in db.followers where m.followerHandle.id.Equals(from_handle.id) && m.followeeHandle.name.Equals(s) && m.active.Equals(1) select m).FirstOrDefault();
 
                 if (currently_added != null)
