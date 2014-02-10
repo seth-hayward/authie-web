@@ -81,6 +81,25 @@ namespace selfies.Controllers
 
                 db.SaveChanges();
 
+                // remove all threads sent from
+                // the blocked user to the blocking user
+                List<thread> threadsToDelete = (from m in db.threads
+                                                where m.fromHandleId == blocked_user.id &&
+                                                    m.toHandleId == logged_in.id && m.active == 1
+                                                select m).ToList();
+
+                foreach (thread x in threadsToDelete)
+                {
+                    x.active = 0;
+                    db.threads.Attach(x);
+
+                    var updated_thread = db.Entry(x);
+                    updated_thread.Property(e => e.active).IsModified = true;
+
+                    db.SaveChanges();
+                }
+
+
                 string password = System.Web.Configuration.WebConfigurationManager.AppSettings["MailPassword"];
 
                 MailMessage Message = new MailMessage();
