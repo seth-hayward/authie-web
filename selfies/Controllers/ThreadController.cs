@@ -112,6 +112,22 @@ namespace selfies.Controllers
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
             handle to_handle = (from handle r in db.handles where r.publicKey == _snap.toGuid select r).FirstOrDefault();
 
+
+            // check to make sure that the thread sender 
+            // is not blocked by the recipent
+            block blocked = (from m in db.blocks
+                             where m.blockedByHandleId == to_handle.id
+                                 && m.blockedHandleId == logged_in.id && m.active == 1
+                             select m).FirstOrDefault();
+            if (blocked != null)
+            {
+                // bail out, don't send the message
+                msg.result = -1;
+                msg.message = "Unable to send message.";
+                return msg;
+            }
+
+
             thread clean_thread = new thread();
             clean_thread.active = 1;
             clean_thread.startDate = DateTime.UtcNow;
