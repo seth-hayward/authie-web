@@ -30,6 +30,11 @@ namespace selfies
                 defaults: new { controller = "Thread" }
             );
 
+            config.Routes.MapHttpRoute(
+                name: "HeartsApi",
+                routeTemplate: "api/heart/{id}",
+                defaults: new { controller = "Heart", id = RouteParameter.Optional }
+            );
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
