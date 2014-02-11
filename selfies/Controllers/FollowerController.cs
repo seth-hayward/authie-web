@@ -49,8 +49,18 @@ namespace selfies.Controllers
             dash.followeeHandle.name = "dash";
             dash.followeeHandle.publicKey = "1";
 
+            // fake the wire
+
+            follower wire = new follower();
+
+            wire.active = 1;
+            wire.followeeHandle = new handle();
+            wire.followeeHandle.name = "the wire";
+            wire.followeeHandle.publicKey = "2";
+
             List<follower> followers = (from follower m in db.followers where m.followerHandle.id.Equals(logged_in.id) && m.active.Equals(1) select m).ToList();
 
+            followers.Insert(0, wire);
             followers.Insert(0, dash);
 
             List<followerDTO> followersDTO = Mapper.Map<List<follower>, List<followerDTO>>(followers);
