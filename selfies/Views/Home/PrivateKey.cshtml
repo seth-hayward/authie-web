@@ -14,8 +14,10 @@
 <script>
 $(document).ready(function () {
     $.get("@Url.Content("~/api/privatekey")", function(data, status) {
-        
-        $("#key").html(data.message);
+
+        var output = CryptoJS.AES.decrypt(data.message, "salty");
+        console.log('hm: ' + output.toString(CryptoJS.enc.Utf8));
+        $("#key").html(output.toString(CryptoJS.enc.Utf8));
           
       });
 });

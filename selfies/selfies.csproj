@@ -235,6 +235,7 @@
     <Compile Include="Models\block.cs">
       <DependentUpon>selfiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CryptoLibrary.cs" />
     <Compile Include="Models\follower.cs">
       <DependentUpon>selfiesModel.tt</DependentUpon>
     </Compile>
