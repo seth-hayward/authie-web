@@ -36,8 +36,8 @@ namespace selfies.Controllers
             // always return handle name so the client knows which response
             // they are getting
 
-            CryptoLibrary.AES encrypter = new CryptoLibrary.AES();
-            string aes_encrypted_key = encrypter.Encrypt(logged_in.privateKey.Substring(0, 10), "salty");
+            CryptoLibrary.SimplerAES encrypter = new CryptoLibrary.SimplerAES();
+            string aes_encrypted_key =  encrypter.EncryptToUrl(logged_in.privateKey.Substring(0, 10));
 
             if (logged_in.name == null)
             {
@@ -45,7 +45,7 @@ namespace selfies.Controllers
             }
             else
             {
-                return new RODResponseMessage { message = aes_encrypted_key, result = 1 };
+                return new RODResponseMessage { message = logged_in.privateKey.Substring(0, 5), result = 1 };
             }
 
         }
