@@ -59,7 +59,7 @@ namespace selfies.Controllers
                 hearts = 1;
             };
 
-            hearts++;
+            hearts = hearts + 1;
 
             selected_thread.hearts = hearts;
 
