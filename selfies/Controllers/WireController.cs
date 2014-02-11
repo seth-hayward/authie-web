@@ -8,7 +8,7 @@ using selfies.Models;
 
 namespace selfies.Controllers
 {
-    public class DailyController : ApiController
+    public class WireController : ApiController
     {
 
         private selfiesMySQL _db;
@@ -28,7 +28,7 @@ namespace selfies.Controllers
             }
         }
 
-        // the daily
+        // the wire
         public List<thread> Get()
         {
 
