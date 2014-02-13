@@ -135,6 +135,7 @@ namespace selfies.Controllers
             clean_thread.caption = _snap.caption;
             clean_thread.hearts = 1;
             clean_thread.toHandleId = to_handle.id;
+            clean_thread.location = _snap.location;
 
             //
             // check to see if the to_handle is authorized

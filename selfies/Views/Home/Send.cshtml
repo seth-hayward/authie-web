@@ -84,7 +84,7 @@
 
             var threadCaption = $("#caption").val();
 
-            var thread = { toGuid: to_handle, groupKey: group_key, caption: threadCaption };
+            var thread = { toGuid: to_handle, groupKey: group_key, caption: threadCaption, location: "" };
 
             // Send the data using post
             var posting = $.post("@Url.Content("/api/thread")", thread);

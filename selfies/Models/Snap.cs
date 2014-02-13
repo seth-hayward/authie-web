@@ -10,5 +10,6 @@ namespace selfies.Models
         public string toGuid { get; set; }
         public string groupKey { get; set; }
         public string caption { get; set; }
+        public string location { get; set; }
     }
 }
