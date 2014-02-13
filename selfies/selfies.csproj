@@ -206,6 +206,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AesController.cs" />
     <Compile Include="Controllers\AuthorizeController.cs" />
     <Compile Include="Controllers\BlockController.cs" />
     <Compile Include="Controllers\CheckHandleController.cs" />
@@ -235,7 +236,6 @@
     <Compile Include="Models\block.cs">
       <DependentUpon>selfiesModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CryptoLibrary.cs" />
     <Compile Include="Models\follower.cs">
       <DependentUpon>selfiesModel.tt</DependentUpon>
     </Compile>
