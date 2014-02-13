@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using selfies.Models;
 
 namespace selfies.Controllers
 {
@@ -14,7 +15,7 @@ namespace selfies.Controllers
         //
         // GET: /Aes/
 
-        public string Get()
+        public RODResponseMessage Get()
         {
 
             string Plain_Text;
@@ -41,7 +42,11 @@ namespace selfies.Controllers
             Encrypted_Text = UTF.GetString(Encrypted_Bytes);
             Decrypted = decrypt_function(Encrypted_Bytes, Crypto.Key, Crypto.IV);
 
-            return Encrypted_Text;
+            RODResponseMessage m = new RODResponseMessage();
+            m.message = Encrypted_Text;
+            m.result = 1;
+
+            return m;
 
         }
 
