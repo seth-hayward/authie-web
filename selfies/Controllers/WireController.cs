@@ -32,7 +32,7 @@ namespace selfies.Controllers
         public List<thread> Get()
         {
 
-            DateTime cutoff = DateTime.Today.AddDays(-1);
+            DateTime cutoff = DateTime.UtcNow.AddDays(-1);
 
             List<thread> threads = (from thread m in db.threads
                                     where (m.toHandle.publicKey.Equals("2") &&

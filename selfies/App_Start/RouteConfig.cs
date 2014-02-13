@@ -85,11 +85,11 @@ namespace selfies
                 defaults: new { controller = "Home", action = "UploadSnap" }
             );
 
-            routes.MapRoute(
-                name: "ProfileRoute",
-                url: "{handle}",
-                defaults: new { controller = "Home", action = "Details" }
-            );
+            //routes.MapRoute(
+            //    name: "ProfileRoute",
+            //    url: "{handle}",
+            //    defaults: new { controller = "Home", action = "Details" }
+            //);
 
             routes.MapRoute(
                 name: "ThreadDetailRoute",
