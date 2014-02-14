@@ -31,6 +31,8 @@ namespace selfies.Models
         public Nullable<int> hearts { get; set; }
         public int uploadSuccess { get; set; }
         public string location { get; set; }
+        public string font { get; set; }
+        public string textColor { get; set; }
     
         public virtual handle fromHandle { get; set; }
         public virtual handle toHandle { get; set; }

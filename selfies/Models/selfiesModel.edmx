@@ -114,6 +114,8 @@
           <Property Name="hearts" Type="int" />
           <Property Name="uploadSuccess" Type="int" Nullable="false" />
           <Property Name="location" Type="varchar" MaxLength="255" />
+          <Property Name="font" Type="varchar" MaxLength="255" />
+          <Property Name="textColor" Type="varchar" MaxLength="45" />
         </EntityType>
         <Association Name="FKblockedById">
           <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
@@ -330,6 +332,8 @@
           <Property Type="Int32" Name="uploadSuccess" Nullable="false" />
           <NavigationProperty Name="messages" Relationship="selfiesModel.FKmessagesthreadId" FromRole="thread" ToRole="message" />
           <Property Type="String" Name="location" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="font" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="textColor" MaxLength="45" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FKfromHandleId">
           <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
@@ -472,6 +476,8 @@
           <EntitySetMapping Name="threads">
             <EntityTypeMapping TypeName="selfiesModel.thread">
               <MappingFragment StoreEntitySet="threads">
+                <ScalarProperty Name="textColor" ColumnName="textColor" />
+                <ScalarProperty Name="font" ColumnName="font" />
                 <ScalarProperty Name="location" ColumnName="location" />
                 <ScalarProperty Name="uploadSuccess" ColumnName="uploadSuccess" />
                 <ScalarProperty Name="hearts" ColumnName="hearts" />
