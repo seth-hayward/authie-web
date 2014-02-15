@@ -11,5 +11,7 @@ namespace selfies.Models
         public string groupKey { get; set; }
         public string caption { get; set; }
         public string location { get; set; }
+        public string font { get; set; }
+        public string textColor { get; set; }
     }
 }
