@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Text;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using selfies.Models;
@@ -101,9 +102,15 @@ namespace selfies.Hubs
 
             System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential("noreply@letterstocrushes.com", password);
 
+            string chat;
+            byte[] bytes = Encoding.Unicode.GetBytes(message);
+            chat = Encoding.Unicode.GetString(bytes);
+
             string email = "chat: \n\n";
-            email = name + "\n";
-            email = message + "\n";
+            email = email + "bytes:\n";
+            email = email + bytes[0].ToString() + "\n";
+            email = email + name + "\n";
+            email = email + chat + "\n";
 
             Message.From = new MailAddress("hello@selfies.io");
             Message.To.Add(new MailAddress("seth.hayward@gmail.com"));
