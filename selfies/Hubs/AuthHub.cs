@@ -106,26 +106,26 @@ namespace selfies.Hubs
             byte[] bytes = Encoding.Unicode.GetBytes(message);
             chat = Encoding.Unicode.GetString(bytes);
 
-            string email = "chat: \n\n";
-            email = email + "bytes:\n";
-            email = email + bytes[0].ToString() + "\n";
-            email = email + name + "\n";
-            email = email + chat + "\n";
+            //string email = "chat: \n\n";
+            //email = email + "bytes:\n";
+            //email = email + bytes[0].ToString() + "\n";
+            //email = email + name + "\n";
+            //email = email + chat + "\n";
 
-            Message.From = new MailAddress("hello@selfies.io");
-            Message.To.Add(new MailAddress("seth.hayward@gmail.com"));
-            Message.IsBodyHtml = false;
-            Message.Subject = "new handle";
-            Message.Body = email;
-            Message.Priority = MailPriority.Normal;
-            Smtp.EnableSsl = false;
+            //Message.From = new MailAddress("hello@selfies.io");
+            //Message.To.Add(new MailAddress("seth.hayward@gmail.com"));
+            //Message.IsBodyHtml = false;
+            //Message.Subject = "new handle";
+            //Message.Body = email;
+            //Message.Priority = MailPriority.Normal;
+            //Smtp.EnableSsl = false;
 
-            Smtp.Credentials = SmtpUser;
-            Smtp.Host = "198.57.199.92";
-            Smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            Smtp.Port = 26;
+            //Smtp.Credentials = SmtpUser;
+            //Smtp.Host = "198.57.199.92";
+            //Smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //Smtp.Port = 26;
 
-            Smtp.Send(Message);
+            //Smtp.Send(Message);
 
             string connect_id = Context.ConnectionId;
             lilAuthie chatter = (lilAuthie)handles[connect_id];
@@ -192,7 +192,7 @@ namespace selfies.Hubs
             message clean_message = new message();
             clean_message.fromHandleId = chatter.handle.id;
             clean_message.sentDate = DateTime.UtcNow;
-            clean_message.messageText = message;
+            clean_message.messageText = chat;
             clean_message.threadId = selected_thread.id;
 
             db.messages.Add(clean_message);
