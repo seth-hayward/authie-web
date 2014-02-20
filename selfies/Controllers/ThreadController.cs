@@ -133,7 +133,7 @@ namespace selfies.Controllers
             clean_thread.startDate = DateTime.UtcNow;
             clean_thread.fromHandleId = logged_in.id;
             clean_thread.caption = _snap.caption;
-            clean_thread.hearts = 1;
+            clean_thread.hearts = 0;
             clean_thread.toHandleId = to_handle.id;
             clean_thread.location = _snap.location;
             clean_thread.font = _snap.font;
