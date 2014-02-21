@@ -75,6 +75,7 @@
           <Property Name="publicKey" Type="varchar" MaxLength="45" />
           <Property Name="privateKey" Type="varchar" MaxLength="45" />
           <Property Name="tagLine" Type="varchar" MaxLength="255" />
+          <Property Name="unreadMessages" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="messages">
           <Key>
@@ -277,6 +278,7 @@
           <Property Type="String" Name="publicKey" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="privateKey" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="tagLine" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="unreadMessages" Nullable="false" />
           </EntityType>
         <EntityType Name="follower">
           <Key>
@@ -330,7 +332,7 @@
           <Property Type="Int32" Name="toHandleSeen" />
           <Property Type="Int32" Name="hearts" />
           <Property Type="Int32" Name="uploadSuccess" Nullable="false" />
-          <NavigationProperty Name="messages" Relationship="selfiesModel.FKmessagesthreadId" FromRole="thread" ToRole="message" />
+          <NavigationProperty Name="tuvzxcvzxcvzxcv" Relationship="selfiesModel.FKmessagesthreadId" FromRole="thread" ToRole="message" />
           <Property Type="String" Name="location" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="font" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="textColor" MaxLength="45" FixedLength="false" Unicode="false" />
@@ -453,6 +455,7 @@
           <EntitySetMapping Name="handles">
             <EntityTypeMapping TypeName="selfiesModel.handle">
               <MappingFragment StoreEntitySet="handles">
+                <ScalarProperty Name="unreadMessages" ColumnName="unreadMessages" />
                 <ScalarProperty Name="tagLine" ColumnName="tagLine" />
                 <ScalarProperty Name="privateKey" ColumnName="privateKey" />
                 <ScalarProperty Name="publicKey" ColumnName="publicKey" />

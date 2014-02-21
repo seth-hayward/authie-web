@@ -16,7 +16,7 @@ namespace selfies.Models
     {
         public thread()
         {
-            this.messages = new HashSet<message>();
+            this.tuvzxcvzxcvzxcv = new HashSet<message>();
         }
     
         public int id { get; set; }
@@ -36,6 +36,6 @@ namespace selfies.Models
     
         public virtual handle fromHandle { get; set; }
         public virtual handle toHandle { get; set; }
-        public virtual ICollection<message> messages { get; set; }
+        public virtual ICollection<message> tuvzxcvzxcvzxcv { get; set; }
     }
 }

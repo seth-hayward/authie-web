@@ -69,11 +69,6 @@ namespace selfies.Controllers
 
             threads = threads.Skip((id - 1) * 10).Take(10).ToList();
 
-            foreach (thread d in threads)
-            {
-                d.messages = new List<message>();
-            }
-
             return threads;
         }
 

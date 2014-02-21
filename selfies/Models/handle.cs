@@ -24,5 +24,6 @@ namespace selfies.Models
         [JsonIgnore]
         public string privateKey { get; set; }
         public string tagLine { get; set; }
+        public int unreadMessages { get; set; }
     }
 }
