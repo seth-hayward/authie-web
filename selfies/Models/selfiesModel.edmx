@@ -332,7 +332,6 @@
           <Property Type="Int32" Name="toHandleSeen" />
           <Property Type="Int32" Name="hearts" />
           <Property Type="Int32" Name="uploadSuccess" Nullable="false" />
-          <NavigationProperty Name="tuvzxcvzxcvzxcv" Relationship="selfiesModel.FKmessagesthreadId" FromRole="thread" ToRole="message" />
           <Property Type="String" Name="location" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="font" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="textColor" MaxLength="45" FixedLength="false" Unicode="false" />

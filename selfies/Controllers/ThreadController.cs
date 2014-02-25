@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using selfies.Models;
+using AutoMapper;
 
 namespace selfies.Controllers
 {
@@ -29,10 +30,15 @@ namespace selfies.Controllers
             }
         }
 
+        public ThreadController()
+        {
+            Mapper.CreateMap<thread, threadDTO>();
+        }
+
         // inbox 
         // super secret
         // paginated
-        public List<thread> Get(int id = 1)
+        public List<threadDTO> Get(int id = 1)
         {
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
@@ -40,7 +46,7 @@ namespace selfies.Controllers
 
             if (logged_in == null)
             {
-                return new List<thread>();
+                return new List<threadDTO>();
             }
 
             List<follower> followers = (from follower m in db.followers
@@ -69,7 +75,24 @@ namespace selfies.Controllers
 
             threads = threads.Skip((id - 1) * 10).Take(10).ToList();
 
-            return threads;
+            List<threadDTO> computed_threads = Mapper.Map<List<thread>, List<threadDTO>>(threads);
+
+            foreach (threadDTO d in computed_threads)
+            {
+                List<int> foundHandleIds = (from m in db.messages where m.threadId.Equals(d.id) select m.fromHandleId).Distinct().ToList();
+
+                d.convos = new List<handle>();
+
+                foreach (int x in foundHandleIds)
+                {
+                    handle foundHandle = (from m in db.handles where m.id.Equals(d.fromHandleId) select m).FirstOrDefault();
+                    d.convos.Add(foundHandle);
+                }
+
+            }
+
+
+            return computed_threads;
         }
 
         // profile, 24 hour view of all public posts from this key
