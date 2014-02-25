@@ -85,8 +85,14 @@ namespace selfies.Controllers
 
                 foreach (int x in foundHandleIds)
                 {
-                    handle foundHandle = (from m in db.handles where m.id.Equals(d.fromHandleId) select m).FirstOrDefault();
-                    d.convos.Add(foundHandle);
+                    handle foundHandle = (from m in db.handles where m.id == x select m).FirstOrDefault();
+
+                    // don't add the logged in user's id, this is implied
+
+                    if (foundHandle.id != logged_in.id)
+                    {
+                        d.convos.Add(foundHandle);
+                    }
                 }
 
             }
