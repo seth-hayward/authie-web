@@ -37,7 +37,7 @@ namespace selfies.Controllers
             ViewData.Model = selected_thread;
 
             List<message> thread_chats = (from message m in db.messages where (m.thread.id.Equals(selected_thread.id) && (m.thread.fromHandleId == logged_in.id
-                                      || m.thread.toHandleId == logged_in.id)) select m).ToList();
+                                      || m.thread.toHandleId == logged_in.id || m.thread.toHandleId == 1)) select m).ToList();
             ViewBag.chats = thread_chats;
 
             return View();

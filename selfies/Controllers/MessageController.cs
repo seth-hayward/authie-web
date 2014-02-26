@@ -61,7 +61,7 @@ namespace selfies.Controllers
 
             List<message> msgs = (from m in db.messages
                                   where (m.thread.groupKey == id && (m.thread.fromHandleId == logged_in.id
-                                      || m.thread.toHandleId == logged_in.id))
+                                      || m.thread.toHandleId == logged_in.id || m.thread.toHandleId == 1))
                                   select m).ToList();
 
             foreach (message msg in msgs)
