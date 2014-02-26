@@ -79,20 +79,29 @@ namespace selfies.Controllers
 
             foreach (threadDTO d in computed_threads)
             {
-                List<int> foundHandleIds = (from m in db.messages where m.threadId.Equals(d.id) select m.fromHandleId).Distinct().ToList();
 
+                // only need to do this if we 
+                // are looking at a thread that is
+                // from the logged_in user...
                 d.convos = new List<handle>();
 
-                foreach (int x in foundHandleIds)
+                if (d.fromHandleId == logged_in.id)
                 {
-                    handle foundHandle = (from m in db.handles where m.id == x select m).FirstOrDefault();
 
-                    // don't add the logged in user's id, this is implied
+                    List<int> foundHandleIds = (from m in db.messages where m.threadId.Equals(d.id) select m.fromHandleId).Distinct().ToList();
 
-                    if (foundHandle.id != logged_in.id)
+                    foreach (int x in foundHandleIds)
                     {
-                        d.convos.Add(foundHandle);
+                        handle foundHandle = (from m in db.handles where m.id == x select m).FirstOrDefault();
+
+                        // don't add the logged in user's id, this is implied
+
+                        if (foundHandle.id != logged_in.id)
+                        {
+                            d.convos.Add(foundHandle);
+                        }
                     }
+
                 }
 
             }
