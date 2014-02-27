@@ -88,7 +88,7 @@ namespace selfies.Hubs
             }
         }
 
-        public async void Send(string name, string message, string groupKey, int toId)
+        public async void Send(string name, string message, string groupKey, string toKey)
         {
 
             // send email about it
@@ -186,6 +186,8 @@ namespace selfies.Hubs
             //    toId = chatter.handle.id;
             //}
 
+            handle toHandle = (from m in db.handles where m.publicKey == toKey select m).FirstOrDefault();
+
 
             // make sure that the user i not blocked
             handle msg_sent_to_user = (from m in db.handles where m.publicKey == notify_public_key select m).FirstOrDefault();
@@ -215,7 +217,7 @@ namespace selfies.Hubs
             clean_message.sentDate = DateTime.UtcNow;
             clean_message.messageText = chat;
             clean_message.threadId = selected_thread.id;
-            clean_message.toHandleId = toId;
+            clean_message.toHandleId = toHandle.id;
 
             db.messages.Add(clean_message);
             db.SaveChanges();
