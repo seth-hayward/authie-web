@@ -40,6 +40,10 @@
             <End Role="threads" EntitySet="threads" />
             <End Role="messages" EntitySet="messages" />
           </AssociationSet>
+          <AssociationSet Name="FKmessagestoHandleId" Association="selfiesModel.Store.FKmessagestoHandleId">
+            <End Role="handles" EntitySet="handles" />
+            <End Role="messages" EntitySet="messages" />
+          </AssociationSet>
           <AssociationSet Name="FKtoHandleId" Association="selfiesModel.Store.FKtoHandleId">
             <End Role="handles" EntitySet="handles" />
             <End Role="threads" EntitySet="threads" />
@@ -89,6 +93,7 @@
           <Property Name="anon" Type="int" Nullable="false" />
           <Property Name="toHandleSeen" Type="int" Nullable="false" />
           <Property Name="messageText" Type="text" Nullable="false" />
+          <Property Name="toHandleId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="selfies">
           <Key>
@@ -202,6 +207,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKmessagestoHandleId">
+          <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
+          <End Role="messages" Type="selfiesModel.Store.messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="messages">
+              <PropertyRef Name="toHandleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKtoHandleId">
           <End Role="handles" Type="selfiesModel.Store.handles" Multiplicity="1" />
           <End Role="threads" Type="selfiesModel.Store.threads" Multiplicity="*" />
@@ -256,6 +273,10 @@
           <AssociationSet Name="FKblockedHandleId" Association="selfiesModel.FKblockedHandleId">
             <End Role="handle" EntitySet="handles" />
             <End Role="block" EntitySet="blocks" />
+          </AssociationSet>
+          <AssociationSet Name="FKmessagestoHandleId" Association="selfiesModel.FKmessagestoHandleId">
+            <End Role="handle" EntitySet="handles" />
+            <End Role="message" EntitySet="messages" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="selfy">
@@ -372,8 +393,8 @@
           <Property Type="Int32" Name="anon" Nullable="false" />
           <Property Type="Int32" Name="toHandleSeen" Nullable="false" />
           <Property Type="String" Name="messageText" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="handle" Relationship="selfiesModel.FKmessagesfromHandleId" FromRole="message" ToRole="handle" />
           <NavigationProperty Name="thread" Relationship="selfiesModel.FKmessagesthreadId" FromRole="message" ToRole="thread" />
+          <Property Type="Int32" Name="toHandleId" Nullable="false" />
         </EntityType>
         <Association Name="FKmessagesfromHandleId">
           <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
@@ -432,6 +453,18 @@
             </Principal>
             <Dependent Role="block">
               <PropertyRef Name="blockedHandleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKmessagestoHandleId">
+          <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />
+          <End Type="selfiesModel.message" Role="message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="handle">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="toHandleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -498,6 +531,7 @@
           <EntitySetMapping Name="messages">
             <EntityTypeMapping TypeName="selfiesModel.message">
               <MappingFragment StoreEntitySet="messages">
+                <ScalarProperty Name="toHandleId" ColumnName="toHandleId" />
                 <ScalarProperty Name="messageText" ColumnName="messageText" />
                 <ScalarProperty Name="toHandleSeen" ColumnName="toHandleSeen" />
                 <ScalarProperty Name="anon" ColumnName="anon" />

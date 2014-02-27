@@ -88,10 +88,8 @@ namespace selfies.Hubs
             }
         }
 
-        public async void Send(string name, string message, string groupKey)
+        public async void Send(string name, string message, string groupKey, int toId)
         {
-
-
 
             // send email about it
 
@@ -130,6 +128,8 @@ namespace selfies.Hubs
             string connect_id = Context.ConnectionId;
             lilAuthie chatter = (lilAuthie)handles[connect_id];
 
+
+
             if (chatter == null)
             {
                 // pull from database
@@ -165,8 +165,29 @@ namespace selfies.Hubs
             }
 
 
+            // toId refers to the opposite of the thread starter.
+            // the thread starter can have several convos open,
+            // and toId is how we distinguish which one is which.
 
-            // make sure that the user is not blocked
+
+            //int toId = 1;
+            //if (chatter.handle.id == selected_thread.fromHandle.id)
+            //{
+            //    // chat is from the user who started the thread,
+            //    // so how can i get the other person's id...
+
+            //    // it's either the toHandleId...
+            //    toId = selected_thread.toHandle.id;
+            //}
+            //else
+            //{
+            //    // chat is from user who did not start the thread,
+            //    // so the toId is their chatter.handle.id,
+            //    toId = chatter.handle.id;
+            //}
+
+
+            // make sure that the user i not blocked
             handle msg_sent_to_user = (from m in db.handles where m.publicKey == notify_public_key select m).FirstOrDefault();
             block blocked = (from m in db.blocks
                              where m.blockedByHandleId == msg_sent_to_user.id
@@ -194,6 +215,7 @@ namespace selfies.Hubs
             clean_message.sentDate = DateTime.UtcNow;
             clean_message.messageText = chat;
             clean_message.threadId = selected_thread.id;
+            clean_message.toHandleId = toId;
 
             db.messages.Add(clean_message);
             db.SaveChanges();

@@ -22,8 +22,8 @@ namespace selfies.Models
         public int anon { get; set; }
         public int toHandleSeen { get; set; }
         public string messageText { get; set; }
+        public int toHandleId { get; set; }
     
-        public virtual handle handle { get; set; }
         public virtual thread thread { get; set; }
     }
 }
