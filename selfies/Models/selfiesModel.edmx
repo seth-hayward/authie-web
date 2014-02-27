@@ -395,6 +395,8 @@
           <Property Type="String" Name="messageText" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="thread" Relationship="selfiesModel.FKmessagesthreadId" FromRole="message" ToRole="thread" />
           <Property Type="Int32" Name="toHandleId" Nullable="false" />
+          <NavigationProperty Name="fromHandle" Relationship="selfiesModel.FKmessagesfromHandleId" FromRole="message" ToRole="handle" />
+          <NavigationProperty Name="toHandle" Relationship="selfiesModel.FKmessagestoHandleId" FromRole="message" ToRole="handle" />
         </EntityType>
         <Association Name="FKmessagesfromHandleId">
           <End Type="selfiesModel.handle" Role="handle" Multiplicity="1" />

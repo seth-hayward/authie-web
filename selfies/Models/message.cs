@@ -25,5 +25,7 @@ namespace selfies.Models
         public int toHandleId { get; set; }
     
         public virtual thread thread { get; set; }
+        public virtual handle fromHandle { get; set; }
+        public virtual handle toHandle { get; set; }
     }
 }

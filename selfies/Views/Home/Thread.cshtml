@@ -46,7 +46,7 @@
 
     @foreach (selfies.Models.message m in ViewBag.chats)
     {
-        <li>@m.handle.name said: @m.messageText</li>
+        <li>@m.fromHandle.name said: @m.messageText</li>
     }
 </ul>
 
