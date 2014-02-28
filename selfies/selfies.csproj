@@ -248,6 +248,7 @@
     <Compile Include="Models\message.cs">
       <DependentUpon>selfiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\messageDTO.cs" />
     <Compile Include="Models\RODResponseMessage.cs" />
     <Compile Include="Models\selfiesModel.Context.cs">
       <AutoGen>True</AutoGen>

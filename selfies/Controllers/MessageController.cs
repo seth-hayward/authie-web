@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using selfies.Models;
+using AutoMapper;
 
 namespace selfies.Controllers
 {
@@ -29,8 +30,14 @@ namespace selfies.Controllers
             }
         }
 
+
+        public MessageController()
+        {
+            Mapper.CreateMap<message, messageDTO>();
+        }
+
         // return the messages from threads that user can see...
-        public List<message> Get()
+        public List<messageDTO> Get()
         {
 
             string user_id = User.Identity.Name;
@@ -41,19 +48,21 @@ namespace selfies.Controllers
 
             msgs.Reverse();
 
-            foreach (message msg in msgs)
+            List<messageDTO> converted = Mapper.Map<List<message>, List<messageDTO>>(msgs);
+
+            foreach (messageDTO msg in converted)
             {
                 string s = msg.thread.groupKey;
                 msg.thread = new thread();
                 msg.thread.groupKey = s;
-
+                msg.toKey = msg.toHandle.publicKey;
             }
 
-            return msgs;
+            return converted;
         }
 
         // return the messages from that thread...
-        public List<message> Get(string id)
+        public List<messageDTO> Get(string id)
         {
 
             string user_id = User.Identity.Name;
@@ -64,14 +73,17 @@ namespace selfies.Controllers
                                       || m.thread.toHandleId == logged_in.id || m.thread.toHandleId == 1))
                                   select m).ToList();
 
-            foreach (message msg in msgs)
+            List<messageDTO> converted = Mapper.Map<List<message>, List<messageDTO>>(msgs);
+
+            foreach (messageDTO msg in converted)
             {
                 string s = msg.thread.groupKey;
                 msg.thread = new thread();
                 msg.thread.groupKey = s;
-
+                msg.toKey = msg.toHandle.publicKey;
             }
-            return msgs;
+
+            return converted;
         }
 
         public async Task<RODResponseMessage> Post(message msg)
