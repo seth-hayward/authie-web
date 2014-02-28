@@ -1,4 +1,5 @@
-﻿@model selfies.Models.thread
+﻿@using selfies.Models
+@model selfies.Models.thread
 
 <p>
     to: @Model.toHandle.name, from @Model.fromHandle.name
@@ -42,6 +43,20 @@
     chatty
 </p>
 
+
+@if (ViewBag.convos.Count > 0)
+{
+
+    <select id="toKey">
+    @foreach (handle l in ViewBag.convos)
+    {
+        <option value="@l.publicKey">@l.name</option>        
+    } 
+    </select>
+    
+}
+
+
 <ul id="discussion">
 
     @foreach (selfies.Models.message m in ViewBag.chats)
@@ -58,32 +73,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $("#sendChat").click(function () {
-
-            var text = $("#chatMessage").val();
-
-            var msg = {
-                id: 1,
-                fromHandleId: 1,
-                sentDate: "",
-                thread: { groupKey: "@Model.groupKey" },
-                active: 1,
-                anon: 0,
-                toHandleSeen: 0,
-                messageText: text,
-                threadId: "@Model.id"
-                };
-
-            $.ajax({
-                url: "@Url.Content("~/api/message")",
-                data: msg,
-                type: 'POST',
-                success: function (result) {
-                    window.location.reload();
-                }
-            });
-
-        });
 
         $("a.authorize").click(function () {
 
@@ -157,8 +146,10 @@
                     // Call the Send method on the hub. 
                     var handle = '@ViewBag.handle.name';
                     var groupKey = '@Model.groupKey';
+                    var toKey = $("#toKey").val();
+
                     var message = $('#chatMessage').val();
-                    chat.server.send(handle, message, groupKey);
+                    chat.server.send(handle, message, groupKey, toKey);
                     $('#discussion').append('<li><strong>' + htmlEncode(handle)
                         + ' (' + groupKey + ')</strong>: ' + htmlEncode(message) + '</li>');
                     // Clear text box and reset focus for next comment. 
