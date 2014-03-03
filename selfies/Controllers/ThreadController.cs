@@ -105,9 +105,9 @@ namespace selfies.Controllers
             foreach (threadDTO d in computed_threads)
             {
 
-                List<message> msg = (from m in db.messages where m.threadId == d.id
+                List<message> msg = (from m in db.messages where m.threadId.Equals(d.id)
                                      orderby m.sentDate descending
-                                     select m).Take(5).ToList();
+                                     select m).ToList();
 
                 if (msg.Count == 0)
                 {
