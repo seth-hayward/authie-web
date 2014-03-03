@@ -68,6 +68,9 @@ namespace selfies.Controllers
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
+            // toKey is either logged in user
+            // or the from 
+
             List<message> msgs = (from m in db.messages
                                   where (m.thread.groupKey == id && (m.thread.fromHandleId == logged_in.id
                                       || m.thread.toHandleId == logged_in.id || m.thread.toHandleId == 1))

@@ -35,6 +35,11 @@ namespace selfies
                 Response.AddHeader("Location", currentUrl.Replace("http://www.authie.me", "http://authie.me"));
                 Response.End();
             }
+
+            if (HttpContext.Current.Request.IsSecureConnection == false)
+            {
+                Response.Redirect("https://" + Request.ServerVariables["HTTP_HOST"] + HttpContext.Current.Request.RawUrl);
+            }
         }
     }
 }
