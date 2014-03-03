@@ -56,6 +56,34 @@ namespace selfies.Controllers
 
             List<int> follower_ids = (from m in followers select m.followerHandle.id).ToList();
 
+            // ok, todo
+            // show me a list of threads
+            // sorted by...
+            // MOST RECENT MESSGES at the top
+            // ONLY SHOW DISTINCT BY THREAD...
+            // so any associated thread where the message.toKey = current user
+
+            //List<message> msgs = (from m in db.messages
+            //                      where (m.thread.fromHandleId == logged_in.id
+            //                          || m.thread.toHandleId == logged_in.id)
+            //                      orderby m.sentDate descending
+            //                      select m).Take(50).ToList();
+
+            //List<thread> threads = (from m in msgs select m.thread).Distinct().ToList();
+
+            //msgs.Reverse();
+
+
+            //List<thread> threads = (from message m in db.messages
+            //                            orderby m.sentDate descending
+            //                            where
+            //                                (m.thread.toHandle.id == logged_in.id ||
+            //                                m.thread.fromHandleId == logged_in.id ||
+            //                                follower_ids.Contains(m.thread.fromHandleId) ||
+            //                                m.thread.toHandleId == 1) &&
+            //                                m.thread.active == 1
+            //                            select m.thread).Distinct().ToList();
+
             List<thread> threads = (from thread m in db.threads
                                     where
                                         (m.toHandleId.Equals(logged_in.id)
@@ -64,21 +92,32 @@ namespace selfies.Controllers
                                         m.active.Equals(1)
                                     select m).ToList();
 
-            List<thread> follower_threads = (from thread m in db.threads where
+            List<thread> follower_threads = (from thread m in db.threads
+                                             where
                                                  follower_ids.Contains(m.fromHandleId)
                                                  && m.toHandleId == 1 && m.active == 1
                                              select m).ToList();
 
-            List <thread> ordered_threads = threads.Union(follower_threads).ToList();
+            List<thread> ordered_threads = threads.Union(follower_threads).ToList();
 
-            threads = (from t in ordered_threads orderby t.id descending select t).ToList();
-
-            threads = threads.Skip((id - 1) * 10).Take(10).ToList();
-
-            List<threadDTO> computed_threads = Mapper.Map<List<thread>, List<threadDTO>>(threads);
+            List<threadDTO> computed_threads = Mapper.Map<List<thread>, List<threadDTO>>(ordered_threads);
 
             foreach (threadDTO d in computed_threads)
             {
+
+                List<message> msg = (from m in db.messages where m.threadId == d.id
+                                     orderby m.sentDate descending
+                                     select m).Take(5).ToList();
+
+                if (msg.Count == 0)
+                {
+                    d.lastMessageDate = (DateTime)d.startDate;
+                }
+                else
+                {
+                    d.lastMessageDate = msg.First().sentDate;
+                }
+
 
                 // only need to do this if we 
                 // are looking at a thread that is
@@ -106,6 +145,9 @@ namespace selfies.Controllers
 
             }
 
+            computed_threads = (from m in computed_threads orderby m.lastMessageDate descending select m).ToList();
+
+            computed_threads = computed_threads.Skip((id - 1) * 10).Take(10).ToList();
 
             return computed_threads;
         }

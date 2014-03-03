@@ -26,6 +26,8 @@ namespace selfies.Models
         public virtual handle fromHandle { get; set; }
         public virtual handle toHandle { get; set; }
 
+        public DateTime lastMessageDate { get; set; }
+
         public List<handle> convos { get; set; }
 
     }

@@ -32,7 +32,7 @@ namespace selfies
             if (currentUrl.StartsWith("http://www.authie.me"))
             {
                 Response.Status = "301 Moved Permanently";
-                Response.AddHeader("Location", currentUrl.Replace("http://www.authie.me", "http://authie.me"));
+                Response.AddHeader("Location", currentUrl.Replace("http://www.authie.me", "https://authie.me"));
                 Response.End();
             }
 
