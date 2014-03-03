@@ -79,9 +79,8 @@ namespace selfies.Controllers
                                     where
                                         (m.toHandle.id == logged_in.id ||
                                         m.fromHandleId == logged_in.id ||
-                                        follower_ids.Contains(m.fromHandleId) ||
-                                        m.toHandleId == 1) &&
-                                        m.active == 1
+                                        follower_ids.Contains(m.fromHandleId))                                        
+                                        && m.active == 1
                                     select m).Distinct().ToList();
 
             //List<thread> threads = (from thread m in db.threads

@@ -45,7 +45,7 @@ namespace selfies.Controllers
             if (thread_chats.Count == 0)
             {
                 ViewBag.toKey = logged_in.publicKey;
-                convos.Add(logged_in);
+                convos.Add(selected_thread.toHandle);
             }
             else
             {
@@ -60,6 +60,11 @@ namespace selfies.Controllers
                     {
                         convos.Add(foundHandle);
                     }
+                }
+
+                if (convos.Count == 0)
+                {
+                    convos.Add(selected_thread.toHandle);
                 }
 
             }
