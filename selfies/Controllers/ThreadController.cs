@@ -74,33 +74,33 @@ namespace selfies.Controllers
             //msgs.Reverse();
 
 
-            //List<thread> threads = (from message m in db.messages
-            //                            orderby m.sentDate descending
-            //                            where
-            //                                (m.thread.toHandle.id == logged_in.id ||
-            //                                m.thread.fromHandleId == logged_in.id ||
-            //                                follower_ids.Contains(m.thread.fromHandleId) ||
-            //                                m.thread.toHandleId == 1) &&
-            //                                m.thread.active == 1
-            //                            select m.thread).Distinct().ToList();
-
             List<thread> threads = (from thread m in db.threads
+                                    orderby m.startDate descending
                                     where
-                                        (m.toHandleId.Equals(logged_in.id)
-                                        || m.fromHandleId.Equals(logged_in.id)
-                                        ) &
-                                        m.active.Equals(1)
-                                    select m).ToList();
+                                        (m.toHandle.id == logged_in.id ||
+                                        m.fromHandleId == logged_in.id ||
+                                        follower_ids.Contains(m.fromHandleId) ||
+                                        m.toHandleId == 1) &&
+                                        m.active == 1
+                                    select m).Distinct().ToList();
 
-            List<thread> follower_threads = (from thread m in db.threads
-                                             where
-                                                 follower_ids.Contains(m.fromHandleId)
-                                                 && m.toHandleId == 1 && m.active == 1
-                                             select m).ToList();
+            //List<thread> threads = (from thread m in db.threads
+            //                        where
+            //                            (m.toHandleId.Equals(logged_in.id)
+            //                            || m.fromHandleId.Equals(logged_in.id)
+            //                            ) &
+            //                            m.active.Equals(1)
+            //                        select m).ToList();
 
-            List<thread> ordered_threads = threads.Union(follower_threads).ToList();
+            //List<thread> follower_threads = (from thread m in db.threads
+            //                                 where
+            //                                     follower_ids.Contains(m.fromHandleId)
+            //                                     && m.toHandleId == 1 && m.active == 1
+            //                                 select m).ToList();
 
-            List<threadDTO> computed_threads = Mapper.Map<List<thread>, List<threadDTO>>(ordered_threads);
+            //List<thread> ordered_threads = threads.Union(follower_threads).ToList();
+
+            List<threadDTO> computed_threads = Mapper.Map<List<thread>, List<threadDTO>>(threads);
 
             foreach (threadDTO d in computed_threads)
             {

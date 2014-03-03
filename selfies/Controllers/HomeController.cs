@@ -40,15 +40,17 @@ namespace selfies.Controllers
                                       || m.thread.toHandleId == logged_in.id || m.thread.toHandleId == 1)) select m).ToList();
 
 
+            List<handle> convos = new List<handle>();
+
             if (thread_chats.Count == 0)
             {
                 ViewBag.toKey = logged_in.publicKey;
+                convos.Add(logged_in);
             }
             else
             {
 
                 List<int> foundHandleIds = (from m in db.messages where m.threadId.Equals(selected_thread.id) select m.fromHandleId).Distinct().ToList();
-                List<handle> convos = new List<handle>();
 
                 foreach (int x in foundHandleIds)
                 {
@@ -60,9 +62,9 @@ namespace selfies.Controllers
                     }
                 }
 
-                ViewBag.convos = convos;
-
             }
+
+            ViewBag.convos = convos;
 
             ViewBag.chats = thread_chats;
 
