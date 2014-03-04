@@ -117,8 +117,6 @@ namespace selfies.Controllers
                     d.lastMessageDate = msg.First().sentDate;
                 }
 
-                d.startDate = d.lastMessageDate;
-
                 // only need to do this if we 
                 // are looking at a thread that is
                 // from the logged_in user...
