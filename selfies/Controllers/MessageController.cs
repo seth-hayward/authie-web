@@ -43,8 +43,13 @@ namespace selfies.Controllers
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
             
-            List<message> msgs = (from m in db.messages where (m.thread.fromHandleId == logged_in.id
-                                  || m.thread.toHandleId == logged_in.id) orderby m.sentDate descending select m).Take(50).ToList();
+            //List<message> msgs = (from m in db.messages where (m.thread.fromHandleId == logged_in.id
+            //                      || m.thread.toHandleId == logged_in.id) orderby m.sentDate descending select m).Take(50).ToList();
+
+            // show me the latest messages that are simply to me...
+            List<message> msgs = (from m in db.messages
+                                  where (m.toHandleId == logged_in.id)
+                                  select m).Take(50).ToList();
 
             msgs.Reverse();
 
@@ -68,13 +73,28 @@ namespace selfies.Controllers
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
-            // toKey is either logged in user
-            // or the from 
 
-            List<message> msgs = (from m in db.messages
-                                  where (m.thread.groupKey == id && (m.thread.fromHandleId == logged_in.id
-                                      || m.thread.toHandleId == logged_in.id || m.thread.toHandleId == 1))
-                                  select m).ToList();
+            List<message> msgs = new List<message>();
+            thread selected_thread = (from thread r in db.threads where r.groupKey == id select r).FirstOrDefault();
+
+            if (selected_thread.fromHandle.id == logged_in.id)
+            {
+                // return all chats from this groupKey
+                msgs = (from m in db.messages
+                        where (m.thread.groupKey == id)
+                        select m).ToList();
+            }
+            else
+            {
+                // toKey is either logged in user
+                // or the from 
+                msgs = (from m in db.messages
+                        where (m.thread.groupKey == id && (m.toHandle.id == logged_in.id
+                            || m.fromHandle.id == logged_in.id))
+                        select m).ToList();
+            }
+
+                
 
             List<messageDTO> converted = Mapper.Map<List<message>, List<messageDTO>>(msgs);
 

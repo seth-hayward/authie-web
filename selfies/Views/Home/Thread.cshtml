@@ -59,10 +59,7 @@
 
 <ul id="discussion">
 
-    @foreach (selfies.Models.message m in ViewBag.chats)
-    {
-        <li>@m.fromHandle.name said: @m.messageText</li>
-    }
+
 </ul>
 
 <input type="text" id="chatMessage" />
@@ -123,6 +120,20 @@
     <!--SignalR script to update the chat page and send messages.--> 
     <script>
         $(function () {
+
+            // load initial messages
+
+            $.get("@Url.Content("~/api/message/" + Model.groupKey)", function (data) {
+
+                for (var x = 0; x <= data.length; x++) {
+                    var d = data[x];
+                    console.log(d);
+                    $("#discussion").append("<li><strong>" + d.fromHandle.name + ":</strong> " + d.messageText);
+                }
+
+
+            });
+
             // Reference the auto-generated proxy for the hub.  
             var chat = $.connection.authHub;
             // Create a function that the hub can call back to display messages.

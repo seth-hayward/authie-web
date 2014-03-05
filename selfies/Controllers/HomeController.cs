@@ -36,42 +36,42 @@ namespace selfies.Controllers
             thread selected_thread = (from thread m in db.threads where m.groupKey.StartsWith(key) select m).FirstOrDefault();
             ViewData.Model = selected_thread;
 
-            List<message> thread_chats = (from message m in db.messages where (m.thread.id.Equals(selected_thread.id) && (m.thread.fromHandleId == logged_in.id
-                                      || m.thread.toHandleId == logged_in.id || m.thread.toHandleId == 1)) select m).ToList();
+            //List<message> thread_chats = (from message m in db.messages where (m.thread.id.Equals(selected_thread.id) && (m.thread.fromHandleId == logged_in.id
+            //                          || m.thread.toHandleId == logged_in.id || m.thread.toHandleId == 1)) select m).ToList();
 
 
-            List<handle> convos = new List<handle>();
+            //List<handle> convos = new List<handle>();
 
-            if (thread_chats.Count == 0)
-            {
-                ViewBag.toKey = logged_in.publicKey;
-                convos.Add(selected_thread.toHandle);
-            }
-            else
-            {
+            //if (thread_chats.Count == 0)
+            //{
+            //    ViewBag.toKey = logged_in.publicKey;
+            //    convos.Add(selected_thread.toHandle);
+            //}
+            //else
+            //{
 
-                List<int> foundHandleIds = (from m in db.messages where m.threadId.Equals(selected_thread.id) select m.fromHandleId).Distinct().ToList();
+            //    List<int> foundHandleIds = (from m in db.messages where m.threadId.Equals(selected_thread.id) select m.fromHandleId).Distinct().ToList();
 
-                foreach (int x in foundHandleIds)
-                {
-                    handle foundHandle = (from m in db.handles where m.id == x select m).FirstOrDefault();
-                    // don't add the logged in user's id, this is implied
-                    if (foundHandle.id != logged_in.id)
-                    {
-                        convos.Add(foundHandle);
-                    }
-                }
+            //    foreach (int x in foundHandleIds)
+            //    {
+            //        handle foundHandle = (from m in db.handles where m.id == x select m).FirstOrDefault();
+            //        // don't add the logged in user's id, this is implied
+            //        if (foundHandle.id != logged_in.id)
+            //        {
+            //            convos.Add(foundHandle);
+            //        }
+            //    }
 
-                if (convos.Count == 0)
-                {
-                    convos.Add(selected_thread.toHandle);
-                }
+            //    if (convos.Count == 0)
+            //    {
+            //        convos.Add(selected_thread.toHandle);
+            //    }
 
-            }
+            //}
 
-            ViewBag.convos = convos;
+            //ViewBag.convos = convos;
 
-            ViewBag.chats = thread_chats;
+            //ViewBag.chats = thread_chats;
 
             return View();
         }
