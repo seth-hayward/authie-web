@@ -140,6 +140,11 @@ namespace selfies.Controllers
                     }
 
                 }
+                else
+                {
+                    // you should only see the from handle then??
+                    d.convos.Add(d.fromHandle);
+                }
 
             }
 
