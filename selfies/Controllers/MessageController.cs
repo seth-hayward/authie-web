@@ -46,10 +46,14 @@ namespace selfies.Controllers
             //List<message> msgs = (from m in db.messages where (m.thread.fromHandleId == logged_in.id
             //                      || m.thread.toHandleId == logged_in.id) orderby m.sentDate descending select m).Take(50).ToList();
 
+            DateTime after = DateTime.UtcNow.AddDays(-1);
+
             // show me the latest messages that are simply to me...
             List<message> msgs = (from m in db.messages
                                   where (m.toHandleId == logged_in.id)
-                                  select m).Take(50).ToList();
+                                  && m.sentDate > after
+                                  orderby m.sentDate descending
+                                  select m).Take(10).ToList();
 
             msgs.Reverse();
 
