@@ -73,13 +73,13 @@ namespace selfies.Controllers
 
             //msgs.Reverse();
 
-
             List<thread> threads = (from thread m in db.threads
                                     orderby m.startDate descending
                                     where
                                         (m.toHandle.id == logged_in.id ||
                                         m.fromHandleId == logged_in.id ||
-                                        follower_ids.Contains(m.fromHandleId))                                        
+                                        (follower_ids.Contains(m.fromHandleId) && (m.toHandle.id == logged_in.id || m.toHandle.id == 1))
+                                        )
                                         && m.active == 1
                                     select m).Distinct().ToList();
 
