@@ -91,10 +91,10 @@ namespace selfies.Controllers
             else
             {
                 // toKey is either logged in user
-                // or the from 
+                // or to the dash
                 msgs = (from m in db.messages
                         where (m.thread.groupKey == id && (m.toHandle.id == logged_in.id
-                            || m.fromHandle.id == logged_in.id))
+                            || m.fromHandle.id == logged_in.id || m.toHandle.id == 1))
                         select m).ToList();
             }
 
