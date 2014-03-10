@@ -35,7 +35,8 @@ namespace selfies.Models
                 public AirshipThreadKey extra { get; set; }
                 public class AirshipThreadKey
                 {
-                    public string threadKey { get; set; } 
+                    public string threadKey { get; set; }
+                    public string fromKey { get; set; }
                 }
             }
         }
