@@ -113,56 +113,90 @@ namespace selfies.Controllers
             return converted;
         }
 
-        public async Task<RODResponseMessage> Post(message msg)
+        public async Task<RODResponseMessage> Post(Chat msg)
         {
             RODResponseMessage response = new RODResponseMessage();
 
             string user_id = User.Identity.Name;
             handle logged_in = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
+            // now loop through all of the clients,
+            // and only send the message to the appropriate one...
+            thread selected_thread = (from thread m in db.threads where m.groupKey == msg.groupKey select m).FirstOrDefault();
+
+            // how to determine who this should be sent to:
+            // -- find the thread with the group key
+            // -- check to see if fromHandle is same as chatter,
+                  // if it is, then we are to the other person
+
+            string notify_public_key = "";
+            if (selected_thread.fromHandle.id == logged_in.id)
+            {
+                notify_public_key = selected_thread.toHandle.publicKey;
+            }
+            else
+            {
+                notify_public_key = selected_thread.fromHandle.publicKey;
+            }
+
+
+            // toId refers to the opposite of the thread starter.
+            // the thread starter can have several convos open,
+            // and toId is how we distinguish which one is which.
+
+
+            //int toId = 1;
+            //if (chatter.handle.id == selected_thread.fromHandle.id)
+            //{
+            //    // chat is from the user who started the thread,
+            //    // so how can i get the other person's id...
+
+            //    // it's either the toHandleId...
+            //    toId = selected_thread.toHandle.id;
+            //}
+            //else
+            //{
+            //    // chat is from user who did not start the thread,
+            //    // so the toId is their chatter.handle.id,
+            //    toId = chatter.handle.id;
+            //}
+
+            handle toHandle = (from m in db.handles where m.publicKey == msg.toKey select m).FirstOrDefault();
+
+
+            // make sure that the user i not blocked
+            handle msg_sent_to_user = (from m in db.handles where m.publicKey == notify_public_key select m).FirstOrDefault();
+            block blocked = (from m in db.blocks
+                             where m.blockedByHandleId == msg_sent_to_user.id
+                                 && m.blockedHandleId == logged_in.id && m.active == 1
+                             select m).FirstOrDefault();
+            if (blocked != null)
+            {
+                // bail out, don't send the message
+                return new RODResponseMessage() { message = "Blocked.", result = 0 };
+            }
+
+            // i really should get a reference to the hub from here,
+            // and use that to send out the push message... but since the hub
+            // isn't even working yet, we can put that off for now
+            // Clients.Client(a.connectionId).addMessage(name, message, groupKey);
+
             message clean_message = new message();
             clean_message.fromHandleId = logged_in.id;
             clean_message.sentDate = DateTime.UtcNow;
-            clean_message.messageText = msg.messageText;
+            clean_message.messageText = msg.message;
+            clean_message.threadId = selected_thread.id;
+            clean_message.toHandleId = toHandle.id;
 
-            string groupKey = msg.thread.groupKey;
-            thread referring_thread = (from thread r in db.threads where r.groupKey == groupKey select r).FirstOrDefault();
+            db.messages.Add(clean_message);
+            db.SaveChanges();
 
-            // if logged_in = referring_thread.fromHandle,
-            // then use toHandle,
+            // send a notification
+            string alert_message = logged_in.name + " said: " + msg.message;
+            AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
+            AirshipResponse arg = await service.SendChat(notify_public_key, alert_message, selected_thread.groupKey, logged_in.publicKey);
 
-            string to_key;
-
-            if(logged_in.id == referring_thread.fromHandle.id) {
-                // it's the logged in user's thread, send it 
-                // to the other guy
-                to_key = referring_thread.toHandle.publicKey;
-            } else {
-                // it's the other guy's thread, send it to
-                // the other guy
-                to_key = referring_thread.fromHandle.publicKey;
-            }
-
-            if(referring_thread == null) {
-
-                response.result = 0;
-                response.message = "Unable to find thread";
-
-            } else {
-                clean_message.threadId = referring_thread.id;
-                response.result = 1;
-                response.message = "Success";
-
-                db.messages.Add(clean_message);
-                db.SaveChanges();
-
-                string alert_text = logged_in.name + " said: " + msg.messageText;
-
-                // post the message to urbanairship now
-                AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-                AirshipResponse rep = await service.SendChat(to_key, alert_text, referring_thread.groupKey, logged_in.publicKey);
-
-            }
+            response = new RODResponseMessage() { message = "Success.", result = 1 };
 
             return response;
         }
