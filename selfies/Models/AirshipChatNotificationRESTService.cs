@@ -40,7 +40,7 @@ namespace selfies.Models
                 },
                 notification = new AirshipNotification.AirshipNotificationPayload
                 {
-                    alert = message,
+                    //alert = message,
                     ios = new AirshipNotification.AirshipNotificationPayload.AirshipIos {
                         extra = new AirshipNotification.AirshipNotificationPayload.AirshipIos.AirshipThreadKey
                         {
