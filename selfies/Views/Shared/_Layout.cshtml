@@ -14,39 +14,44 @@
     <meta name="viewport" content="width=530" />
     <title>authie</title>
     <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("/favicon.ico")?20140210" />
-    <link rel="stylesheet" type="text/css" href="@Url.Content("/Content/site.css")?20140305" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("/Content/site.css")?20140319" />
 </head>
 <body>
 
     <div id="container">
 
-        <div id="header">
+        <div id="containerBox">
 
-            <div id="logo">
-                <a href="@Url.Content("~/")"><img src="@Url.Content("~/Images/logo.png")" alt="authie" /></a>
+            <div id="header">
+
+                <div id="logo">
+                    <a href="@Url.Content("~/")"><img src="@Url.Content("~/Images/logo-v2.png")" alt="authie" /></a>
+                </div>
+
+                <div id="login">
+                    @Html.Partial("_NavPartial")
+                </div>
+
+                <div style="clear: both"></div>
             </div>
 
-            <div id="login">
-                @Html.Partial("_NavPartial")
+            <div id="body">
+                @RenderBody()
             </div>
 
-            <div style="clear: both"></div>
-        </div>
-
-        <div id="body">
-            @RenderBody()
         </div>
 
         <div id="footer">
             @Html.Partial("_NavFooter")
         </div>
+
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="@Url.Content("~/Scripts/jquery.jeditable.mini.js")"></script>
+    @*<script src="@Url.Content("~/Scripts/jquery.jeditable.mini.js")"></script>
     <script src="@Url.Content("~/Scripts/knockout-3.0.0.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.timeago.js")"></script>
-    <script src="@Url.Content("~/Scripts/authie.js")?20140129"></script>
+    <script src="@Url.Content("~/Scripts/authie.js")?20140129"></script>*@
 
     @RenderSection("Scripts", required: false)
 

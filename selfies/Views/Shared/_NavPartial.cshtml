@@ -1,7 +1,7 @@
 ﻿<ul>
 @if(Request.IsAuthenticated) {
 
-    if (ViewBag.handle != null)
+    @*if (ViewBag.handle != null)
     {
 
         <text>
@@ -9,14 +9,14 @@
             <li><a href="@Url.Content("~/send")">send</a></li>
         </text>        
         
-    }
+    }*@
 
 }
 else {
-    <text>
+    @*<text>
         <li><a href="@Url.Content("~/login")">login</a></li>
         <li>@Html.ActionLink("register", "Register", "Home")</li>
         <li><a href="@Url.Content("~/what")">what?</a></li>
-    </text>
+    </text>*@
 }
 </ul>

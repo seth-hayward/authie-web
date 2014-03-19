@@ -1,5 +1,5 @@
 ﻿html {
-    background-color: #fff;
+    background-color: #000;
     overflow-y: scroll;
 }
 
@@ -21,40 +21,48 @@
 
 body {
     margin: 0px;
-    font-family: sans-serif;
+    font-family: "Courier New", Courier, monospace;
     font-size: 14px;
+    color: #fff;
 }
 
 div#logo
 {
     width: 100%;
+    text-align: center;
 }
 
-    div#logo a
-    {
-        float: left;
-    }
 
-
-div#body
+div#containerBox
 {
+    margin-top: 100px;
+    border: 1px dotted #808080;
+    padding: 20px;
+
 }
 
 div#header
 {
-    padding-top: 10px;
     padding-bottom: 20px;
 }
 
 div#footer
 {
     padding-top: 10px;
-    margin-top: 50px;
+    margin-top: 10px;
     margin-bottom: 40px;
     width: 100%;
     text-align: center;
-    border-top: 1px dotted #808080;
+    font-size: 12px;
     clear: both;
+}
+
+div#footer a {
+    color: white;
+}
+
+div#footer a:hover {
+    text-decoration: none;
 }
 
 span.error
@@ -92,12 +100,18 @@ ul#footerRight
     list-style-type: none;
     -webkit-padding-start: 0px;
     float: right;
-    margin-top: 0px;}
+    margin-top: 0px;
+}
 
 div#footer ul li
 {
     float: left;
     padding-right: 10px;
+}
+
+p#appstore {
+    text-align: center;
+    padding-top: 30px;
 }
 
 p.snapNavLeft

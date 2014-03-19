@@ -308,6 +308,10 @@
     <Content Include="Images\authie-help-home.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\appstore.jpg" />
+    <Content Include="Images\logo-v2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\heart.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,10 +1,9 @@
 ﻿@using selfies.Models
 
-@if (User.Identity.IsAuthenticated)
+@*@if (User.Identity.IsAuthenticated)
 {
 
     <text>
-
 
     <!-- ko if: threads().length == 0 -->
     <ul>
@@ -44,82 +43,43 @@
 
     </div>
     
-
-
-
-@*            @if (ViewBag.threads.Count > 0)
-            {
-                foreach (thread thready in ViewBag.threads)
-                {
-                    
-                <text>
-                    <li id="li-@thready.groupKey">
-                            <div class="inboxImage">
-                                @if(thready.authorizeRequest.Equals(1)) {
-                                    <img src="@Url.Content("~/Images/lock.png")" />
-                                } else {
-                                    <img src="@Url.Content("~/api/snap/thumb/" + thready.groupKey)" />                                    
-                                }
-                            </div>
-
-                            <div class="inboxText">
-                                <a href="@Url.Content("~/threads/" + thready.groupKey)"> from: @thready.fromHandle.name, to @thready.toHandle.name</a> <br />
-                                <abbr class="timeago" title="@thready.startDate.Value.ToString("s")Z"></abbr>
-                            </div>
-
-                            <div class="inboxControls">
-
-                                @if (ViewBag.handle != null && (thready.fromHandle.publicKey == ViewBag.handle.publicKey || thready.toHandle.publicKey == ViewBag.handle.publicKey))
-                                {
-                                    <a id="@thready.groupKey" class="remover" href="#">Remove</a>            
-                                }
-
-                            </div>
-
-                    </li>
-                </text>
-                }
-            }*@
-
     </text>
             
 }
 else
 {
  
-    <text>
+    <text>*@
 
     <div id="welcome">
 
-        <p>hey.
-            </p>
+        <p>
+            hello, hackers. on march 27th we are launching a new photo app
+            for iOS. we've been working really hard on it, and we think that
+            you'll like it.
+        </p>
 
         <p>authie is a photosharing app based on permissions.
         </p>
 
         <p>we're a 'dark' social network, meaning we purposely do not connect with other
-            social networks. we're all about privacy and easy sharing with people you want
-            to share with.
+            social networks. we're all about privacy and easy sharing with people you like.
             </p>
 
-        <p>
-            on authie, you can:
+        <p id="appstore">
+            <a id="appstore" href="https://itunes.apple.com/us/app/authie/id796548932?mt=8">
+            <img src="@Url.Content("~/images/appstore.jpg")" />
+            </a>
         </p>
-        <ul>
-            <li>send snaps directly to people</li>
-            <li>develop your 'dark profile', a photostream that only your friends can see </li>
-            <li>read and participate in the daily, a photo stream of responses to a daily prompt</li>            
-        </ul>
-
-        <p>just <a href="https://itunes.apple.com/us/app/authie/id796548932?mt=8">download</a> us on the appstore...</p>
 
 
     </div>
 
-    </text>   
-}
+    @*</text>   
+}*@
 
-@section Scripts {
+@*@section Scripts {
+
 <script type="text/javascript">
     $(document).ready(function () {
         $("a.remover").click(function () {
@@ -216,4 +176,4 @@ else
 
         ko.applyBindings(new InboxViewModel());
 </script>
-}
+}*@
