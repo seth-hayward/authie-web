@@ -16,7 +16,7 @@ namespace selfies.Models
 
         readonly string uri = "https://go.urbanairship.com/api/push/";
 
-        public async Task<AirshipResponse> SendChat(string handle_public_key, string message, string group_key, string from_handle_public_key)
+        public async Task<AirshipResponse> SendChat(string handle_public_key, string message, string group_key, string from_handle_public_key, int lmessageId)
         {
 
             AirshipResponse arr = new AirshipResponse();
@@ -45,7 +45,8 @@ namespace selfies.Models
                         extra = new AirshipNotification.AirshipNotificationPayload.AirshipIos.AirshipThreadKey
                         {
                             threadKey = group_key,
-                            fromKey = from_handle_public_key 
+                            fromKey = from_handle_public_key,
+                            messageId = lmessageId
                         }
                     }
                 },

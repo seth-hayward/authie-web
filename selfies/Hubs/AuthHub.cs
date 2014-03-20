@@ -225,7 +225,7 @@ namespace selfies.Hubs
             // send a notification
             string alert_message = chatter.handle.name + " said: " + message;
             AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-            AirshipResponse arg = await service.SendChat(notify_public_key, alert_message, selected_thread.groupKey, chatter.handle.publicKey);
+            AirshipResponse arg = await service.SendChat(notify_public_key, alert_message, selected_thread.groupKey, chatter.handle.publicKey, clean_message.id);
 
         }
     }

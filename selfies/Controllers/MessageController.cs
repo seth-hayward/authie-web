@@ -194,7 +194,7 @@ namespace selfies.Controllers
             // send a notification
             string alert_message = logged_in.name + " said: " + msg.message;
             AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-            AirshipResponse arg = await service.SendChat(notify_public_key, alert_message, selected_thread.groupKey, logged_in.publicKey);
+            AirshipResponse arg = await service.SendChat(notify_public_key, alert_message, selected_thread.groupKey, logged_in.publicKey, clean_message.id);
 
             response = new RODResponseMessage() { message = "Success.", result = 1 };
 
