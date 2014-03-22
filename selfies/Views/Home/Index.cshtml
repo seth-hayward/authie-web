@@ -1,55 +1,56 @@
 ﻿@using selfies.Models
 
-@*@if (User.Identity.IsAuthenticated)
-{
+@if (User.Identity.IsAuthenticated)
+    {
 
-    <text>
+        <text>
 
-    <!-- ko if: threads().length == 0 -->
-    <ul>
-        <li>no threads yet, <a href="@Url.Content("~/send")">send one</a></li>
-    </ul>
-    <!-- /ko -->
-
-    <!-- ko if: threads().length > 0 -->
-        <ul class="inbox" data-bind="foreach: threads">
-            <li data-bind="attr: { id: 'li-' + groupKey }">
-
-                <div class="inboxImage">
-                    <img data-bind="attr: { src: '@Url.Content("~/api/snap/thumb/")' + groupKey }" />
-                </div>
-
-                <div class="inboxText">
-                    <a data-bind="attr: { href: '@Url.Content("~/threads/")' + groupKey }">
-                        from <span data-bind="text: fromHandle.name"></span>, to <span data-bind="text: toHandle.name"></span><br />
-                    </a>
-                    <div data-bind="timeago: startDate"></div>
-                </div>
-
-            </li>
+        <!-- ko if: threads().length == 0 -->
+        <ul>
+            <li>no threads yet, <a href="@Url.Content("~/send")">send one</a></li>
         </ul>
-    <!-- /ko -->
+        <!-- /ko -->
 
-    <!-- pager -->
+        <!-- ko if: threads().length > 0 -->
+            <ul class="inbox" data-bind="foreach: threads">
+                <li data-bind="attr: { id: 'li-' + groupKey }">
 
-    <div id="pager">
+                    <div class="inboxImage">
+                        <img data-bind="attr: { src: '@Url.Content("~/api/snap/thumb/")' + groupKey }" />
+                    </div>
 
-        <div id="backButton" data-bind="visible: currentPage() > 1">
-            <a href="#" data-bind="click: goBack">back</a>
+                    <div class="inboxText">
+                        <a data-bind="attr: { href: '@Url.Content("~/threads/")' + groupKey }">
+                            from <span data-bind="text: fromHandle.name"></span>, to <span data-bind="text: toHandle.name"></span><br />
+                        </a>
+                        <div data-bind="timeago: startDate"></div>
+                    </div>
+
+                </li>
+            </ul>
+        <!-- /ko -->
+
+        <!-- pager -->
+
+        <div id="pager">
+
+            <div id="backButton" data-bind="visible: currentPage() > 1">
+                <a href="#" data-bind="click: goBack">back</a>
+            </div>
+            <div id="nextButton">
+                <a href="#" data-bind="click: goNext">next</a>
+            </div>
+
         </div>
-        <div id="nextButton">
-            <a href="#" data-bind="click: goNext">next</a>
-        </div>
 
-    </div>
-    
-    </text>
-            
-}
-else
-{
+        </text>
+
+    }
+    else
+    {
+            <text>
+
  
-    <text>*@
 
     <div id="welcome">
 
@@ -78,10 +79,11 @@ else
 
     </div>
 
-    @*</text>   
-}*@
+    </text>
+    }
 
-@*@section Scripts {
+
+@section Scripts {
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -179,4 +181,4 @@ else
 
         ko.applyBindings(new InboxViewModel());
 </script>
-}*@
+}

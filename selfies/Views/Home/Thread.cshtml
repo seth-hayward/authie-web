@@ -157,14 +157,28 @@
                     // Call the Send method on the hub. 
                     var handle = '@ViewBag.handle.name';
                     var groupKey = '@Model.groupKey';
-                    var toKey = $("#toKey").val();
+                    var toKey = '@ViewBag.handle.publicKey';
 
                     var message = $('#chatMessage').val();
-                    chat.server.send(handle, message, groupKey, toKey);
-                    $('#discussion').append('<li><strong>' + htmlEncode(handle)
-                        + ' (' + groupKey + ')</strong>: ' + htmlEncode(message) + '</li>');
-                    // Clear text box and reset focus for next comment. 
-                    $('#chatMessage').val('').focus();
+
+                    
+                    $.ajax({
+                            url: "@Url.Content("~/api/message")",
+                            data: { 'groupKey': groupKey, 'message': message, 'toKey': toKey },
+                            type: 'POST',
+                            success: function (result) {
+
+                                $('#discussion').append('<li><strong>' + htmlEncode(handle)
+                                    + ' (' + groupKey + ')</strong>: ' + htmlEncode(message) + '</li>');
+                                // Clear text box and reset focus for next comment. 
+                                $('#chatMessage').val('').focus();
+
+
+                            }
+                    });
+
+                    //chat.server.send(handle, message, groupKey, toKey);
+
                 });
             });
         });
