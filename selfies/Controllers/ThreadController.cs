@@ -54,12 +54,15 @@ namespace selfies.Controllers
                                       m.active == 1
                                       select m).ToList();
 
-            List<int> follower_ids = (from m in followers select m.followerHandle.id).ToList();
+            List<int> follower_ids = (from m in followers where m.active == 1 select m.followerHandle.id).ToList();
 
             // ok, todo
             // show me a list of threads
             // sorted by...
             // MOST RECENT MESSGES at the top
+            // -- but we should be able to see those most recent messages!!!!
+            // -- will need two different strats for a thread FROM me,
+            // -- and a convo that i am just in?
             // ONLY SHOW DISTINCT BY THREAD...
             // so any associated thread where the message.toKey = current user
 
