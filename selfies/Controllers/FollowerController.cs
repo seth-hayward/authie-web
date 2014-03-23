@@ -187,7 +187,9 @@ namespace selfies.Controllers
             handle from_handle = (from handle r in db.handles where r.userGuid.Equals(User.Identity.Name) select r).FirstOrDefault();
 
             follower follow_connect = (from m in db.followers where m.followerHandle.id == from_handle.id && m.followeeHandle.id == to_handle.id && m.active == 1 select m).FirstOrDefault();
-            if (follow_connect == null)
+            follower followee_connect = (from m in db.followers where m.followerHandle.id == to_handle.id && m.followeeHandle.id == from_handle.id && m.active == 1 select m).FirstOrDefault();
+
+            if (follow_connect == null || followee_connect == null)
             {
                 return 0;
             }
@@ -199,6 +201,15 @@ namespace selfies.Controllers
 
                 var updated_follower = db.Entry(follow_connect);
                 updated_follower.Property(e => e.active).IsModified = true;
+
+                db.SaveChanges();
+
+                followee_connect.active = 0;
+
+                db.followers.Attach(followee_connect);
+
+                var updated_followee = db.Entry(followee_connect);
+                updated_followee.Property(e => e.active).IsModified = true;
 
                 db.SaveChanges();
 
