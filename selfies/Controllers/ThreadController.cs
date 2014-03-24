@@ -107,9 +107,24 @@ namespace selfies.Controllers
             foreach (threadDTO d in computed_threads)
             {
 
-                List<message> msg = (from m in db.messages where m.threadId.Equals(d.id)
-                                     orderby m.sentDate descending
-                                     select m).ToList();
+                List<message> msg;
+
+                if (d.fromHandleId == logged_in.id)
+                {
+                    msg = (from m in db.messages
+                           where m.threadId.Equals(d.id)
+                           orderby m.sentDate descending
+                           select m).ToList();
+                }
+                else
+                {
+                    msg = (from m in db.messages
+                           where m.threadId.Equals(d.id) &&
+                           (m.toHandleId == logged_in.id || m.fromHandleId == logged_in.id)
+                           orderby m.sentDate descending
+                           select m).ToList();
+                }
+
 
                 if (msg.Count == 0)
                 {
