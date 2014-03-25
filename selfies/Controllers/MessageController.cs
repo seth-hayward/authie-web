@@ -196,7 +196,7 @@ namespace selfies.Controllers
             AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
             AirshipResponse arg = await service.SendChat(notify_public_key, alert_message, selected_thread.groupKey, logged_in.publicKey, clean_message.id);
 
-            response = new RODResponseMessage() { message = "Success.", result = 1 };
+            response = new RODResponseMessage() { message = "Success.", result = clean_message.id };
 
             return response;
         }
