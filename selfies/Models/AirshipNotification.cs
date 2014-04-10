@@ -39,6 +39,8 @@ namespace selfies.Models
                     public string fromKey { get; set; }
                     public int messageId { get; set; }
                 }
+                public int priority { get; set; }
+
             }
         }
 

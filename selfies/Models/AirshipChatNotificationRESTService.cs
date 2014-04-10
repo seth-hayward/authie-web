@@ -47,7 +47,8 @@ namespace selfies.Models
                             threadKey = group_key,
                             fromKey = from_handle_public_key,
                             messageId = lmessageId
-                        }
+                        },
+                        priority = 5
                     }
                 },
                 device_types = new List<string>() { "ios" }
