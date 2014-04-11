@@ -192,7 +192,7 @@ namespace selfies.Controllers
             db.SaveChanges();
 
             // send a notification
-            string alert_message = logged_in.name + " said, '" + msg.message + "'";
+            string alert_message = "";
             AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
             AirshipResponse arg = await service.SendChat(notify_public_key, alert_message, selected_thread.groupKey, logged_in.publicKey, clean_message.id);
 
