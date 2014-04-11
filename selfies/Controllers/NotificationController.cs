@@ -42,13 +42,13 @@ namespace selfies.Controllers
             if (selected_thread != null && selected_thread.fromHandle.id == logged_in.id)
             {
 
-                string alert_message = logged_in.name + " sent you a snap";
+                ////string alert_message = logged_in.name + " sent you a snap";
                 // post the message to urbanairship now
-                AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
-                AirshipResponse arg = await service.SendChat(selected_thread.toHandle.publicKey, alert_message, id, logged_in.publicKey, -1);
+                //AirshipChatNotificationRESTService service = new AirshipChatNotificationRESTService();
+                //AirshipResponse arg = await service.SendChat(selected_thread.toHandle.publicKey, alert_message, id, logged_in.publicKey, -1);
 
-                msg.result = 1;
-                msg.message = arg.message;
+                //msg.result = 1;
+                //msg.message = arg.message;
             }
 
             return msg;
