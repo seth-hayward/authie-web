@@ -38,6 +38,7 @@ namespace selfies.Models
                     public string threadKey { get; set; }
                     public string fromKey { get; set; }
                     public int messageId { get; set; }
+                    public string message { get; set; }
                 }
                 public int priority { get; set; }
 
