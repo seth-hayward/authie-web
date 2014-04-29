@@ -49,7 +49,7 @@ namespace selfies.Models
                             messageId = lmessageId,
                             message = chat_message
                         },
-                        priority = 10
+                        priority = 5
                     }
                 },
                 device_types = new List<string>() { "ios" }
